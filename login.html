@@ -113,6 +113,20 @@
             font-size: 1rem;
         }
         
+        .password-container {
+            position: relative;
+        }
+        
+        .password-toggle {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: #666;
+        }
+        
         .form-button {
             width: 100%;
             padding: 0.8rem;
@@ -300,7 +314,10 @@
             </div>
             <div class="input-group">
                 <label for="password">Kata Sandi</label>
-                <input type="password" id="password" name="password" required>
+                <div class="password-container">
+                    <input type="password" id="password" name="password" required>
+                    <span class="password-toggle" id="password-toggle">👁️</span>
+                </div>
             </div>
             <button type="submit" class="form-button">Masuk</button>
             <div class="message success" id="login-success">Login berhasil! Mengalihkan ke halaman utama...</div>
@@ -346,10 +363,29 @@
             navbarLinks.classList.toggle("active");
         }
         
+        function togglePasswordVisibility() {
+            const passwordField = document.getElementById("password");
+            const passwordToggle = document.getElementById("password-toggle");
+            
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+                passwordToggle.textContent = "🔒";
+            } else {
+                passwordField.type = "password";
+                passwordToggle.textContent = "👁️";
+            }
+        }
+        
         document.addEventListener('DOMContentLoaded', function() {
             const loginForm = document.getElementById('login-form');
             const loginSuccess = document.getElementById('login-success');
             const loginError = document.getElementById('login-error');
+            const passwordToggle = document.getElementById('password-toggle');
+            
+            // Event listener untuk toggle password visibility
+            if (passwordToggle) {
+                passwordToggle.addEventListener('click', togglePasswordVisibility);
+            }
             
             // Fungsi untuk mendapatkan pengguna dari localStorage
             function getUsers() {
