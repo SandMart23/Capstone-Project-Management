@@ -41,12 +41,6 @@
             align-items: center;
         }
         
-        .navbar-link {
-            color: white;
-            text-decoration: none;
-            font-size: 1rem;
-        }
-        
         .menu-toggle {
             display: none;
             flex-direction: column;
@@ -59,6 +53,12 @@
             background-color: white;
             margin-bottom: 4px;
             border-radius: 3px;
+        }
+        
+        .navbar-link {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
         }
         
         .btn {
@@ -75,6 +75,63 @@
         .btn-primary {
             background-color: white;
             color: #4267B2;
+        }
+        
+        .profile-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .profile-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #4267B2;
+            font-size: 1.2rem;
+            border: 2px solid white;
+        }
+        
+        .profile-name {
+            font-size: 0.9rem;
+            color: white;
+        }
+        
+        .profile-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: white;
+            border-radius: 0.25rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 0.5rem 0;
+            min-width: 150px;
+            z-index: 100;
+            display: none;
+        }
+        
+        .profile-menu.active {
+            display: block;
+        }
+        
+        .profile-menu-item {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            color: #333;
+            cursor: pointer;
+            display: block;
+            text-decoration: none;
+        }
+        
+        .profile-menu-item:hover {
+            background-color: #f5f5f5;
         }
         
         .container {
@@ -276,7 +333,7 @@
         }
         
         .course-price-button:hover {
-            background-color: #388e3c;
+            background-color: #c2185b;
         }
         
         /* Tombol untuk kursus gratis */
@@ -288,7 +345,7 @@
             text-align: center;
             font-weight: 500;
             font-size: 1rem;
-            background-color: #e91e63;
+            background-color: #4caf50;
             color: white;
             margin-top: 0.5rem;
             text-decoration: none;
@@ -420,6 +477,16 @@
             .menu-toggle {
                 display: flex;
             }
+            
+            .profile-name {
+                display: none;
+            }
+            
+            .profile-avatar {
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
@@ -435,8 +502,25 @@
             <span></span>
         </div>
         <div class="navbar-links" id="navbarLinks">
-            <a href="signup.html" class="navbar-link">Sign up</a>
-            <a href="login.html" class="btn btn-primary">Log in</a>
+            <!-- Login/Signup links will be shown when not logged in -->
+            <div id="auth-links">
+                <a href="signup.html" class="navbar-link">Sign up</a>
+                <a href="login.html" class="btn btn-primary">Log in</a>
+            </div>
+            
+            <!-- Profile will be shown when logged in -->
+            <div id="profile-section" style="display: none;">
+                <div class="profile-container" onclick="toggleProfileMenu()">
+                    <div class="profile-avatar" id="profile-avatar">U</div>
+                    <span class="profile-name" id="profile-name">Username</span>
+                    <div class="profile-menu" id="profile-menu">
+                        <a href="#" class="profile-menu-item">Profil Saya</a>
+                        <a href="#" class="profile-menu-item">Kelas Saya</a>
+                        <a href="#" class="profile-menu-item">Pengaturan</a>
+                        <a href="#" class="profile-menu-item" onclick="logout()">Keluar</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </nav>
 
@@ -578,6 +662,61 @@
             const navbarLinks = document.getElementById("navbarLinks");
             navbarLinks.classList.toggle("active");
         }
+        
+        function toggleProfileMenu() {
+            const profileMenu = document.getElementById("profile-menu");
+            profileMenu.classList.toggle("active");
+        }
+        
+        function logout() {
+            // Clear session storage
+            sessionStorage.removeItem('isLoggedIn');
+            sessionStorage.removeItem('userEmail');
+            sessionStorage.removeItem('userName');
+            
+            // Redirect to index
+            window.location.href = 'index.html';
+        }
+        
+        // Close profile menu when clicking outside
+        window.addEventListener('click', function(e) {
+            const profileMenu = document.getElementById("profile-menu");
+            const profileContainer = document.querySelector(".profile-container");
+            
+            if (profileMenu && profileContainer) {
+                if (!profileContainer.contains(e.target)) {
+                    profileMenu.classList.remove("active");
+                }
+            }
+        });
+        
+        // Check login status when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            const isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
+            const userName = sessionStorage.getItem('userName');
+            const userEmail = sessionStorage.getItem('userEmail');
+            
+            const authLinks = document.getElementById('auth-links');
+            const profileSection = document.getElementById('profile-section');
+            const profileName = document.getElementById('profile-name');
+            const profileAvatar = document.getElementById('profile-avatar');
+            
+            if (isLoggedIn && userName && userEmail) {
+                // User is logged in
+                authLinks.style.display = 'none';
+                profileSection.style.display = 'block';
+                
+                // Set user name
+                profileName.textContent = userName;
+                
+                // Set avatar initial (first letter of user's name)
+                profileAvatar.textContent = userName.charAt(0).toUpperCase();
+            } else {
+                // User is not logged in
+                authLinks.style.display = 'block';
+                profileSection.style.display = 'none';
+            }
+        });
     </script>
 </body>
 </html>
