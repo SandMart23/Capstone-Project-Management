@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pengaturan</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: sans-serif;
+      background-color: #acd2f7;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #4267B2;
+      color: white;
+      padding: 1rem;
+    }
+
+    .navbar-logo a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .menu-toggle span {
+      height: 3px;
+      width: 25px;
+      background-color: white;
+      margin-bottom: 4px;
+      border-radius: 3px;
+    }
+
+    .navbar-links {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .navbar-link {
+      color: white;
+      text-decoration: none;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 2rem auto;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      color: #4267B2;
+      margin-bottom: 1.5rem;
+    }
+
+    .setting-item {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid #ccc;
+      border-radius: 0.25rem;
+      font-size: 1rem;
+    }
+
+    .btn {
+      background-color: #4267B2;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 0.25rem;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .btn:hover {
+      background-color: #365899;
+    }
+
+    .footer {
+      background-color: #4267B2;
+      color: white;
+      padding: 2rem 1rem;
+      margin-top: 3rem;
+      text-align: center;
+    }
+
+    @media screen and (max-width: 768px) {
+      .navbar-links {
+        position: absolute;
+        right: -100%;
+        top: 70px;
+        flex-direction: column;
+        background-color: #4267B2;
+        width: 100%;
+        text-align: center;
+        transition: 0.3s;
+        padding: 1rem 0;
+        z-index: 100;
+      }
+
+      .navbar-links.active {
+        right: 0;
+      }
+
+      .menu-toggle {
+        display: flex;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="navbar-logo">
+      <a href="../../index.html">Capstone Project - Kelompok B</a>
+    </div>
+    <div class="menu-toggle" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+    <div class="navbar-links" id="navbarLinks">
+      <a href="../../index.html" class="navbar-link">Dashboard</a>
+      <a href="profile.html" class="navbar-link">Profil Saya</a>
+      <a href="kelas-saya.html" class="navbar-link">Kelas Saya</a>
+      <a href="pengaturan.html" class="navbar-link">Pengaturan</a>
+    </div>
+  </nav>
+
+  <!-- Main content -->
+  <div class="container">
+    <h2>Pengaturan Akun</h2>
+    <form>
+      <div class="setting-item">
+        <label for="username">Nama Lengkap</label>
+        <input type="text" id="username" value="xi">
+      </div>
+
+      <div class="setting-item">
+        <label for="email">Email</label>
+        <input type="email" id="email" value="febiebi1502@gmail.com">
+      </div>
+
+      <div class="setting-item">
+        <label for="password">Ubah Password</label>
+        <input type="password" id="password" placeholder="********">
+      </div>
+
+      <button type="submit" class="btn">Simpan Perubahan</button>
+    </form>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>© 2025 Capstone Project - Kelompok B</p>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById("navbarLinks").classList.toggle("active");
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metode Pembayaran - Capstone Project</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        
+        body {
+            background-color: #acd2f7;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #4267B2;
+            color: white;
+            padding: 1rem;
+        }
+        
+        .navbar-logo {
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+        
+        .navbar-logo a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        .navbar-links {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .navbar-link {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+        }
+        
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+        
+        .menu-toggle span {
+            height: 3px;
+            width: 25px;
+            background-color: white;
+            margin-bottom: 4px;
+            border-radius: 3px;
+        }
+        
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            text-align: center;
+            border: none;
+            text-decoration: none;
+        }
+        
+        .btn-primary {
+            background-color: white;
+            color: #4267B2;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+        
+        .payment-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .payment-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        
+        .payment-subtitle {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 1.5rem;
+        }
+        
+        .payment-info {
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .course-details {
+            display: flex;
+            align-items: center;
+            padding-bottom: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .course-image {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 0.5rem;
+            margin-right: 1.5rem;
+        }
+        
+        .course-info h2 {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+        
+        .course-price {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #e91e63;
+        }
+        
+        .payment-methods {
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .methods-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+        
+        .payment-category {
+            margin-bottom: 2rem;
+        }
+        
+        .category-label {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .category-icon {
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: #e9ecef;
+        }
+        
+        .payment-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+        
+        .payment-option {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        
+        .payment-option:hover {
+            border-color: #4267B2;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .payment-option.selected {
+            border-color: #4267B2;
+            background-color: #f0f8ff;
+        }
+        
+        .option-logo {
+            width: 70px;
+            height: 30px;
+            object-fit: contain;
+        }
+        
+        .option-name {
+            font-size: 0.9rem;
+            color: #333;
+        }
+        
+        .payment-action {
+            margin-top: 2rem;
+            text-align: center;
+        }
+        
+        .pay-button {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background-color: #e91e63;
+            color: white;
+            border-radius: 2rem;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: background-color 0.3s;
+            border: none;
+            cursor: pointer;
+            min-width: 200px;
+        }
+        
+        .pay-button:hover {
+            background-color: #c2185b;
+        }
+        
+        .pay-button:disabled {
+            background-color: #ddd;
+            cursor: not-allowed;
+        }
+        
+        /* Footer Styles */
+        .footer {
+            background-color: #4267B2;
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .footer-copyright {
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+        
+        .footer-links-column {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .footer-link {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+        }
+        
+        .footer-link:hover {
+            text-decoration: underline;
+        }
+        
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+    
+        .social-logo {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+            border-radius: 4px;
+        }
+        
+        /* Payment Method Categories */
+        .category-content {
+            display: none;
+            margin-top: 1rem;
+        }
+        
+        .category-content.active {
+            display: block;
+        }
+        
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+        }
+        
+        .modal-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        
+        .modal-text {
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            color: #555;
+        }
+        
+        .modal-button {
+            padding: 0.7rem 1.5rem;
+            background-color: #4267B2;
+            color: white;
+            border: none;
+            border-radius: 0.25rem;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        /* Media Queries for Responsiveness */
+        @media screen and (min-width: 768px) {
+            .navbar {
+                padding: 1rem 3rem;
+            }
+            
+            .navbar-links {
+                gap: 1.5rem;
+            }
+            
+            .payment-methods {
+                padding: 2rem;
+            }
+            
+            .payment-options {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .footer-container {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+        }
+        
+        @media screen and (min-width: 992px) {
+            .payment-options {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        
+        @media screen and (max-width: 767px) {
+            .navbar-links {
+                position: fixed;
+                right: -100%;
+                top: 70px;
+                flex-direction: column;
+                background-color: #4267B2;
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
+                padding: 1rem 0;
+                z-index: 100;
+            }
+            
+            .navbar-links.active {
+                right: 0;
+            }
+            
+            .menu-toggle {
+                display: flex;
+            }
+            
+            .payment-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-details {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .course-image {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-logo">
+            <a href="../../index.html">Capstone Project - Kelompok B</a>
+        </div>
+        <div class="menu-toggle" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="navbar-links" id="navbarLinks">
+            <a href="../../index.html" class="navbar-link">Home</a>
+            <a href="../../signup.html" class="navbar-link">Sign up</a>
+            <a href="../../login.html" class="btn btn-primary">Log in</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="payment-header">
+            <h1 class="payment-title">Metode Pembayaran</h1>
+            <p class="payment-subtitle">Pilih metode pembayaran yang sesuai untuk menyelesaikan pembelian kelas</p>
+        </div>
+        
+        <!-- Course Info -->
+        <div class="payment-info">
+            <div class="course-details">
+                <img src="../../assets/images/belajar_android.jpg" alt="Android untuk Pemula sampai Mahir" class="course-image">
+                <div class="course-info">
+                    <h2>Android untuk Pemula sampai Mahir</h2>
+                    <p class="course-price">Rp. 75.000 (Akses Kelas Selamanya)</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Payment Methods -->
+        <div class="payment-methods">
+            <h2 class="methods-title">Pilih Metode Pembayaran</h2>
+            
+            <!-- Bank Transfer -->
+            <div class="payment-category">
+                <div class="category-label" onclick="toggleCategory('bank-transfer')">
+                    <div class="category-icon">🏦</div>
+                    <span>Bank transfer</span>
+                </div>
+                <div class="category-content" id="bank-transfer">
+                    <div class="payment-options">
+                        <div class="payment-option" onclick="selectPaymentOption(this, 'BCA')">
+                            <img src="../../assets/logo/bca.png" alt="BCA" class="option-logo">
+                            <span class="option-name">Bank BCA</span>
+                        </div>
+                        <div class="payment-option" onclick="selectPaymentOption(this, 'BNI')">
+                            <img src="../../assets/logo/bni.png" alt="BNI" class="option-logo">
+                            <span class="option-name">Bank BNI</span>
+                        </div>
+                        <div class="payment-option" onclick="selectPaymentOption(this, 'BRI')">
+                            <img src="../../assets/logo/bri.png" alt="BRI" class="option-logo">
+                            <span class="option-name">Bank BRI</span>
+                        </div>
+                        <div class="payment-option" onclick="selectPaymentOption(this, 'BJB')">
+                            <img src="../../assets/logo/bjb.png" alt="Bank BJB" class="option-logo">
+                            <span class="option-name">Bank BJB</span>
+                        </div>
+                        <div class="payment-option" onclick="selectPaymentOption(this, 'BSI')">
+                            <img src="../../assets/logo/bsi.png" alt="BSI" class="option-logo">
+                            <span class="option-name">Bank Syariah Indonesia</span>
+                        </div>
+                        <div class="payment-option" onclick="selectPaymentOption(this, 'Mandiri')">
+                            <img src="../../assets/logo/mandiri.png" alt="Mandiri" class="option-logo">
+                            <span class="option-name">Bank Mandiri</span>
+                        </div>
+                        <div class="payment-option" onclick="selectPaymentOption(this, 'CIMB')">
+                            <img src="../../assets/logo/cimb.png" alt="CIMB Niaga" class="option-logo">
+                            <span class="option-name">CIMB Niaga</span>
+                        </div>
+                        <div class="payment-option" onclick="selectPaymentOption(this, 'Permata')">
+                            <img src="../../assets/logo/permata.png" alt="Permata Bank" class="option-logo">
+                            <span class="option-name">Permata Bank</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Direct Debit -->
+            <div class="payment-category">
+                <div class="category-label" onclick="toggleCategory('direct-debit')">
+                    <div class="category-icon">💳</div>
+                    <span>Direct Debit</span>
+                </div>
+                <div class="category-content" id="direct-debit">
+                    <div class="payment-options">
+                        <div class="payment-option" onclick="selectPaymentOption(this, 'BRI Direct')">
+                            <img src="../../assets/logo/bridebit.png" alt="BRI Direct" class="option-logo">
+                            <span class="option-name">BRI Direct</span>
+                        </div>
+                        <div class="payment-option" onclick="selectPaymentOption(this, 'Mandiri Direct')">
+                            <img src="../../assets/logo/mandiridebit.png" alt="Mandiri Direct" class="option-logo">
+                            <span class="option-name">Mandiri Direct</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- E-Wallets -->
+            <div class="payment-category">
+                <div class="category-label" onclick="toggleCategory('e-wallets')">
+                    <div class="category-icon">👛</div>
+                    <span>E-Wallets</span>
+                </div>
+                <div class="category-content" id="e-wallets">
+                    <div class="payment-options">
+                        <div class="payment-option" onclick="selectPaymentOption(this, 'LinkAja')">
+                            <img src="../../assets/logo/linkaja.png" alt="LinkAja" class="option-logo">
+                            <span class="option-name">LinkAja</span>
+                        </div>
+                        <div class="payment-option" onclick="selectPaymentOption(this, 'OVO')">
+                            <img src="../../assets/logo/ovo.png" alt="OVO" class="option-logo">
+                            <span class="option-name">OVO</span>
+                        </div>
+                        <div class="payment-option" onclick="selectPaymentOption(this, 'ShopeePay')">
+                            <img src="../../assets/logo/shopeepay.png" alt="ShopeePay" class="option-logo">
+                            <span class="option-name">ShopeePay</span>
+                        </div>
+                        <div class="payment-option" onclick="selectPaymentOption(this, 'DANA')">
+                            <img src="../../assets/logo/dana.png" alt="DANA" class="option-logo">
+                            <span class="option-name">DANA</span>
+                        </div>
+                        <div class="payment-option" onclick="selectPaymentOption(this, 'AstraPay')">
+                            <img src="../../assets/logo/astrapay.png" alt="AstraPay" class="option-logo">
+                            <span class="option-name">AstraPay</span>
+                        </div>
+                        <div class="payment-option" onclick="selectPaymentOption(this, 'Jenius')">
+                            <img src="../../assets/logo/jenius.png" alt="Jenius" class="option-logo">
+                            <span class="option-name">Jenius</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- QR Code -->
+            <div class="payment-category">
+                <div class="category-label" onclick="toggleCategory('qr-code')">
+                    <div class="category-icon">📱</div>
+                    <span>QR Code</span>
+                </div>
+                <div class="category-content" id="qr-code">
+                    <div class="payment-options">
+                        <div class="payment-option" onclick="selectPaymentOption(this, 'QRIS')">
+                            <img src="../../assets/logo/qris.png" alt="QRIS" class="option-logo">
+                            <span class="option-name">QRIS</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Retail Outlets -->
+            <div class="payment-category">
+                <div class="category-label" onclick="toggleCategory('retail-outlets')">
+                    <div class="category-icon">🏪</div>
+                    <span>Retail Outlets</span>
+                </div>
+                <div class="category-content" id="retail-outlets">
+                    <div class="payment-options">
+                        <div class="payment-option" onclick="selectPaymentOption(this, 'Indomaret')">
+                            <img src="../../assets/logo/indomaret.png" alt="Indomaret" class="option-logo">
+                            <span class="option-name">Indomaret</span>
+                        </div>
+                        <div class="payment-option" onclick="selectPaymentOption(this, 'Alfamart')">
+                            <img src="../../assets/logo/alfamart.png" alt="Alfamart" class="option-logo">
+                            <span class="option-name">Alfamart</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Pay Later -->
+            <div class="payment-category">
+                <div class="category-label" onclick="toggleCategory('pay-later')">
+                    <div class="category-icon">⏱️</div>
+                    <span>Pay Later</span>
+                </div>
+                <div class="category-content" id="pay-later">
+                    <div class="payment-options">
+                        <div class="payment-option" onclick="selectPaymentOption(this, 'Akulaku')">
+                            <img src="../../assets/logo/akulaku.png" alt="Akulaku" class="option-logo">
+                            <span class="option-name">Akulaku PayLater</span>
+                        </div>
+                        <div class="payment-option" onclick="selectPaymentOption(this, 'Atome')">
+                            <img src="../../assets/logo/atome.png" alt="Atome" class="option-logo">
+                            <span class="option-name">Atome</span>
+                        </div>
+                        <div class="payment-option" onclick="selectPaymentOption(this, 'Indodana')">
+                            <img src="../../assets/logo/indodana.png" alt="Indodana" class="option-logo">
+                            <span class="option-name">Indodana</span>
+                        </div>
+                        <div class="payment-option" onclick="selectPaymentOption(this, 'Kredivo')">
+                            <img src="../../assets/logo/kredivo.png" alt="Kredivo" class="option-logo">
+                            <span class="option-name">Kredivo</span>
+                        </div>
+                        <div class="payment-option" onclick="selectPaymentOption(this, 'UangMe')">
+                            <img src="../../assets/logo/uangme.png" alt="UangMe" class="option-logo">
+                            <span class="option-name">UangMe</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Credit Cards -->
+            <div class="payment-category">
+                <div class="category-label" onclick="toggleCategory('credit-cards')">
+                    <div class="category-icon">💰</div>
+                    <span>Credit Cards</span>
+                </div>
+                <div class="category-content" id="credit-cards">
+                    <div class="payment-options">
+                        <div class="payment-option" onclick="selectPaymentOption(this, 'Visa')">
+                            <img src="../../assets/logo/visa.png" alt="Visa" class="option-logo">
+                            <span class="option-name">Visa</span>
+                        </div>
+                        <div class="payment-option" onclick="selectPaymentOption(this, 'Mastercard')">
+                            <img src="../../assets/logo/mastercard.png" alt="Mastercard" class="option-logo">
+                            <span class="option-name">Mastercard</span>
+                        </div>
+                        <div class="payment-option" onclick="selectPaymentOption(this, 'JCB')">
+                            <img src="../../assets/logo/jcb.png" alt="JCB" class="option-logo">
+                            <span class="option-name">JCB</span>
+                        </div>
+                        <div class="payment-option" onclick="selectPaymentOption(this, 'American Express')">
+                            <img src="../../assets/logo/amex.png" alt="American Express" class="option-logo">
+                            <span class="option-name">American Express</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Payment Action Button -->
+            <div class="payment-action">
+                <button class="pay-button" id="payButton" disabled onclick="processPayment()">Bayar Sekarang</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <h2 class="modal-title">Pembayaran Berhasil!</h2>
+            <p class="modal-text">Selamat! Anda telah berhasil melakukan pembayaran untuk kelas "Android untuk Pemula sampai Mahir". Anda sekarang dapat mengakses kelas secara penuh.</p>
+            <button class="modal-button" onclick="redirectToClass()">Mulai Belajar</button>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-copyright">
+                © 2025 Capstone Project - Kelompok B
+            </div>
+            <div class="footer-links">
+                <div class="footer-links-column">
+                    <a href="#" class="footer-link social-link">
+                        <img src="../../assets/logo/youtube.jpg" alt="Youtube" class="social-logo">
+                        Youtube
+                    </a>
+                    <a href="#" class="footer-link social-link">
+                        <img src="../../assets/logo/instagram.jpg" alt="Instagram" class="social-logo">
+                        Instagram
+                    </a>
+                    <a href="#" class="footer-link social-link">
+                        <img src="../../assets/logo/facebook.jpg" alt="Facebook" class="social-logo">
+                        Facebook
+                    </a>
+                </div>
+                <div class="footer-links-column">
+                    <a href="#" class="footer-link">Terms of Use</a>
+                    <a href="#" class="footer-link">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Toggle mobile menu
+        function toggleMenu() {
+            const navbarLinks = document.getElementById("navbarLinks");
+            navbarLinks.classList.toggle("active");
+        }
+        
+        // Toggle payment category
+        function toggleCategory(categoryId) {
+            // First, close all other categories
+            const allCategories = document.querySelectorAll('.category-content');
+            allCategories.forEach(category => {
+                if (category.id !== categoryId) {
+                    category.classList.remove('active');
+                }
+            });
+            
+            // Then toggle the selected category
+            const category = document.getElementById(categoryId);
+            category.classList.toggle('active');
+        }
+        
+        // Select payment option
+        function selectPaymentOption(element, paymentMethod) {
+            // First, remove selected class from all options
+            const allOptions = document.querySelectorAll('.payment-option');
+            allOptions.forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Then add selected class to the clicked option
+            element.classList.add('selected');
+            
+            // Enable the pay button
+            const payButton = document.getElementById('payButton');
+            payButton.disabled = false;
+            
+            // Store the selected payment method
+            window.selectedPaymentMethod = paymentMethod;
+        }
+        
+        // Process payment
+        function processPayment() {
+            // Display the success modal
+            const modal = document.getElementById('successModal');
+            modal.style.display = 'flex';
+            
+            // You could add actual payment processing logic here in a real implementation
+            console.log('Processing payment with method:', window.selectedPaymentMethod);
+        }
+        
+        // Redirect to class page after successful payment
+        function redirectToClass() {
+            // Redirect to the course page
+            window.location.href = '../../android-detail.html';
+        }
+        
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            const modal = document.getElementById('successModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
