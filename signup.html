@@ -5,34 +5,67 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Capstone Project - Kelompok B - Sign Up</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        
+        :root {
+            --primary-color: #4267B2;
+            --primary-light: #5c7fd3;
+            --primary-dark: #34518e;
+            --accent-color: #e91e63;
+            --accent-light: #f06292;
+            --accent-dark: #c2185b;
+            --text-dark: #333333;
+            --text-light: #666666;
+            --background-color: #acd2f7;
+            --white: #ffffff;
+            --box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            --transition-fast: all 0.3s ease;
+            --transition-medium: all 0.5s ease;
+            --transition-slow: all 0.8s ease;
         }
         
         body {
-            background-color: #acd2f7;
+            background-color: var(--background-color);
+            background-image: linear-gradient(45deg, rgba(66, 103, 178, 0.1), rgba(233, 30, 99, 0.1));
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
         
         .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: #4267B2;
-            color: white;
+            background-color: var(--primary-color);
+            color: var(--white);
             padding: 1rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 100;
+            animation: fadeInDown 0.8s ease;
         }
         
         .navbar-logo {
             font-size: 1.2rem;
-            font-weight: 500;
+            font-weight: 600;
         }
         
         .navbar-logo a {
-            color: white;
+            color: var(--white);
             text-decoration: none;
+            transition: var(--transition-fast);
+        }
+        
+        .navbar-logo a:hover {
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
         }
         
         .navbar-links {
@@ -45,72 +78,173 @@
             display: none;
             flex-direction: column;
             cursor: pointer;
+            z-index: 102;
         }
         
         .menu-toggle span {
             height: 3px;
             width: 25px;
-            background-color: white;
+            background-color: var(--white);
             margin-bottom: 4px;
             border-radius: 3px;
+            transition: var(--transition-fast);
         }
         
         .navbar-link {
-            color: white;
+            color: var(--white);
             text-decoration: none;
             font-size: 1rem;
+            position: relative;
+            padding: 0.5rem 0;
+            transition: var(--transition-fast);
+        }
+        
+        .navbar-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--white);
+            transition: var(--transition-medium);
+        }
+        
+        .navbar-link:hover::after {
+            width: 100%;
         }
         
         .btn {
-            padding: 0.5rem 1rem;
-            border-radius: 0.25rem;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
             cursor: pointer;
             font-size: 1rem;
             font-weight: 500;
             text-align: center;
             border: none;
             text-decoration: none;
+            transition: var(--transition-medium);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
         }
         
         .btn-primary {
-            background-color: white;
-            color: #4267B2;
+            background-color: var(--white);
+            color: var(--primary-color);
+        }
+        
+        .btn-primary:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .main-content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem 1rem;
         }
         
         .container {
             max-width: 500px;
-            margin: 2rem auto;
-            padding: 1.5rem;
-            background-color: white;
-            border-radius: 0.5rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            background-color: var(--white);
+            border-radius: 12px;
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+            position: relative;
+            animation: fadeInUp 0.8s ease;
+        }
+        
+        .signup-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 120px;
+            background: var(--primary-color);
+            background-image: linear-gradient(135deg, var(--primary-light), var(--primary-dark));
+            border-radius: 0 0 50% 50% / 20px;
+            z-index: 0;
+        }
+        
+        .form-wrapper {
+            position: relative;
+            padding: 2rem;
+            z-index: 1;
         }
         
         .form-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            color: #333;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: var(--white);
             text-align: center;
+            animation: fadeInDown 1s ease;
+        }
+        
+        .form-subtitle {
+            font-size: 1rem;
+            color: var(--text-light);
+            text-align: center;
+            margin-top: 2rem;
+            margin-bottom: 1.5rem;
+            animation: fadeIn 1.2s ease;
         }
         
         .input-group {
             margin-bottom: 1.5rem;
+            animation: fadeInUp 1s ease;
+            animation-fill-mode: both;
+        }
+        
+        .input-group:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+        
+        .input-group:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .input-group:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+        
+        .input-group:nth-child(4) {
+            animation-delay: 0.4s;
         }
         
         label {
             display: block;
             margin-bottom: 0.5rem;
             font-size: 0.9rem;
-            color: #666;
+            color: var(--text-light);
+            transition: var(--transition-fast);
         }
         
         input {
             width: 100%;
-            padding: 0.8rem;
-            border: 1px solid #ddd;
-            border-radius: 0.25rem;
+            padding: 0.8rem 1rem;
+            border: 2px solid #eaeaea;
+            border-radius: 8px;
             font-size: 1rem;
+            transition: var(--transition-fast);
+            background-color: #f9f9f9;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(66, 103, 178, 0.2);
+            background-color: var(--white);
         }
         
         .password-container {
@@ -119,72 +253,166 @@
         
         .password-toggle {
             position: absolute;
-            right: 10px;
+            right: 12px;
             top: 50%;
             transform: translateY(-50%);
             cursor: pointer;
             font-size: 1.2rem;
-            color: #666;
+            color: var(--text-light);
+            transition: var(--transition-fast);
+            padding: 5px;
+        }
+        
+        .password-toggle:hover {
+            color: var(--primary-color);
         }
         
         .form-button {
             width: 100%;
-            padding: 0.8rem;
-            background-color: #4267B2;
-            color: white;
+            padding: 1rem;
+            background-color: var(--primary-color);
+            color: var(--white);
             border: none;
-            border-radius: 0.25rem;
+            border-radius: 8px;
             font-size: 1rem;
-            font-weight: 500;
+            font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: var(--transition-medium);
+            box-shadow: 0 4px 15px rgba(66, 103, 178, 0.3);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 1.2s ease;
         }
         
         .form-button:hover {
-            background-color: #3a5998;
+            background-color: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(66, 103, 178, 0.4);
+        }
+        
+        .form-button:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 10px rgba(66, 103, 178, 0.3);
+        }
+        
+        .form-button::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .form-button:hover::after {
+            left: 100%;
         }
         
         .form-footer {
             margin-top: 1.5rem;
             text-align: center;
             font-size: 0.9rem;
-            color: #666;
+            color: var(--text-light);
+            animation: fadeIn 1.4s ease;
         }
         
         .form-footer a {
-            color: #4267B2;
+            color: var(--primary-color);
             text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition-fast);
         }
         
         .form-footer a:hover {
+            color: var(--primary-dark);
             text-decoration: underline;
         }
         
         .message {
             margin-top: 15px;
-            padding: 10px;
-            border-radius: 5px;
+            padding: 12px;
+            border-radius: 8px;
             text-align: center;
+            font-size: 0.9rem;
+            animation: fadeIn 0.5s ease;
+            transition: var(--transition-fast);
+            opacity: 0;
+            transform: translateY(-10px);
+            position: absolute;
+            width: calc(100% - 4rem);
+            left: 2rem;
+        }
+        
+        .message.show {
+            opacity: 1;
+            transform: translateY(0);
         }
         
         .success {
             background-color: #d4edda;
             color: #155724;
-            display: none;
+            border-left: 4px solid #28a745;
+        }
+        
+        .success a {
+            color: #155724;
+            font-weight: 600;
+            text-decoration: underline;
         }
         
         .error {
             background-color: #f8d7da;
             color: #721c24;
-            display: none;
+            border-left: 4px solid #dc3545;
+        }
+        
+        /* Password strength indicator */
+        .password-strength {
+            margin-top: 0.5rem;
+            height: 5px;
+            border-radius: 5px;
+            background-color: #eee;
+            overflow: hidden;
+            transition: var(--transition-fast);
+        }
+        
+        .password-strength-bar {
+            height: 100%;
+            width: 0;
+            transition: var(--transition-fast);
+        }
+        
+        .password-strength-text {
+            font-size: 0.8rem;
+            margin-top: 0.3rem;
+            text-align: right;
+            color: var(--text-light);
+        }
+        
+        .strength-weak .password-strength-bar {
+            width: 33%;
+            background-color: #dc3545;
+        }
+        
+        .strength-medium .password-strength-bar {
+            width: 66%;
+            background-color: #ffc107;
+        }
+        
+        .strength-strong .password-strength-bar {
+            width: 100%;
+            background-color: #28a745;
         }
         
         /* Footer Styles */
         .footer {
-            background-color: #4267B2;
-            color: white;
+            background-color: var(--primary-color);
+            color: var(--white);
             padding: 2rem 0;
-            margin-top: 3rem;
+            margin-top: auto;
+            animation: fadeInUp 0.8s ease;
         }
         
         .footer-container {
@@ -210,23 +438,26 @@
         .footer-links-column {
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
+            gap: 0.8rem;
         }
         
         .footer-link {
-            color: white;
+            color: var(--white);
             text-decoration: none;
             font-size: 1rem;
+            transition: var(--transition-fast);
+            opacity: 0.9;
         }
         
         .footer-link:hover {
-            text-decoration: underline;
+            opacity: 1;
+            transform: translateX(5px);
         }
         
         .social-link {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.8rem;
         }
         
         .social-logo {
@@ -234,6 +465,51 @@
             height: 24px;
             object-fit: contain;
             border-radius: 4px;
+            transition: var(--transition-fast);
+        }
+        
+        .social-link:hover .social-logo {
+            transform: scale(1.2);
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
         
         /* Media Queries for Responsiveness */
@@ -260,15 +536,16 @@
             .navbar-links {
                 position: fixed;
                 right: -100%;
-                top: 70px;
+                top: 0;
                 flex-direction: column;
-                background-color: #4267B2;
-                width: 100%;
+                background-color: var(--primary-color);
+                width: 80%;
+                height: 100vh;
                 text-align: center;
-                transition: 0.3s;
-                box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
-                padding: 1rem 0;
-                z-index: 100;
+                justify-content: center;
+                transition: var(--transition-medium);
+                box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+                z-index: 101;
             }
             
             .navbar-links.active {
@@ -279,10 +556,64 @@
                 display: flex;
             }
             
+            .menu-toggle.active span:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+            
+            .menu-toggle.active span:nth-child(2) {
+                opacity: 0;
+            }
+            
+            .menu-toggle.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(6px, -6px);
+            }
+            
+            .navbar-link {
+                margin: 1rem 0;
+                font-size: 1.2rem;
+            }
+            
+            .navbar-link::after {
+                bottom: -5px;
+            }
+            
             .container {
-                margin: 1.5rem 1rem;
+                margin: 1rem;
                 max-width: none;
             }
+            
+            .signup-background {
+                height: 100px;
+            }
+            
+            .form-wrapper {
+                padding: 1.5rem;
+            }
+            
+            .form-title {
+                font-size: 1.5rem;
+            }
+            
+            .form-button {
+                padding: 0.8rem;
+            }
+        }
+        
+        /* Dark overlay for mobile menu */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .overlay.active {
+            display: block;
         }
     </style>
 </head>
@@ -292,7 +623,7 @@
         <div class="navbar-logo">
             <a href="index.html">Capstone Project - Kelompok B</a>
         </div>
-        <div class="menu-toggle" onclick="toggleMenu()">
+        <div class="menu-toggle" id="menu-toggle">
             <span></span>
             <span></span>
             <span></span>
@@ -303,39 +634,52 @@
             <a href="login.html" class="btn btn-primary">Log in</a>
         </div>
     </nav>
+    
+    <!-- Overlay for mobile menu -->
+    <div class="overlay" id="overlay"></div>
 
     <!-- Main Content -->
-    <div class="container">
-        <h2 class="form-title">Buat Akun Baru</h2>
-        <form id="signup-form">
-            <div class="input-group">
-                <label for="name">Nama Lengkap</label>
-                <input type="text" id="name" name="name" required>
-            </div>
-            <div class="input-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" required>
-            </div>
-            <div class="input-group">
-                <label for="password">Kata Sandi</label>
-                <div class="password-container">
-                    <input type="password" id="password" name="password" required>
-                    <span class="password-toggle" id="password-toggle">👁️</span>
+    <div class="main-content">
+        <div class="container">
+            <div class="signup-background"></div>
+            <div class="form-wrapper">
+                <h2 class="form-title">Buat Akun Baru</h2>
+                <div class="form-subtitle">Daftar untuk mulai belajar dan mengakses semua kursus</div>
+                <form id="signup-form">
+                    <div class="input-group">
+                        <label for="name">Nama Lengkap</label>
+                        <input type="text" id="name" name="name" required placeholder="Nama Lengkap Anda">
+                    </div>
+                    <div class="input-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required placeholder="contoh@email.com">
+                    </div>
+                    <div class="input-group">
+                        <label for="password">Kata Sandi</label>
+                        <div class="password-container">
+                            <input type="password" id="password" name="password" required placeholder="Minimal 8 karakter">
+                            <span class="password-toggle" id="password-toggle">👁️</span>
+                        </div>
+                        <div class="password-strength">
+                            <div class="password-strength-bar" id="password-strength-bar"></div>
+                        </div>
+                        <div class="password-strength-text" id="password-strength-text"></div>
+                    </div>
+                    <div class="input-group">
+                        <label for="confirm-password">Konfirmasi Kata Sandi</label>
+                        <div class="password-container">
+                            <input type="password" id="confirm-password" name="confirm-password" required placeholder="Ulangi kata sandi">
+                            <span class="password-toggle" id="confirm-password-toggle">👁️</span>
+                        </div>
+                    </div>
+                    <button type="submit" class="form-button">Daftar Sekarang</button>
+                    <div class="message success" id="signup-success">Pendaftaran berhasil! Silakan <a href="login.html">login</a>.</div>
+                    <div class="message error" id="signup-error"></div>
+                </form>
+                <div class="form-footer">
+                    Sudah punya akun? <a href="login.html">Login di sini</a>
                 </div>
             </div>
-            <div class="input-group">
-                <label for="confirm-password">Konfirmasi Kata Sandi</label>
-                <div class="password-container">
-                    <input type="password" id="confirm-password" name="confirm-password" required>
-                    <span class="password-toggle" id="confirm-password-toggle">👁️</span>
-                </div>
-            </div>
-            <button type="submit" class="form-button">Daftar</button>
-            <div class="message success" id="signup-success">Pendaftaran berhasil! Silakan <a href="login.html">login</a>.</div>
-            <div class="message error" id="signup-error"></div>
-        </form>
-        <div class="form-footer">
-            Sudah punya akun? <a href="login.html">Login di sini</a>
         </div>
     </div>
 
@@ -369,32 +713,71 @@
     </footer>
 
     <script>
-        function toggleMenu() {
-            const navbarLinks = document.getElementById("navbarLinks");
-            navbarLinks.classList.toggle("active");
-        }
-        
-        function togglePasswordVisibility(passwordId, toggleId) {
-            const passwordField = document.getElementById(passwordId);
-            const passwordToggle = document.getElementById(toggleId);
-            
-            if (passwordField.type === "password") {
-                passwordField.type = "text";
-                passwordToggle.textContent = "🔒";
-            } else {
-                passwordField.type = "password";
-                passwordToggle.textContent = "👁️";
-            }
-        }
-        
         document.addEventListener('DOMContentLoaded', function() {
+            // Elements
+            const menuToggle = document.getElementById('menu-toggle');
+            const navbarLinks = document.getElementById('navbarLinks');
+            const overlay = document.getElementById('overlay');
             const signupForm = document.getElementById('signup-form');
             const signupSuccess = document.getElementById('signup-success');
             const signupError = document.getElementById('signup-error');
             const passwordToggle = document.getElementById('password-toggle');
             const confirmPasswordToggle = document.getElementById('confirm-password-toggle');
+            const passwordField = document.getElementById('password');
+            const confirmPasswordField = document.getElementById('confirm-password');
+            const nameField = document.getElementById('name');
+            const emailField = document.getElementById('email');
+            const passwordStrengthBar = document.getElementById('password-strength-bar');
+            const passwordStrengthText = document.getElementById('password-strength-text');
             
-            // Event listener untuk toggle password visibility
+            // Toggle mobile menu
+            menuToggle.addEventListener('click', function() {
+                menuToggle.classList.toggle('active');
+                navbarLinks.classList.toggle('active');
+                overlay.classList.toggle('active');
+                document.body.style.overflow = navbarLinks.classList.contains('active') ? 'hidden' : '';
+            });
+            
+            // Close menu when clicking on overlay
+            overlay.addEventListener('click', function() {
+                menuToggle.classList.remove('active');
+                navbarLinks.classList.remove('active');
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+            
+            // Close menu when clicking on a link
+            const navLinks = document.querySelectorAll('.navbar-link, .btn');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    menuToggle.classList.remove('active');
+                    navbarLinks.classList.remove('active');
+                    overlay.classList.remove('active');
+                    document.body.style.overflow = '';
+                });
+            });
+            
+            // Toggle password visibility
+            function togglePasswordVisibility(passwordId, toggleId) {
+                const passwordField = document.getElementById(passwordId);
+                const passwordToggle = document.getElementById(toggleId);
+                
+                if (passwordField.type === "password") {
+                    passwordField.type = "text";
+                    passwordToggle.textContent = "🔒";
+                } else {
+                    passwordField.type = "password";
+                    passwordToggle.textContent = "👁️";
+                }
+                
+                // Add animation
+                passwordToggle.style.animation = 'pulse 0.3s ease';
+                setTimeout(() => {
+                    passwordToggle.style.animation = '';
+                }, 300);
+            }
+            
+            // Password toggle event listeners
             if (passwordToggle) {
                 passwordToggle.addEventListener('click', function() {
                     togglePasswordVisibility("password", "password-toggle");
@@ -407,54 +790,151 @@
                 });
             }
             
-            // Fungsi untuk mendapatkan pengguna dari localStorage
+            // Add focus animations
+            nameField.addEventListener('focus', function() {
+                nameField.parentElement.querySelector('label').style.color = '#4267B2';
+            });
+            
+            nameField.addEventListener('blur', function() {
+                nameField.parentElement.querySelector('label').style.color = '';
+            });
+            
+            emailField.addEventListener('focus', function() {
+                emailField.parentElement.querySelector('label').style.color = '#4267B2';
+            });
+            
+            emailField.addEventListener('blur', function() {
+                emailField.parentElement.querySelector('label').style.color = '';
+            });
+            
+            passwordField.addEventListener('focus', function() {
+                passwordField.parentElement.parentElement.querySelector('label').style.color = '#4267B2';
+            });
+            
+            passwordField.addEventListener('blur', function() {
+                passwordField.parentElement.parentElement.querySelector('label').style.color = '';
+            });
+            
+            confirmPasswordField.addEventListener('focus', function() {
+                confirmPasswordField.parentElement.parentElement.querySelector('label').style.color = '#4267B2';
+            });
+            
+            confirmPasswordField.addEventListener('blur', function() {
+                confirmPasswordField.parentElement.parentElement.querySelector('label').style.color = '';
+            });
+            
+            // Password strength checker
+            passwordField.addEventListener('input', function() {
+                const password = this.value;
+                let strength = 0;
+                
+                // Clear previous classes
+                passwordStrengthBar.parentElement.classList.remove('strength-weak', 'strength-medium', 'strength-strong');
+                
+                if (password.length >= 8) strength += 1;
+                if (password.match(/[A-Z]/)) strength += 1;
+                if (password.match(/[0-9]/)) strength += 1;
+                if (password.match(/[^A-Za-z0-9]/)) strength += 1;
+                
+                if (password.length === 0) {
+                    passwordStrengthBar.style.width = '0';
+                    passwordStrengthText.textContent = '';
+                } else if (strength <= 2) {
+                    passwordStrengthBar.parentElement.classList.add('strength-weak');
+                    passwordStrengthText.textContent = 'Lemah';
+                    passwordStrengthText.style.color = '#dc3545';
+                } else if (strength === 3) {
+                    passwordStrengthBar.parentElement.classList.add('strength-medium');
+                    passwordStrengthText.textContent = 'Sedang';
+                    passwordStrengthText.style.color = '#ffc107';
+                } else {
+                    passwordStrengthBar.parentElement.classList.add('strength-strong');
+                    passwordStrengthText.textContent = 'Kuat';
+                    passwordStrengthText.style.color = '#28a745';
+                }
+            });
+            
+            // Check password match
+            confirmPasswordField.addEventListener('input', function() {
+                if (this.value === passwordField.value) {
+                    this.style.borderColor = '#28a745';
+                    this.style.boxShadow = '0 0 0 3px rgba(40, 167, 69, 0.2)';
+                } else {
+                    this.style.borderColor = '#dc3545';
+                    this.style.boxShadow = '0 0 0 3px rgba(220, 53, 69, 0.2)';
+                }
+            });
+            
+            // Functions for user management
             function getUsers() {
                 const users = localStorage.getItem('users');
                 return users ? JSON.parse(users) : [];
             }
             
-            // Fungsi untuk menyimpan pengguna ke localStorage
             function saveUser(name, email, password) {
                 const users = getUsers();
                 users.push({ name, email, password });
                 localStorage.setItem('users', JSON.stringify(users));
             }
             
-            // Fungsi untuk memeriksa apakah email sudah terdaftar
             function isEmailRegistered(email) {
                 const users = getUsers();
                 return users.some(user => user.email === email);
             }
             
-            // Fungsi untuk menampilkan pesan error
+            // Function to show error message
             function showError(message) {
                 signupError.textContent = message;
-                signupError.style.display = 'block';
+                signupError.classList.add('show');
+                
+                // Animate form shake
+                signupForm.style.animation = 'shake 0.5s ease';
+                
                 setTimeout(() => {
-                    signupError.style.display = 'none';
+                    signupError.classList.remove('show');
+                    signupForm.style.animation = '';
                 }, 3000);
             }
             
-            // Fungsi untuk menampilkan pesan sukses
+            // Function to show success message
             function showSuccess() {
-                signupSuccess.style.display = 'block';
+                signupSuccess.classList.add('show');
+                
+                // Animate button
+                const submitButton = document.querySelector('.form-button');
+                submitButton.style.animation = 'pulse 1s infinite';
+                submitButton.textContent = 'Pendaftaran Berhasil!';
+                submitButton.style.backgroundColor = '#28a745';
+                
                 setTimeout(() => {
                     window.location.href = 'login.html';
                 }, 2000);
             }
             
-            // Event listener untuk form sign up
+            // Form submission
             signupForm.addEventListener('submit', function(e) {
                 e.preventDefault();
                 
-                const name = document.getElementById('name').value.trim();
-                const email = document.getElementById('email').value.trim();
-                const password = document.getElementById('password').value;
-                const confirmPassword = document.getElementById('confirm-password').value;
+                const name = nameField.value.trim();
+                const email = emailField.value.trim();
+                const password = passwordField.value;
+                const confirmPassword = confirmPasswordField.value;
                 
-                // Validasi form
+                // Validate form
                 if (!name || !email || !password || !confirmPassword) {
                     showError('Semua kolom harus diisi!');
+                    return;
+                }
+                
+                // Validate password strength
+                let strength = 0;
+                if (password.length >= 8) strength += 1;
+                if (password.match(/[A-Z]/)) strength += 1;
+                if (password.match(/[0-9]/)) strength += 1;
+                if (password.match(/[^A-Za-z0-9]/)) strength += 1;
+                
+                if (strength <= 2) {
+                    showError('Kata sandi terlalu lemah! Gunakan minimal 8 karakter dengan huruf besar, angka, dan simbol.');
                     return;
                 }
                 
@@ -463,18 +943,30 @@
                     return;
                 }
                 
-                // Validasi email sudah terdaftar
+                // Check if email is already registered
                 if (isEmailRegistered(email)) {
                     showError('Email sudah terdaftar! Gunakan email lain.');
                     return;
                 }
                 
-                // Simpan user ke localStorage
+                // Save user data
                 saveUser(name, email, password);
                 showSuccess();
                 
                 // Reset form
                 signupForm.reset();
+            });
+            
+            // Add animations for inputs when typing
+            const inputs = document.querySelectorAll('input');
+            inputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    if (this.value.length > 0 && this.id !== 'confirm-password') {
+                        this.style.borderColor = '#4267B2';
+                    } else if (this.id !== 'confirm-password') {
+                        this.style.borderColor = '';
+                    }
+                });
             });
         });
     </script>
