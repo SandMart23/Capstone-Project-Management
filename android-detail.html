@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Android untuk Pemula sampai Mahir - Capstone Project</title>
+    <!-- Add Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -268,6 +270,146 @@
             border-radius: 4px;
         }
 
+        /* Profile Header Styles */
+        .profile-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .profile-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #4267B2;
+            font-size: 1.2rem;
+            border: 2px solid white;
+        }
+        
+        .profile-name {
+            font-size: 0.9rem;
+            color: white;
+        }
+        
+        .profile-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: white;
+            border-radius: 0.25rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 0.5rem 0;
+            min-width: 150px;
+            z-index: 100;
+            display: none;
+        }
+        
+        .profile-menu.active {
+            display: block;
+        }
+        
+        .profile-menu-item {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            color: #333;
+            cursor: pointer;
+            display: block;
+            text-decoration: none;
+        }
+        
+        .profile-menu-item:hover {
+            background-color: #f5f5f5;
+        }
+        
+        /* Auth Links */
+        #auth-links {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        /* Modal Overlay Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .modal-open {
+            overflow: hidden;
+        }
+        
+        .btn-logout {
+            background-color: #f44336;
+            color: white;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-logout:hover {
+            background-color: #d32f2f;
+        }
+        
+        .btn-secondary {
+            background-color: #e91e63;
+            color: white;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #c2185b;
+        }
+
         /* Media Queries for Responsiveness */
         @media screen and (min-width: 768px) {
             .navbar {
@@ -370,8 +512,27 @@
         </div>
         <div class="navbar-links" id="navbarLinks">
             <a href="index.html" class="navbar-link">Home</a>
-            <a href="signup.html" class="navbar-link">Sign up</a>
-            <a href="login.html" class="btn btn-primary">Log in</a>
+            
+            <!-- Auth links will be shown when not logged in -->
+            <div id="auth-links">
+                <a href="signup.html" class="navbar-link">Sign up</a>
+                <a href="login.html" class="btn btn-primary">Log in</a>
+            </div>
+            
+            <!-- Profile will be shown when logged in -->
+            <div id="profile-section" style="display: none;">
+                <div class="profile-container" onclick="toggleProfileMenu(event)">
+                    <div class="profile-avatar" id="profile-avatar">U</div>
+                    <span class="profile-name" id="profile-name">Username</span>
+                    <div class="profile-menu" id="profile-menu">
+                        <a href="index.html" class="profile-menu-item">Dashboard</a>
+                        <a href="pages/user/profile.html" class="profile-menu-item">Profil Saya</a>
+                        <a href="pages/user/kelas-saya.html" class="profile-menu-item">Kelas Saya</a>
+                        <a href="pages/user/pengaturan.html" class="profile-menu-item">Pengaturan</a>
+                        <div class="profile-menu-item" onclick="showLogoutConfirmation()">Logout</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </nav>
 
@@ -383,7 +544,7 @@
             <div class="course-title-container">
                 <h1 class="course-title">Android untuk Pemula sampai Mahir</h1>
                 <p class="course-description">Roadmap Terlengkap Menjadi Android Developer Expert Menggunakan Pemrograman Kotlin</p>
-                <a href="assets/content/pembayaran.html" class="buy-button">Rp. 75.000 (Akses Kelas Selamanya)</a>
+                <a href="assets/content/pembayaran.html" class="buy-button" id="buy-button">Rp. 75.000 (Akses Kelas Selamanya)</a>
             </div>
         </div>
         
@@ -512,11 +673,201 @@
         </div>
     </footer>
 
+    <!-- Logout Confirmation Modal -->
+    <div id="logout-confirm" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-title">Yakin ingin Keluar?</div>
+            <div class="modal-buttons">
+                <button class="btn btn-secondary" onclick="hideLogoutConfirmation()">Tidak</button>
+                <button class="btn btn-logout" onclick="confirmLogout()">Ya</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Login Required Modal -->
+    <div id="login-required-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-title">Login Diperlukan</div>
+            <p style="margin-bottom: 15px;">Anda harus login atau memiliki akun untuk membeli kelas ini.</p>
+            <div class="modal-buttons">
+                <button class="btn btn-secondary" onclick="redirectToSignup()">Sign Up</button>
+                <button class="btn btn-primary" onclick="redirectToLogin()">Login</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         function toggleMenu() {
             const navbarLinks = document.getElementById("navbarLinks");
             navbarLinks.classList.toggle("active");
         }
+        
+        function toggleProfileMenu(event) {
+            // Prevent event from bubbling up to document
+            if (event) {
+                event.stopPropagation();
+            }
+            
+            const profileMenu = document.getElementById("profile-menu");
+            profileMenu.classList.toggle("active");
+        }
+        
+        // Logout confirmation modal functions
+        function showLogoutConfirmation() {
+            const confirmDialog = document.getElementById('logout-confirm');
+            confirmDialog.classList.add('active');
+            document.body.classList.add('modal-open');
+        }
+
+        function hideLogoutConfirmation() {
+            const confirmDialog = document.getElementById('logout-confirm');
+            confirmDialog.classList.remove('active');
+            document.body.classList.remove('modal-open');
+        }
+
+        function confirmLogout() {
+            // Clear session storage
+            sessionStorage.removeItem('isLoggedIn');
+            sessionStorage.removeItem('userEmail');
+            sessionStorage.removeItem('userName');
+            sessionStorage.removeItem('userLocation');
+            sessionStorage.removeItem('userBio');
+            sessionStorage.removeItem('profileImage');
+            
+            // Redirect to index
+            window.location.href = 'index.html';
+        }
+        
+        // Login required modal functions
+        function showLoginRequiredModal() {
+            const loginModal = document.getElementById('login-required-modal');
+            loginModal.classList.add('active');
+            document.body.classList.add('modal-open');
+        }
+
+        function hideLoginRequiredModal() {
+            const loginModal = document.getElementById('login-required-modal');
+            loginModal.classList.remove('active');
+            document.body.classList.remove('modal-open');
+        }
+
+        function redirectToLogin() {
+            hideLoginRequiredModal();
+            window.location.href = 'login.html';
+        }
+
+        function redirectToSignup() {
+            hideLoginRequiredModal();
+            window.location.href = 'signup.html';
+        }
+        
+        // Handle buy button click
+        function handleBuyButtonClick(event) {
+            event.preventDefault();
+            
+            // Check if user is logged in
+            const isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
+            
+            if (isLoggedIn) {
+                // User is logged in, proceed to payment page
+                window.location.href = event.target.href;
+            } else {
+                // User is not logged in, show login required modal
+                showLoginRequiredModal();
+            }
+        }
+        
+        // Close profile menu when clicking outside
+        document.addEventListener('click', function(e) {
+            const profileMenu = document.getElementById("profile-menu");
+            const profileContainer = document.querySelector(".profile-container");
+            
+            if (profileMenu && profileContainer) {
+                if (!profileContainer.contains(e.target)) {
+                    profileMenu.classList.remove("active");
+                }
+            }
+            
+            // Close modals when clicking outside
+            const modals = document.querySelectorAll('.modal-overlay');
+            modals.forEach(modal => {
+                const modalContent = modal.querySelector('.modal-content');
+                if (modal.classList.contains('active')) {
+                    if (e.target === modal && !modalContent.contains(e.target)) {
+                        modal.classList.remove('active');
+                        document.body.classList.remove('modal-open');
+                    }
+                }
+            });
+        });
+
+        // Check login status when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            const isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
+            const userName = sessionStorage.getItem('userName');
+            const userEmail = sessionStorage.getItem('userEmail');
+            
+            const authLinks = document.getElementById('auth-links');
+            const profileSection = document.getElementById('profile-section');
+            
+            if (isLoggedIn && userName && userEmail) {
+                // User is logged in
+                authLinks.style.display = 'none';
+                profileSection.style.display = 'block';
+                
+                // Set user name
+                const profileName = document.getElementById('profile-name');
+                const profileAvatar = document.getElementById('profile-avatar');
+                
+                if (profileName) profileName.textContent = userName;
+                
+                // Set avatar initial (first letter of user's name) or profile image
+                if (profileAvatar) {
+                    const storedImage = sessionStorage.getItem('profileImage');
+                    if (storedImage) {
+                        profileAvatar.style.backgroundImage = `url(${storedImage})`;
+                        profileAvatar.style.backgroundSize = 'cover';
+                        profileAvatar.style.backgroundPosition = 'center';
+                        profileAvatar.textContent = '';
+                    } else {
+                        profileAvatar.textContent = userName.charAt(0).toUpperCase();
+                    }
+                }
+                
+                // Update buy button to "continue learning" if user is already enrolled
+                const buyButton = document.querySelector('.buy-button');
+                if (buyButton) {
+                    // Check if user is enrolled in this course (in a real app, you'd check server-side)
+                    // For demo, we'll just assume they are
+                    buyButton.textContent = 'Rp75.000 (Akses Kelas Selamanya)';
+                    buyButton.classList.remove('buy-button');
+                    buyButton.classList.add('btn', 'btn-primary');
+                    buyButton.href = 'assets/content/pembayaran.html'; // Link to payment page
+                    
+                }
+            } else {
+                // User is not logged in
+                authLinks.style.display = 'flex';
+                profileSection.style.display = 'none';
+            }
+            
+            // Add event listener to buy button
+            const buyButton = document.getElementById('buy-button');
+            if (buyButton) {
+                buyButton.addEventListener('click', handleBuyButtonClick);
+            }
+            
+            // Add event listeners to all start buttons to check login
+            const startButtons = document.querySelectorAll('.start-button');
+            startButtons.forEach(button => {
+                button.addEventListener('click', function(event) {
+                    if (!isLoggedIn) {
+                        event.preventDefault();
+                        showLoginRequiredModal();
+                    }
+                });
+            });
+        });
     </script>
 </body>
 </html>
