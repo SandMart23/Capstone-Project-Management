@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kelas Saya</title>
+  <title>Kelas Saya - Capstone Project - Kelompok B</title>
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     }
 
     body {
-      font-family: sans-serif;
       background-color: #acd2f7;
     }
 
@@ -25,10 +25,20 @@
       padding: 1rem;
     }
 
+    .navbar-logo {
+      font-size: 1.2rem;
+      font-weight: 500;
+    }
+
     .navbar-logo a {
       color: white;
       text-decoration: none;
-      font-weight: bold;
+    }
+
+    .navbar-links {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
     }
 
     .menu-toggle {
@@ -45,21 +55,89 @@
       border-radius: 3px;
     }
 
-    .navbar-links {
-      display: flex;
-      gap: 1rem;
-      align-items: center;
-    }
-
     .navbar-link {
       color: white;
       text-decoration: none;
+      font-size: 1rem;
+    }
+
+    .btn {
+      padding: 0.5rem 1rem;
+      border-radius: 0.25rem;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 500;
+      text-align: center;
+      border: none;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background-color: white;
+      color: #4267B2;
+    }
+
+    .profile-container {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .profile-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #ddd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: #4267B2;
+      font-size: 1.2rem;
+      border: 2px solid white;
+    }
+
+    .profile-name {
+      font-size: 0.9rem;
+      color: white;
+    }
+
+    .profile-menu {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background-color: white;
+      border-radius: 0.25rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 0.5rem 0;
+      min-width: 150px;
+      z-index: 100;
+      display: none;
+    }
+
+    .profile-menu.active {
+      display: block;
+    }
+
+    .profile-menu-item {
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+      color: #333;
+      cursor: pointer;
+      display: block;
+      text-decoration: none;
+    }
+
+    .profile-menu-item:hover {
+      background-color: #f5f5f5;
     }
 
     .container {
       max-width: 960px;
       margin: 2rem auto;
-      padding: 1rem;
+      padding: 1.5rem;
       background-color: white;
       border-radius: 0.5rem;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
@@ -68,20 +146,28 @@
     h2 {
       color: #4267B2;
       margin-bottom: 1.5rem;
+      font-size: 1.5rem;
     }
 
     .course-card {
       border: 1px solid #ddd;
       border-radius: 0.5rem;
-      padding: 1rem;
+      padding: 1.5rem;
       margin-bottom: 1.5rem;
       background-color: #f9f9f9;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .course-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
     }
 
     .course-title {
       font-size: 1.2rem;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.8rem;
       color: #333;
+      font-weight: 600;
     }
 
     .progress {
@@ -89,31 +175,346 @@
       background: #ddd;
       border-radius: 5px;
       overflow: hidden;
+      margin-bottom: 0.5rem;
     }
 
     .progress-bar {
       height: 10px;
       background: #4267B2;
+      border-radius: 5px;
+      transition: width 0.8s ease;
     }
 
     .course-meta {
       font-size: 0.9rem;
       margin-top: 0.5rem;
       color: #666;
+      display: flex;
+      justify-content: space-between;
     }
 
+    .course-action {
+      color: #4267B2;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .course-action:hover {
+      color: #e91e63;
+    }
+
+    /* Footer Styles */
     .footer {
       background-color: #4267B2;
       color: white;
-      padding: 2rem 1rem;
+      padding: 2rem 0;
       margin-top: 3rem;
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .footer-copyright {
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+
+    .footer-links-column {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .footer-link {
+      color: white;
+      text-decoration: none;
+      font-size: 1rem;
+    }
+
+    .footer-link:hover {
+      text-decoration: underline;
+    }
+
+    .social-link {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .social-logo {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+      border-radius: 4px;
+    }
+
+    /* Mobile Menu Overlay Styles */
+    .mobile-menu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 99;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease;
+    }
+
+    .mobile-menu-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Mobile Menu Slide Panel */
+    .mobile-menu-panel {
+      position: fixed;
+      top: 0;
+      right: -280px;
+      width: 280px;
+      height: 100%;
+      background-color: #fff;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+      z-index: 100;
+      transition: right 0.3s ease;
+      overflow-y: auto;
+    }
+
+    .mobile-menu-panel.active {
+      right: 0;
+    }
+
+    .mobile-menu-header {
+      background-color: #4267B2;
+      color: white;
+      padding: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .mobile-menu-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    .mobile-menu-close {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0.5rem;
+    }
+
+    .mobile-menu-list {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .mobile-menu-item {
+      border-bottom: 1px solid #eee;
+    }
+
+    .mobile-menu-link {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.5rem;
+      color: #333;
+      text-decoration: none;
+      transition: background-color 0.2s;
+    }
+
+    .mobile-menu-link:hover,
+    .mobile-menu-link:active {
+      background-color: #f5f5f5;
+    }
+
+    .mobile-menu-icon {
+      font-size: 1.2rem;
+      width: 20px;
       text-align: center;
     }
 
-    /* Responsiveness */
-    @media screen and (max-width: 768px) {
+    /* User Info in Mobile Menu */
+    .mobile-user-info {
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      border-bottom: 1px solid #eee;
+    }
+
+    .mobile-user-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: #4267B2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: white;
+      font-size: 1.5rem;
+    }
+
+    .mobile-user-details {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .mobile-user-name {
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: #333;
+    }
+
+    .mobile-user-email {
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    /* Modal Overlay Styles */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-content {
+      background-color: white;
+      border-radius: 8px;
+      padding: 20px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      transform: translateY(-20px);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-overlay.active .modal-content {
+      transform: translateY(0);
+    }
+
+    .modal-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: #333;
+    }
+
+    .modal-buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .modal-open {
+      overflow: hidden;
+    }
+
+    .btn-logout {
+      background-color: #f44336;
+      color: white;
+      transition: background-color 0.3s;
+    }
+
+    .btn-logout:hover {
+      background-color: #d32f2f;
+    }
+
+    .btn-secondary {
+      background-color: #e91e63;
+      color: white;
+      transition: background-color 0.3s;
+    }
+
+    .btn-secondary:hover {
+      background-color: #c2185b;
+    }
+
+    /* Hamburger Menu Animation */
+    .menu-toggle span {
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .menu-toggle.active span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .menu-toggle.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .menu-toggle.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+
+    /* Animation classes */
+    .animate-progress {
+      animation: progressAnimation 1.5s ease-out;
+    }
+
+    @keyframes progressAnimation {
+      from { width: 0; }
+    }
+
+    /* Media Queries for Responsiveness */
+    @media screen and (min-width: 768px) {
+      .navbar {
+        padding: 1rem 3rem;
+      }
+      
       .navbar-links {
-        position: absolute;
+        gap: 1.5rem;
+      }
+      
+      .footer-container {
+        flex-direction: row;
+        justify-content: space-between;
+      }
+      
+      .mobile-menu-overlay,
+      .mobile-menu-panel {
+        display: none;
+      }
+    }
+
+    @media screen and (max-width: 767px) {
+      .navbar-links {
+        position: fixed;
         right: -100%;
         top: 70px;
         flex-direction: column;
@@ -121,71 +522,1230 @@
         width: 100%;
         text-align: center;
         transition: 0.3s;
+        box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
         padding: 1rem 0;
         z-index: 100;
       }
-
+      
       .navbar-links.active {
         right: 0;
       }
-
+      
       .menu-toggle {
         display: flex;
+      }
+      
+      .profile-name {
+        display: none;
+      }
+      
+      .profile-avatar {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
       }
     }
   </style>
 </head>
 <body>
-
-  <!-- Navbar -->
+  <!-- Navigation Bar -->
   <nav class="navbar">
     <div class="navbar-logo">
       <a href="../../index.html">Capstone Project - Kelompok B</a>
     </div>
     <div class="menu-toggle" onclick="toggleMenu()">
-      <span></span><span></span><span></span>
+      <span></span>
+      <span></span>
+      <span></span>
     </div>
     <div class="navbar-links" id="navbarLinks">
-      <a href="../../index.html" class="navbar-link">Dashboard</a>
-      <a href="profile.html" class="navbar-link">Profil Saya</a>
-      <a href="kelas-saya.html" class="navbar-link">Kelas Saya</a>
-      <a href="pengaturan.html" class="navbar-link">Pengaturan</a>
+      <!-- Profile will be shown when logged in -->
+      <div id="profile-section">
+        <div class="profile-container" onclick="toggleProfileMenu(event)">
+          <div class="profile-avatar" id="profile-avatar">U</div>
+          <span class="profile-name" id="profile-name">Username</span>
+          <div class="profile-menu" id="profile-menu">
+            <a href="../../index.html" class="profile-menu-item">Dashboard</a>
+            <a href="profile.html" class="profile-menu-item">Profil Saya</a>
+            <a href="kelas-saya.html" class="profile-menu-item">Kelas Saya</a>
+            <a href="pengaturan.html" class="profile-menu-item">Pengaturan</a>
+            <div class="profile-menu-item" onclick="showLogoutConfirmation()">Logout</div>
+          </div>
+        </div>
+      </div>
     </div>
   </nav>
+  
+  <!-- Mobile Menu Overlay -->
+  <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+  
+  <!-- Mobile Menu Panel -->
+  <div class="mobile-menu-panel" id="mobileMenuPanel">
+    <div class="mobile-menu-header">
+      <div class="mobile-menu-title">Menu</div>
+      <button class="mobile-menu-close" onclick="toggleMobileMenu()">&times;</button>
+    </div>
+    
+    <!-- User Info Section (only visible when logged in) -->
+    <div class="mobile-user-info" id="mobileUserInfo">
+      <div class="mobile-user-avatar" id="mobileUserAvatar">U</div>
+      <div class="mobile-user-details">
+        <div class="mobile-user-name" id="mobileUserName">Username</div>
+        <div class="mobile-user-email" id="mobileUserEmail">user@example.com</div>
+      </div>
+    </div>
+    
+    <!-- Menu Items -->
+    <ul class="mobile-menu-list">
+      <li class="mobile-menu-item">
+        <a href="../../index.html" class="mobile-menu-link">
+          <span class="mobile-menu-icon">🏠</span>
+          Dashboard
+        </a>
+      </li>
+      <li class="mobile-menu-item">
+        <a href="profile.html" class="mobile-menu-link">
+          <span class="mobile-menu-icon">👤</span>
+          Profil Saya
+        </a>
+      </li>
+      <li class="mobile-menu-item">
+        <a href="kelas-saya.html" class="mobile-menu-link">
+          <span class="mobile-menu-icon">📚</span>
+          Kelas Saya
+        </a>
+      </li>
+      <li class="mobile-menu-item">
+        <a href="pengaturan.html" class="mobile-menu-link">
+          <span class="mobile-menu-icon">⚙️</span>
+          Pengaturan
+        </a>
+      </li>
+      <li class="mobile-menu-item">
+        <a href="javascript:void(0)" onclick="showLogoutConfirmation()" class="mobile-menu-link">
+          <span class="mobile-menu-icon">🚪</span>
+          Logout
+        </a>
+      </li>
+    </ul>
+  </div>
 
-  <!-- Content -->
+  <!-- Logout Confirmation Modal -->
+  <div id="logout-confirm" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-title">Yakin ingin Keluar?</div>
+      <div class="modal-buttons">
+        <button class="btn btn-secondary" onclick="hideLogoutConfirmation()">Tidak</button>
+        <button class="btn btn-logout" onclick="confirmLogout()">Ya</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
   <div class="container">
     <h2>Kelas Saya</h2>
 
     <div class="course-card">
-      <div class="course-title">Belajar Android untuk Pemula</div>
-      <div class="progress"><div class="progress-bar" style="width: 60%;"></div></div>
-      <div class="course-meta">Progress: 60%</div>
+      <div class="course-title">Android untuk Pemula sampai Mahir</div>
+      <div class="progress">
+        <div class="progress-bar animate-progress" style="width: 75%;"></div>
+      </div>
+      <div class="course-meta">
+        <span>Progress: 75%</span>
+        <a href="#" class="course-action">Lanjutkan Belajar</a>
+      </div>
     </div>
 
     <div class="course-card">
       <div class="course-title">Belajar Basis Data</div>
-      <div class="progress"><div class="progress-bar" style="width: 40%;"></div></div>
-      <div class="course-meta">Progress: 40%</div>
+      <div class="progress">
+        <div class="progress-bar animate-progress" style="width: 45%;"></div>
+      </div>
+      <div class="course-meta">
+        <span>Progress: 45%</span>
+        <a href="#" class="course-action">Lanjutkan Belajar</a>
+      </div>
     </div>
 
     <div class="course-card">
-      <div class="course-title">Belajar HTML & CSS</div>
-      <div class="progress"><div class="progress-bar" style="width: 80%;"></div></div>
-      <div class="course-meta">Progress: 80%</div>
+      <div class="course-title">Belajar HTML & CSS untuk Pemula sampai Mahir</div>
+      <div class="progress">
+        <div class="progress-bar animate-progress" style="width: 100%;"></div>
+      </div>
+      <div class="course-meta">
+        <span>Progress: 100% (Selesai)</span>
+        <a href="#" class="course-action">Lihat Sertifikat</a>
+      </div>
+    </div>
+    
+    <div class="course-card">
+      <div class="course-title">Belajar HTTP untuk Pemula</div>
+      <div class="progress">
+        <div class="progress-bar animate-progress" style="width: 25%;"></div>
+      </div>
+      <div class="course-meta">
+        <span>Progress: 25%</span>
+        <a href="#" class="course-action">Lanjutkan Belajar</a>
+      </div>
     </div>
   </div>
 
   <!-- Footer -->
   <footer class="footer">
-    <p>© 2025 Capstone Project - Kelompok B</p>
+    <div class="footer-container">
+      <div class="footer-copyright">
+        © 2025 Capstone Project - Kelompok B
+      </div>
+      <div class="footer-links">
+        <div class="footer-links-column">
+          <a href="#" class="footer-link social-link">
+            <img src="../../assets/logo/youtube.jpg" alt="Youtube" class="social-logo">
+            Youtube
+          </a>
+          <a href="#" class="footer-link social-link">
+            <img src="../../assets/logo/instagram.jpg" alt="Instagram" class="social-logo">
+            Instagram
+          </a>
+          <a href="#" class="footer-link social-link">
+            <img src="../../assets/logo/facebook.jpg" alt="Facebook" class="social-logo">
+            Facebook
+          </a>
+        </div>
+        <div class="footer-links-column">
+          <a href="#" class="footer-link">Terms of Use</a>
+          <a href="#" class="footer-link">Privacy Policy</a>
+        </div>
+      </div>
+    </div>
   </footer>
 
-  <!-- Script untuk toggle menu responsif -->
   <script>
+    // Function to toggle the mobile menu button animation
     function toggleMenu() {
-      document.getElementById("navbarLinks").classList.toggle("active");
+      const menuToggle = document.querySelector(".menu-toggle");
+      menuToggle.classList.toggle("active");
+      
+      // Toggle mobile menu
+      toggleMobileMenu();
     }
+    
+    // Function to toggle the mobile menu slide panel
+    function toggleMobileMenu() {
+      const mobileMenuPanel = document.getElementById("mobileMenuPanel");
+      const mobileMenuOverlay = document.getElementById("mobileMenuOverlay");
+      
+      mobileMenuPanel.classList.toggle("active");
+      mobileMenuOverlay.classList.toggle("active");
+      
+      // Prevent body scrolling when menu is open
+      if (mobileMenuPanel.classList.contains("active")) {
+        document.body.style.overflow = "hidden";
+      } else {
+        document.body.style.overflow = "";
+      }
+    }
+    
+    // Function to toggle the profile menu
+    function toggleProfileMenu(event) {
+      // Prevent event from bubbling up to document
+      if (event) {
+        event.stopPropagation();
+      }
+      
+      const profileMenu = document.getElementById("profile-menu");
+      profileMenu.classList.toggle("active");
+    }
+    
+    // Logout confirmation modal functions
+    function showLogoutConfirmation() {
+      const confirmDialog = document.getElementById('logout-confirm');
+      confirmDialog.classList.add('active');
+      document.body.classList.add('modal-open');
+      
+      // Close mobile menu if open
+      const mobileMenuPanel = document.getElementById("mobileMenuPanel");
+      if (mobileMenuPanel.classList.contains("active")) {
+        toggleMobileMenu();
+      }
+    }
+
+    function hideLogoutConfirmation() {
+      const confirmDialog = document.getElementById('logout-confirm');
+      confirmDialog.classList.remove('active');
+      document.body.classList.remove('modal-open');
+    }
+
+    function confirmLogout() {
+      // Clear session storage
+      sessionStorage.removeItem('isLoggedIn');
+      sessionStorage.removeItem('userEmail');
+      sessionStorage.removeItem('userName');
+      sessionStorage.removeItem('userLocation');
+      sessionStorage.removeItem('userBio');
+      sessionStorage.removeItem('profileImage');
+      
+      // Redirect to index
+      window.location.href = '../../index.html';
+    }
+
+    // Close profile menu when clicking outside
+    document.addEventListener('click', function(e) {
+      const profileMenu = document.getElementById("profile-menu");
+      const profileContainer = document.querySelector(".profile-container");
+      
+      if (profileMenu && profileContainer) {
+        if (!profileContainer.contains(e.target)) {
+          profileMenu.classList.remove("active");
+        }
+      }
+      
+      // Close modals when clicking outside
+      const modals = document.querySelectorAll('.modal-overlay');
+      modals.forEach(modal => {
+        const modalContent = modal.querySelector('.modal-content');
+        if (modal.classList.contains('active')) {
+          if (e.target === modal && modalContent && !modalContent.contains(e.target)) {
+            modal.classList.remove('active');
+            document.body.classList.remove('modal-open');
+          }
+        }
+      });
+    });
+    
+    // Close overlay events
+    document.getElementById("mobileMenuOverlay").addEventListener("click", toggleMobileMenu);
+
+    // Check login status when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      const isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
+      const userName = sessionStorage.getItem('userName');
+      const userEmail = sessionStorage.getItem('userEmail');
+      
+      if (isLoggedIn && userName && userEmail) {
+        // Set user name in header
+        const profileName = document.getElementById('profile-name');
+        const profileAvatar = document.getElementById('profile-avatar');
+        const mobileUserName = document.getElementById('mobileUserName');
+        const mobileUserEmail = document.getElementById('mobileUserEmail');
+        const mobileUserAvatar = document.getElementById('mobileUserAvatar');
+        
+        if (profileName) profileName.textContent = userName;
+        if (mobileUserName) mobileUserName.textContent = userName;
+        if (mobileUserEmail) mobileUserEmail.textContent = userEmail;
+        
+        // Set avatar initial (first letter of user's name)
+        if (profileAvatar) profileAvatar.textContent = userName.charAt(0).toUpperCase();
+        if (mobileUserAvatar) mobileUserAvatar.textContent = userName.charAt(0).toUpperCase();
+        
+        // Check if there's a stored profile image
+        const storedImage = sessionStorage.getItem('profileImage');
+        if (storedImage) {
+          if (profileAvatar) {
+            profileAvatar.style.backgroundImage = `url(${storedImage})`;
+            profileAvatar.style.backgroundSize = 'cover';
+            profileAvatar.style.backgroundPosition = 'center';
+            profileAvatar.textContent = '';
+          }
+          
+          if (mobileUserAvatar) {
+            mobileUserAvatar.style.backgroundImage = `url(${storedImage})`;
+            mobileUserAvatar.style.backgroundSize = 'cover';
+            mobileUserAvatar.style.backgroundPosition = 'center';
+            mobileUserAvatar.textContent = '';
+          }
+        }
+      } else {
+        // Redirect to login if not logged in
+        window.location.href = '../../login.html';
+      }
+      
+      // Animate progress bars
+      const progressBars = document.querySelectorAll('.progress-bar');
+      progressBars.forEach(bar => {
+        // Reset animation
+        bar.style.animation = 'none';
+        bar.offsetHeight; // Trigger reflow
+        bar.style.animation = null;
+        
+        // Add animation class
+        bar.classList.add('animate-progress');
+      });
+    });
+  </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kelas Saya - Capstone Project - Kelompok B</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+
+    body {
+      background-color: #acd2f7;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #4267B2;
+      color: white;
+      padding: 1rem;
+    }
+
+    .navbar-logo {
+      font-size: 1.2rem;
+      font-weight: 500;
+    }
+
+    .navbar-logo a {
+      color: white;
+      text-decoration: none;
+    }
+
+    .navbar-links {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .menu-toggle span {
+      height: 3px;
+      width: 25px;
+      background-color: white;
+      margin-bottom: 4px;
+      border-radius: 3px;
+    }
+
+    .navbar-link {
+      color: white;
+      text-decoration: none;
+      font-size: 1rem;
+    }
+
+    .btn {
+      padding: 0.5rem 1rem;
+      border-radius: 0.25rem;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 500;
+      text-align: center;
+      border: none;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background-color: white;
+      color: #4267B2;
+    }
+
+    .profile-container {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .profile-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #ddd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: #4267B2;
+      font-size: 1.2rem;
+      border: 2px solid white;
+    }
+
+    .profile-name {
+      font-size: 0.9rem;
+      color: white;
+    }
+
+    .profile-menu {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background-color: white;
+      border-radius: 0.25rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 0.5rem 0;
+      min-width: 150px;
+      z-index: 100;
+      display: none;
+    }
+
+    .profile-menu.active {
+      display: block;
+    }
+
+    .profile-menu-item {
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+      color: #333;
+      cursor: pointer;
+      display: block;
+      text-decoration: none;
+    }
+
+    .profile-menu-item:hover {
+      background-color: #f5f5f5;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 2rem auto;
+      padding: 1.5rem;
+      background-color: white;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      color: #4267B2;
+      margin-bottom: 1.5rem;
+      font-size: 1.5rem;
+    }
+
+    .course-card {
+      border: 1px solid #ddd;
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      background-color: #f9f9f9;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .course-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .course-title {
+      font-size: 1.2rem;
+      margin-bottom: 0.8rem;
+      color: #333;
+      font-weight: 600;
+    }
+
+    .progress {
+      height: 10px;
+      background: #ddd;
+      border-radius: 5px;
+      overflow: hidden;
+      margin-bottom: 0.5rem;
+    }
+
+    .progress-bar {
+      height: 10px;
+      background: #4267B2;
+      border-radius: 5px;
+      transition: width 0.8s ease;
+    }
+
+    .course-meta {
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+      color: #666;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .course-action {
+      color: #4267B2;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .course-action:hover {
+      color: #e91e63;
+    }
+
+    /* Footer Styles */
+    .footer {
+      background-color: #4267B2;
+      color: white;
+      padding: 2rem 0;
+      margin-top: 3rem;
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .footer-copyright {
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+
+    .footer-links-column {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .footer-link {
+      color: white;
+      text-decoration: none;
+      font-size: 1rem;
+    }
+
+    .footer-link:hover {
+      text-decoration: underline;
+    }
+
+    .social-link {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .social-logo {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+      border-radius: 4px;
+    }
+
+    /* Mobile Menu Overlay Styles */
+    .mobile-menu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 99;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease;
+    }
+
+    .mobile-menu-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Mobile Menu Slide Panel */
+    .mobile-menu-panel {
+      position: fixed;
+      top: 0;
+      right: -280px;
+      width: 280px;
+      height: 100%;
+      background-color: #fff;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+      z-index: 100;
+      transition: right 0.3s ease;
+      overflow-y: auto;
+    }
+
+    .mobile-menu-panel.active {
+      right: 0;
+    }
+
+    .mobile-menu-header {
+      background-color: #4267B2;
+      color: white;
+      padding: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .mobile-menu-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    .mobile-menu-close {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0.5rem;
+    }
+
+    .mobile-menu-list {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .mobile-menu-item {
+      border-bottom: 1px solid #eee;
+    }
+
+    .mobile-menu-link {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.5rem;
+      color: #333;
+      text-decoration: none;
+      transition: background-color 0.2s;
+    }
+
+    .mobile-menu-link:hover,
+    .mobile-menu-link:active {
+      background-color: #f5f5f5;
+    }
+
+    .mobile-menu-icon {
+      font-size: 1.2rem;
+      width: 20px;
+      text-align: center;
+    }
+
+    /* User Info in Mobile Menu */
+    .mobile-user-info {
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      border-bottom: 1px solid #eee;
+    }
+
+    .mobile-user-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: #4267B2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: white;
+      font-size: 1.5rem;
+    }
+
+    .mobile-user-details {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .mobile-user-name {
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: #333;
+    }
+
+    .mobile-user-email {
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    /* Modal Overlay Styles */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-content {
+      background-color: white;
+      border-radius: 8px;
+      padding: 20px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      transform: translateY(-20px);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-overlay.active .modal-content {
+      transform: translateY(0);
+    }
+
+    .modal-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: #333;
+    }
+
+    .modal-buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .modal-open {
+      overflow: hidden;
+    }
+
+    .btn-logout {
+      background-color: #f44336;
+      color: white;
+      transition: background-color 0.3s;
+    }
+
+    .btn-logout:hover {
+      background-color: #d32f2f;
+    }
+
+    .btn-secondary {
+      background-color: #e91e63;
+      color: white;
+      transition: background-color 0.3s;
+    }
+
+    .btn-secondary:hover {
+      background-color: #c2185b;
+    }
+
+    /* Hamburger Menu Animation */
+    .menu-toggle span {
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .menu-toggle.active span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .menu-toggle.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .menu-toggle.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+
+    /* Animation classes */
+    .animate-progress {
+      animation: progressAnimation 1.5s ease-out;
+    }
+
+    @keyframes progressAnimation {
+      from { width: 0; }
+    }
+
+    /* Media Queries for Responsiveness */
+    @media screen and (min-width: 768px) {
+      .navbar {
+        padding: 1rem 3rem;
+      }
+      
+      .navbar-links {
+        gap: 1.5rem;
+      }
+      
+      .footer-container {
+        flex-direction: row;
+        justify-content: space-between;
+      }
+      
+      .mobile-menu-overlay,
+      .mobile-menu-panel {
+        display: none;
+      }
+    }
+
+    @media screen and (max-width: 767px) {
+      .navbar-links {
+        position: fixed;
+        right: -100%;
+        top: 70px;
+        flex-direction: column;
+        background-color: #4267B2;
+        width: 100%;
+        text-align: center;
+        transition: 0.3s;
+        box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
+        padding: 1rem 0;
+        z-index: 100;
+      }
+      
+      .navbar-links.active {
+        right: 0;
+      }
+      
+      .menu-toggle {
+        display: flex;
+      }
+      
+      .profile-name {
+        display: none;
+      }
+      
+      .profile-avatar {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="navbar-logo">
+      <a href="../../index.html">Capstone Project - Kelompok B</a>
+    </div>
+    <div class="menu-toggle" onclick="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <div class="navbar-links" id="navbarLinks">
+      <!-- Profile will be shown when logged in -->
+      <div id="profile-section">
+        <div class="profile-container" onclick="toggleProfileMenu(event)">
+          <div class="profile-avatar" id="profile-avatar">U</div>
+          <span class="profile-name" id="profile-name">Username</span>
+          <div class="profile-menu" id="profile-menu">
+            <a href="../../index.html" class="profile-menu-item">Dashboard</a>
+            <a href="profile.html" class="profile-menu-item">Profil Saya</a>
+            <a href="kelas-saya.html" class="profile-menu-item">Kelas Saya</a>
+            <a href="pengaturan.html" class="profile-menu-item">Pengaturan</a>
+            <div class="profile-menu-item" onclick="showLogoutConfirmation()">Logout</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  
+  <!-- Mobile Menu Overlay -->
+  <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+  
+  <!-- Mobile Menu Panel -->
+  <div class="mobile-menu-panel" id="mobileMenuPanel">
+    <div class="mobile-menu-header">
+      <div class="mobile-menu-title">Menu</div>
+      <button class="mobile-menu-close" onclick="toggleMobileMenu()">&times;</button>
+    </div>
+    
+    <!-- User Info Section (only visible when logged in) -->
+    <div class="mobile-user-info" id="mobileUserInfo">
+      <div class="mobile-user-avatar" id="mobileUserAvatar">U</div>
+      <div class="mobile-user-details">
+        <div class="mobile-user-name" id="mobileUserName">Username</div>
+        <div class="mobile-user-email" id="mobileUserEmail">user@example.com</div>
+      </div>
+    </div>
+    
+    <!-- Menu Items -->
+    <ul class="mobile-menu-list">
+      <li class="mobile-menu-item">
+        <a href="../../index.html" class="mobile-menu-link">
+          <span class="mobile-menu-icon">🏠</span>
+          Dashboard
+        </a>
+      </li>
+      <li class="mobile-menu-item">
+        <a href="profile.html" class="mobile-menu-link">
+          <span class="mobile-menu-icon">👤</span>
+          Profil Saya
+        </a>
+      </li>
+      <li class="mobile-menu-item">
+        <a href="kelas-saya.html" class="mobile-menu-link">
+          <span class="mobile-menu-icon">📚</span>
+          Kelas Saya
+        </a>
+      </li>
+      <li class="mobile-menu-item">
+        <a href="pengaturan.html" class="mobile-menu-link">
+          <span class="mobile-menu-icon">⚙️</span>
+          Pengaturan
+        </a>
+      </li>
+      <li class="mobile-menu-item">
+        <a href="javascript:void(0)" onclick="showLogoutConfirmation()" class="mobile-menu-link">
+          <span class="mobile-menu-icon">🚪</span>
+          Logout
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Logout Confirmation Modal -->
+  <div id="logout-confirm" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-title">Yakin ingin Keluar?</div>
+      <div class="modal-buttons">
+        <button class="btn btn-secondary" onclick="hideLogoutConfirmation()">Tidak</button>
+        <button class="btn btn-logout" onclick="confirmLogout()">Ya</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="container">
+    <h2>Kelas Saya</h2>
+
+    <div class="course-card">
+      <div class="course-title">Android untuk Pemula sampai Mahir</div>
+      <div class="progress">
+        <div class="progress-bar animate-progress" style="width: 75%;"></div>
+      </div>
+      <div class="course-meta">
+        <span>Progress: 75%</span>
+        <a href="#" class="course-action">Lanjutkan Belajar</a>
+      </div>
+    </div>
+
+    <div class="course-card">
+      <div class="course-title">Belajar Basis Data</div>
+      <div class="progress">
+        <div class="progress-bar animate-progress" style="width: 45%;"></div>
+      </div>
+      <div class="course-meta">
+        <span>Progress: 45%</span>
+        <a href="#" class="course-action">Lanjutkan Belajar</a>
+      </div>
+    </div>
+
+    <div class="course-card">
+      <div class="course-title">Belajar HTML & CSS untuk Pemula sampai Mahir</div>
+      <div class="progress">
+        <div class="progress-bar animate-progress" style="width: 100%;"></div>
+      </div>
+      <div class="course-meta">
+        <span>Progress: 100% (Selesai)</span>
+        <a href="#" class="course-action">Lihat Sertifikat</a>
+      </div>
+    </div>
+    
+    <div class="course-card">
+      <div class="course-title">Belajar HTTP untuk Pemula</div>
+      <div class="progress">
+        <div class="progress-bar animate-progress" style="width: 25%;"></div>
+      </div>
+      <div class="course-meta">
+        <span>Progress: 25%</span>
+        <a href="#" class="course-action">Lanjutkan Belajar</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-copyright">
+        © 2025 Capstone Project - Kelompok B
+      </div>
+      <div class="footer-links">
+        <div class="footer-links-column">
+          <a href="#" class="footer-link social-link">
+            <img src="../../assets/logo/youtube.jpg" alt="Youtube" class="social-logo">
+            Youtube
+          </a>
+          <a href="#" class="footer-link social-link">
+            <img src="../../assets/logo/instagram.jpg" alt="Instagram" class="social-logo">
+            Instagram
+          </a>
+          <a href="#" class="footer-link social-link">
+            <img src="../../assets/logo/facebook.jpg" alt="Facebook" class="social-logo">
+            Facebook
+          </a>
+        </div>
+        <div class="footer-links-column">
+          <a href="#" class="footer-link">Terms of Use</a>
+          <a href="#" class="footer-link">Privacy Policy</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Function to toggle the mobile menu button animation
+    function toggleMenu() {
+      const menuToggle = document.querySelector(".menu-toggle");
+      menuToggle.classList.toggle("active");
+      
+      // Toggle mobile menu
+      toggleMobileMenu();
+    }
+    
+    // Function to toggle the mobile menu slide panel
+    function toggleMobileMenu() {
+      const mobileMenuPanel = document.getElementById("mobileMenuPanel");
+      const mobileMenuOverlay = document.getElementById("mobileMenuOverlay");
+      
+      mobileMenuPanel.classList.toggle("active");
+      mobileMenuOverlay.classList.toggle("active");
+      
+      // Prevent body scrolling when menu is open
+      if (mobileMenuPanel.classList.contains("active")) {
+        document.body.style.overflow = "hidden";
+      } else {
+        document.body.style.overflow = "";
+      }
+    }
+    
+    // Function to toggle the profile menu
+    function toggleProfileMenu(event) {
+      // Prevent event from bubbling up to document
+      if (event) {
+        event.stopPropagation();
+      }
+      
+      const profileMenu = document.getElementById("profile-menu");
+      profileMenu.classList.toggle("active");
+    }
+    
+    // Logout confirmation modal functions
+    function showLogoutConfirmation() {
+      const confirmDialog = document.getElementById('logout-confirm');
+      confirmDialog.classList.add('active');
+      document.body.classList.add('modal-open');
+      
+      // Close mobile menu if open
+      const mobileMenuPanel = document.getElementById("mobileMenuPanel");
+      if (mobileMenuPanel.classList.contains("active")) {
+        toggleMobileMenu();
+      }
+    }
+
+    function hideLogoutConfirmation() {
+      const confirmDialog = document.getElementById('logout-confirm');
+      confirmDialog.classList.remove('active');
+      document.body.classList.remove('modal-open');
+    }
+
+    function confirmLogout() {
+      // Clear session storage
+      sessionStorage.removeItem('isLoggedIn');
+      sessionStorage.removeItem('userEmail');
+      sessionStorage.removeItem('userName');
+      sessionStorage.removeItem('userLocation');
+      sessionStorage.removeItem('userBio');
+      sessionStorage.removeItem('profileImage');
+      
+      // Redirect to index
+      window.location.href = '../../index.html';
+    }
+
+    // Close profile menu when clicking outside
+    document.addEventListener('click', function(e) {
+      const profileMenu = document.getElementById("profile-menu");
+      const profileContainer = document.querySelector(".profile-container");
+      
+      if (profileMenu && profileContainer) {
+        if (!profileContainer.contains(e.target)) {
+          profileMenu.classList.remove("active");
+        }
+      }
+      
+      // Close modals when clicking outside
+      const modals = document.querySelectorAll('.modal-overlay');
+      modals.forEach(modal => {
+        const modalContent = modal.querySelector('.modal-content');
+        if (modal.classList.contains('active')) {
+          if (e.target === modal && modalContent && !modalContent.contains(e.target)) {
+            modal.classList.remove('active');
+            document.body.classList.remove('modal-open');
+          }
+        }
+      });
+    });
+    
+    // Close overlay events
+    document.getElementById("mobileMenuOverlay").addEventListener("click", toggleMobileMenu);
+
+    // Check login status when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      const isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
+      const userName = sessionStorage.getItem('userName');
+      const userEmail = sessionStorage.getItem('userEmail');
+      
+      if (isLoggedIn && userName && userEmail) {
+        // Set user name in header
+        const profileName = document.getElementById('profile-name');
+        const profileAvatar = document.getElementById('profile-avatar');
+        const mobileUserName = document.getElementById('mobileUserName');
+        const mobileUserEmail = document.getElementById('mobileUserEmail');
+        const mobileUserAvatar = document.getElementById('mobileUserAvatar');
+        
+        if (profileName) profileName.textContent = userName;
+        if (mobileUserName) mobileUserName.textContent = userName;
+        if (mobileUserEmail) mobileUserEmail.textContent = userEmail;
+        
+        // Set avatar initial (first letter of user's name)
+        if (profileAvatar) profileAvatar.textContent = userName.charAt(0).toUpperCase();
+        if (mobileUserAvatar) mobileUserAvatar.textContent = userName.charAt(0).toUpperCase();
+        
+        // Check if there's a stored profile image
+        const storedImage = sessionStorage.getItem('profileImage');
+        if (storedImage) {
+          if (profileAvatar) {
+            profileAvatar.style.backgroundImage = `url(${storedImage})`;
+            profileAvatar.style.backgroundSize = 'cover';
+            profileAvatar.style.backgroundPosition = 'center';
+            profileAvatar.textContent = '';
+          }
+          
+          if (mobileUserAvatar) {
+            mobileUserAvatar.style.backgroundImage = `url(${storedImage})`;
+            mobileUserAvatar.style.backgroundSize = 'cover';
+            mobileUserAvatar.style.backgroundPosition = 'center';
+            mobileUserAvatar.textContent = '';
+          }
+        }
+      } else {
+        // Redirect to login if not logged in
+        window.location.href = '../../login.html';
+      }
+      
+      // Animate progress bars
+      const progressBars = document.querySelectorAll('.progress-bar');
+      progressBars.forEach(bar => {
+        // Reset animation
+        bar.style.animation = 'none';
+        bar.offsetHeight; // Trigger reflow
+        bar.style.animation = null;
+        
+        // Add animation class
+        bar.classList.add('animate-progress');
+      });
+    });
   </script>
 </body>
 </html>
