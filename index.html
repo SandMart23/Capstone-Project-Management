@@ -488,6 +488,317 @@
                 font-size: 1rem;
             }
         }
+        
+        /* Enhanced profile menu styles for mobile */
+        .profile-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: white;
+            border-radius: 0.25rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 0.5rem 0;
+            min-width: 150px;
+            z-index: 100;
+            display: none;
+            transition: all 0.3s ease;
+        }
+        
+        .profile-menu.active {
+            display: block;
+            animation: fadeIn 0.2s ease-in-out;
+        }
+        
+        .profile-menu-item {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            color: #333;
+            cursor: pointer;
+            display: block;
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+        
+        .profile-menu-item:hover {
+            background-color: #f5f5f5;
+        }
+        
+        /* Mobile-specific styles */
+        @media screen and (max-width: 767px) {
+            .profile-menu {
+                width: 200px;
+                right: -10px;
+                top: 45px;
+                border-radius: 8px;
+            }
+            
+            .profile-menu:before {
+                content: "";
+                position: absolute;
+                top: -8px;
+                right: 20px;
+                border-left: 8px solid transparent;
+                border-right: 8px solid transparent;
+                border-bottom: 8px solid white;
+            }
+            
+            .profile-menu-item {
+                padding: 12px 16px;
+                font-size: 14px;
+                border-bottom: 1px solid #f0f0f0;
+            }
+            
+            .profile-menu-item:last-child {
+                border-bottom: none;
+            }
+            
+            .profile-container {
+                position: relative;
+            }
+        }
+        
+        /* General animation definitions */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Apply animations to specific elements */
+
+        /* Navbar animation */
+        .navbar {
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        /* Browse header animation */
+        .browse-header {
+            animation: slideInUp 0.7s ease-out;
+        }
+
+        /* Search container animation */
+        .search-container {
+            animation: slideInUp 0.8s ease-out;
+        }
+
+        /* Sort container animation */
+        .sort-container {
+            animation: slideInUp 0.9s ease-out;
+        }
+
+        /* Categories animation */
+        .categories-container {
+            animation: slideInUp 1s ease-out;
+        }
+
+        /* Course cards animation */
+        .course-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Course card appear animation */
+        .courses-grid {
+            animation: fadeIn 1.2s ease-out;
+        }
+
+        /* Add this to each individual course card with JavaScript */
+        .course-animate {
+            animation: slideInUp 0.5s ease-out;
+            animation-fill-mode: both;
+        }
+
+        /* Profile avatar animation */
+        .profile-avatar {
+            transition: transform 0.3s ease;
+        }
+
+        .profile-avatar:hover {
+            transform: scale(1.1);
+        }
+
+        /* Button animations */
+        .btn {
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        /* Category item animation */
+        .category-item {
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .category-item:hover {
+            background-color: #4267B2;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        /* Course price button animation */
+        .course-price-button, .course-free-button {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .course-price-button:hover, .course-free-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .course-price-button:before, .course-free-button:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 100%);
+            transition: all 0.6s ease;
+        }
+
+        .course-price-button:hover:before, .course-free-button:hover:before {
+            left: 100%;
+        }
+
+        /* Search icon animation */
+        .search-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .search-container:hover .search-icon {
+            transform: scale(1.2);
+        }
+
+        /* Menu toggle animation */
+        .menu-toggle span {
+            transition: all 0.3s ease;
+        }
+
+        .menu-toggle:hover span {
+            background-color: #e0e0e0;
+        }
+        
+        /* Loading animation styles */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(66, 103, 178, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Animate navbar hamburger menu */
+        .menu-toggle span {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        /* Add reveal animation for navbar links on mobile */
+        @media screen and (max-width: 767px) {
+            .navbar-links.active {
+                animation: slideInRight 0.3s forwards;
+            }
+            
+            @keyframes slideInRight {
+                from {
+                    right: -100%;
+                }
+                to {
+                    right: 0;
+                }
+            }
+        }
+
+        /* Add subtle animations to footer elements */
+        .footer {
+            animation: fadeIn 1s ease-out;
+        }
+
+        .footer-link {
+            transition: transform 0.3s ease;
+        }
+
+        .footer-link:hover {
+            transform: translateX(5px);
+        }
+
+        .social-link:hover .social-logo {
+            animation: pulse 1s infinite;
+        }
+        
+        /* Add styles for no results message */
+        .no-results {
+            text-align: center;
+            padding: 2rem;
+            font-size: 1.2rem;
+            color: #666;
+            grid-column: 1 / -1;
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -507,17 +818,17 @@
                 <a href="signup.html" class="navbar-link">Sign up</a>
                 <a href="login.html" class="btn btn-primary">Log in</a>
             </div>
-            
             <!-- Profile will be shown when logged in -->
             <div id="profile-section" style="display: none;">
-                <div class="profile-container" onclick="toggleProfileMenu()">
+                <div class="profile-container" onclick="toggleProfileMenu(event)">
                     <div class="profile-avatar" id="profile-avatar">U</div>
                     <span class="profile-name" id="profile-name">Username</span>
                     <div class="profile-menu" id="profile-menu">
-                        <a href="#" class="profile-menu-item">Profil Saya</a>
-                        <a href="#" class="profile-menu-item">Kelas Saya</a>
-                        <a href="#" class="profile-menu-item">Pengaturan</a>
-                        <a href="#" class="profile-menu-item" onclick="logout()">Keluar</a>
+                        <a href="index.html" class="profile-menu-item">Dashboard</a>
+                        <a href="assets/content/profile.html" class="profile-menu-item">Profil Saya</a>
+                        <a href="assets/content/kelas-saya.html" class="profile-menu-item">Kelas Saya</a>
+                        <a href="assets/content/pengaturan.html" class="profile-menu-item">Pengaturan</a>
+                        <div class="profile-menu-item" onclick="logout()">Logout</div>
                     </div>
                 </div>
             </div>
@@ -556,6 +867,11 @@
                 <div class="category-item">Android</div>
                 <div class="category-item">Database</div>
             </div>
+        </div>
+        
+        <!-- No Results Message -->
+        <div class="no-results" id="no-results">
+            No products match your search. Try different keywords.
         </div>
         
         <!-- Courses Grid -->
@@ -658,16 +974,32 @@
     </footer>
 
     <script>
+        // Function to toggle the mobile menu
         function toggleMenu() {
             const navbarLinks = document.getElementById("navbarLinks");
+            const menuToggle = document.querySelector(".menu-toggle");
+            
+            // Toggle active class for navbar links
             navbarLinks.classList.toggle("active");
+            
+            // Toggle active class for menu button (hamburger animation)
+            menuToggle.classList.toggle("active");
         }
         
-        function toggleProfileMenu() {
+        // Function to toggle the profile menu
+        function toggleProfileMenu(event) {
+            // Prevent event from bubbling up to document
+            if (event) {
+                event.stopPropagation();
+            }
+            
             const profileMenu = document.getElementById("profile-menu");
+            
+            // Toggle the menu visibility
             profileMenu.classList.toggle("active");
         }
         
+        // Function to handle logout
         function logout() {
             // Clear session storage
             sessionStorage.removeItem('isLoggedIn');
@@ -678,19 +1010,104 @@
             window.location.href = 'index.html';
         }
         
-        // Close profile menu when clicking outside
-        window.addEventListener('click', function(e) {
-            const profileMenu = document.getElementById("profile-menu");
-            const profileContainer = document.querySelector(".profile-container");
+        // Function to add staggered animations to course cards
+        function addStaggeredAnimations() {
+            // Get all course cards
+            const courseCards = document.querySelectorAll('.course-card');
             
-            if (profileMenu && profileContainer) {
-                if (!profileContainer.contains(e.target)) {
-                    profileMenu.classList.remove("active");
-                }
+            // Add animation class and delay to each card
+            courseCards.forEach((card, index) => {
+                // Add the animation class
+                card.classList.add('course-animate');
+                
+                // Set a staggered delay based on the card index
+                card.style.animationDelay = `${0.2 * index}s`;
+            });
+        }
+
+        // Function to add a loading animation
+        function addLoadingAnimation() {
+            // Create loading overlay
+            const loadingOverlay = document.createElement('div');
+            loadingOverlay.className = 'loading-overlay';
+            
+            // Create loading spinner
+            const loadingSpinner = document.createElement('div');
+            loadingSpinner.className = 'loading-spinner';
+            
+            // Append elements
+            loadingOverlay.appendChild(loadingSpinner);
+            document.body.appendChild(loadingOverlay);
+            
+            // Remove loading overlay after content loads
+            window.addEventListener('load', () => {
+                setTimeout(() => {
+                    loadingOverlay.style.opacity = '0';
+                    setTimeout(() => {
+                        loadingOverlay.remove();
+                    }, 500);
+                }, 800); // Show loading for at least 800ms
+            });
+        }
+
+        // Function to add pulse animation to the profile avatar
+        function addProfileAnimation() {
+            const profileAvatar = document.getElementById('profile-avatar');
+            if (profileAvatar) {
+                // Add a subtle pulse animation when the page loads
+                profileAvatar.style.animation = 'pulse 2s ease infinite';
             }
-        });
+        }
         
-        // Check login status when page loads
+        // Function to search products
+        function searchProducts() {
+            const searchInput = document.querySelector('.search-input');
+            const courses = document.querySelectorAll('.course-card');
+            const noResults = document.getElementById('no-results');
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            
+            let foundResults = false;
+            
+            // Loop through all courses and show/hide based on search term
+            courses.forEach(course => {
+                const courseTitle = course.querySelector('.course-title').textContent.toLowerCase();
+                const courseDescription = course.querySelector('.course-description').textContent.toLowerCase();
+                
+                // Check if course title or description contains the search term
+                if (courseTitle.includes(searchTerm) || courseDescription.includes(searchTerm)) {
+                    // Show this course
+                    course.style.display = 'block';
+                    foundResults = true;
+                    
+                    // Apply animation if not already animated
+                    if (!course.classList.contains('course-animate')) {
+                        course.classList.add('course-animate');
+                        setTimeout(() => {
+                            course.classList.remove('course-animate');
+                        }, 500);
+                    }
+                } else {
+                    // Hide this course
+                    course.style.display = 'none';
+                }
+            });
+            
+            // Show/hide no results message
+            if (searchTerm !== '' && !foundResults) {
+                noResults.style.display = 'block';
+            } else {
+                noResults.style.display = 'none';
+            }
+        }
+        
+        // Function to filter by category
+        function filterByCategory(category) {
+            const searchInput = document.querySelector('.search-input');
+            searchInput.value = category;
+            searchProducts();
+        }
+        
+        // Check login status and initialize page when DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
             const isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
             const userName = sessionStorage.getItem('userName');
@@ -715,6 +1132,62 @@
                 // User is not logged in
                 authLinks.style.display = 'block';
                 profileSection.style.display = 'none';
+            }
+            
+            // Close profile menu when clicking anywhere outside the menu
+            document.addEventListener('click', function(e) {
+                const profileMenu = document.getElementById("profile-menu");
+                const profileContainer = document.querySelector(".profile-container");
+                
+                // If the menu is open and the click is outside the profile container
+                if (profileMenu && profileMenu.classList.contains('active') && 
+                    profileContainer && !profileContainer.contains(e.target)) {
+                    profileMenu.classList.remove("active");
+                }
+            });
+            
+            // Prevent menu from closing when clicking inside the menu
+            const profileMenu = document.getElementById("profile-menu");
+            if (profileMenu) {
+                profileMenu.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                });
+            }
+            
+            // Add search functionality
+            const searchInput = document.querySelector('.search-input');
+            if (searchInput) {
+                searchInput.addEventListener('input', searchProducts);
+            }
+            
+            // Add category filtering
+            const categoryItems = document.querySelectorAll('.category-item');
+            categoryItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    filterByCategory(this.textContent);
+                });
+            });
+            
+            // Add staggered animations to course cards
+            addStaggeredAnimations();
+            
+            // Add loading animation
+            addLoadingAnimation();
+            
+            // Add profile animation
+            addProfileAnimation();
+            
+            // Add animation to search icon
+            const searchIcon = document.querySelector('.search-icon');
+            if (searchIcon) {
+                searchIcon.addEventListener('click', function() {
+                    const searchInput = document.querySelector('.search-input');
+                    searchInput.focus();
+                    this.style.animation = 'rotate 0.5s ease';
+                    setTimeout(() => {
+                        this.style.animation = '';
+                    }, 500);
+                });
             }
         });
     </script>
