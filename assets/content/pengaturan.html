@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Pengaturan</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pengaturan - Capstone Project - Kelompok B</title>
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     }
 
     body {
-      font-family: sans-serif;
       background-color: #acd2f7;
     }
 
@@ -25,10 +25,20 @@
       padding: 1rem;
     }
 
+    .navbar-logo {
+      font-size: 1.2rem;
+      font-weight: 500;
+    }
+
     .navbar-logo a {
       color: white;
       text-decoration: none;
-      font-weight: bold;
+    }
+
+    .navbar-links {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
     }
 
     .menu-toggle {
@@ -45,22 +55,90 @@
       border-radius: 3px;
     }
 
-    .navbar-links {
-      display: flex;
-      gap: 1rem;
-      align-items: center;
-    }
-
     .navbar-link {
       color: white;
       text-decoration: none;
+      font-size: 1rem;
+    }
+
+    .btn {
+      padding: 0.5rem 1rem;
+      border-radius: 0.25rem;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 500;
+      text-align: center;
+      border: none;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background-color: white;
+      color: #4267B2;
+    }
+
+    .profile-container {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .profile-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #ddd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: #4267B2;
+      font-size: 1.2rem;
+      border: 2px solid white;
+    }
+
+    .profile-name {
+      font-size: 0.9rem;
+      color: white;
+    }
+
+    .profile-menu {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background-color: white;
+      border-radius: 0.25rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 0.5rem 0;
+      min-width: 150px;
+      z-index: 100;
+      display: none;
+    }
+
+    .profile-menu.active {
+      display: block;
+    }
+
+    .profile-menu-item {
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+      color: #333;
+      cursor: pointer;
+      display: block;
+      text-decoration: none;
+    }
+
+    .profile-menu-item:hover {
+      background-color: #f5f5f5;
     }
 
     .container {
-      max-width: 700px;
+      max-width: 1000px;
       margin: 2rem auto;
-      background: #fff;
-      padding: 2rem;
+      padding: 1.5rem;
+      background-color: white;
       border-radius: 0.5rem;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
@@ -68,53 +146,672 @@
     h2 {
       color: #4267B2;
       margin-bottom: 1.5rem;
+      font-size: 1.5rem;
     }
 
-    .setting-item {
+    .settings-tabs {
+      display: flex;
+      border-bottom: 1px solid #ddd;
       margin-bottom: 1.5rem;
     }
-
-    label {
-      font-weight: bold;
+    
+    .tab {
+      padding: 0.8rem 1.5rem;
+      cursor: pointer;
+      font-weight: 500;
+      color: #666;
+      border-bottom: 3px solid transparent;
+      transition: all 0.3s ease;
+    }
+    
+    .tab.active {
+      color: #4267B2;
+      border-bottom-color: #4267B2;
+    }
+    
+    .tab:hover {
+      color: #4267B2;
+    }
+    
+    .tab-content {
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.5s ease;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    .transaction-history {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+    
+    .transaction-history th,
+    .transaction-history td {
+      padding: 0.8rem;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .transaction-history th {
+      background-color: #f9f9f9;
+      font-weight: 600;
+      color: #333;
+    }
+    
+    .transaction-history tr:hover {
+      background-color: #f5f5f5;
+    }
+    
+    .transaction-history .status {
+      display: inline-block;
+      padding: 0.3rem 0.6rem;
+      border-radius: 1rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+    
+    .status.completed {
+      background-color: #e8f5e9;
+      color: #2e7d32;
+    }
+    
+    .status.pending {
+      background-color: #fff8e1;
+      color: #f57f17;
+    }
+    
+    .transaction-action {
+      color: #4267B2;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+    
+    .transaction-action:hover {
+      text-decoration: underline;
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-label {
       display: block;
       margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: #333;
     }
-
-    input[type="text"],
-    input[type="email"],
-    input[type="password"] {
+    
+    .form-input {
       width: 100%;
       padding: 0.8rem;
-      border: 1px solid #ccc;
+      border: 1px solid #ddd;
       border-radius: 0.25rem;
       font-size: 1rem;
     }
-
-    .btn {
+    
+    .form-input:focus {
+      outline: none;
+      border-color: #4267B2;
+      box-shadow: 0 0 0 2px rgba(66, 103, 178, 0.2);
+    }
+    
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    
+    .btn-save {
       background-color: #4267B2;
       color: white;
-      padding: 0.75rem 1.5rem;
-      border: none;
+    }
+    
+    .btn-cancel {
+      background-color: #f5f5f5;
+      color: #333;
+      border: 1px solid #ddd;
+    }
+    
+    .settings-card {
+      background-color: #f9f9f9;
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .settings-card-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 1rem;
+    }
+    
+    .notification-option {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .notification-option:last-child {
+      border-bottom: none;
+    }
+    
+    .notification-label {
+      font-size: 1rem;
+      color: #333;
+    }
+    
+    .notification-desc {
+      font-size: 0.9rem;
+      color: #666;
+      margin-top: 0.3rem;
+    }
+    
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+    }
+    
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 24px;
+    }
+    
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+    
+    input:checked + .slider {
+      background-color: #4267B2;
+    }
+    
+    input:checked + .slider:before {
+      transform: translateX(26px);
+    }
+    
+    .receipt-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    
+    .receipt-content {
+      background-color: white;
+      padding: 2rem;
+      border-radius: 0.5rem;
+      width: 90%;
+      max-width: 600px;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+    
+    .receipt-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    
+    .receipt-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #333;
+    }
+    
+    .receipt-close {
+      cursor: pointer;
+      font-size: 1.5rem;
+      color: #666;
+    }
+    
+    .receipt-details {
+      margin-bottom: 1.5rem;
+    }
+    
+    .receipt-row {
+      display: flex;
+      margin-bottom: 0.8rem;
+    }
+    
+    .receipt-label {
+      width: 40%;
+      font-weight: 500;
+      color: #666;
+    }
+    
+    .receipt-value {
+      width: 60%;
+      color: #333;
+    }
+    
+    .receipt-divider {
+      height: 1px;
+      background-color: #eee;
+      margin: 1rem 0;
+    }
+    
+    .receipt-product {
+      margin-bottom: 1rem;
+    }
+    
+    .receipt-product-name {
+      font-weight: 500;
+      color: #333;
+      margin-bottom: 0.3rem;
+    }
+    
+    .receipt-product-price {
+      color: #666;
+    }
+    
+    .receipt-total {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid #ddd;
+    }
+    
+    .receipt-print {
+      text-align: center;
+      margin-top: 1.5rem;
+    }
+    
+    .btn-print {
+      background-color: #4267B2;
+      color: white;
+      padding: 0.5rem 1rem;
       border-radius: 0.25rem;
       cursor: pointer;
-      font-size: 1rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      border: none;
     }
-
-    .btn:hover {
+    
+    /* Empty state for no transactions */
+    .empty-state {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: #666;
+    }
+    
+    .empty-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: #ccc;
+    }
+    
+    .empty-text {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .empty-subtext {
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .btn-browse {
+      display: inline-block;
+      background-color: #4267B2;
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border-radius: 2rem;
+      text-decoration: none;
+      font-weight: 500;
+      transition: background-color 0.3s;
+    }
+    
+    .btn-browse:hover {
       background-color: #365899;
     }
 
+    /* Footer Styles */
     .footer {
       background-color: #4267B2;
       color: white;
-      padding: 2rem 1rem;
+      padding: 2rem 0;
       margin-top: 3rem;
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .footer-copyright {
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+
+    .footer-links-column {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .footer-link {
+      color: white;
+      text-decoration: none;
+      font-size: 1rem;
+    }
+
+    .footer-link:hover {
+      text-decoration: underline;
+    }
+
+    .social-link {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .social-logo {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+      border-radius: 4px;
+    }
+
+    /* Mobile Menu Overlay Styles */
+    .mobile-menu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 99;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease;
+    }
+
+    .mobile-menu-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Mobile Menu Slide Panel */
+    .mobile-menu-panel {
+      position: fixed;
+      top: 0;
+      right: -280px;
+      width: 280px;
+      height: 100%;
+      background-color: #fff;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+      z-index: 100;
+      transition: right 0.3s ease;
+      overflow-y: auto;
+    }
+
+    .mobile-menu-panel.active {
+      right: 0;
+    }
+
+    .mobile-menu-header {
+      background-color: #4267B2;
+      color: white;
+      padding: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .mobile-menu-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    .mobile-menu-close {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0.5rem;
+    }
+
+    .mobile-menu-list {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .mobile-menu-item {
+      border-bottom: 1px solid #eee;
+    }
+
+    .mobile-menu-link {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.5rem;
+      color: #333;
+      text-decoration: none;
+      transition: background-color 0.2s;
+    }
+
+    .mobile-menu-link:hover,
+    .mobile-menu-link:active {
+      background-color: #f5f5f5;
+    }
+
+    .mobile-menu-icon {
+      font-size: 1.2rem;
+      width: 20px;
       text-align: center;
     }
 
-    @media screen and (max-width: 768px) {
+    /* User Info in Mobile Menu */
+    .mobile-user-info {
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      border-bottom: 1px solid #eee;
+    }
+
+    .mobile-user-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: #4267B2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: white;
+      font-size: 1.5rem;
+    }
+
+    .mobile-user-details {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .mobile-user-name {
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: #333;
+    }
+
+    .mobile-user-email {
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    /* Modal Overlay Styles */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-content {
+      background-color: white;
+      border-radius: 8px;
+      padding: 20px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      transform: translateY(-20px);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-overlay.active .modal-content {
+      transform: translateY(0);
+    }
+
+    .modal-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: #333;
+    }
+
+    .modal-buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .modal-open {
+      overflow: hidden;
+    }
+
+    .btn-logout {
+      background-color: #f44336;
+      color: white;
+      transition: background-color 0.3s;
+    }
+
+    .btn-logout:hover {
+      background-color: #d32f2f;
+    }
+
+    .btn-secondary {
+      background-color: #e91e63;
+      color: white;
+      transition: background-color 0.3s;
+    }
+
+    .btn-secondary:hover {
+      background-color: #c2185b;
+    }
+
+    /* Hamburger Menu Animation */
+    .menu-toggle span {
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .menu-toggle.active span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .menu-toggle.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .menu-toggle.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+
+    /* Media Queries for Responsiveness */
+    @media screen and (min-width: 768px) {
+      .navbar {
+        padding: 1rem 3rem;
+      }
+      
       .navbar-links {
-        position: absolute;
+        gap: 1.5rem;
+      }
+      
+      .footer-container {
+        flex-direction: row;
+        justify-content: space-between;
+      }
+      
+      .mobile-menu-overlay,
+      .mobile-menu-panel {
+        display: none;
+      }
+    }
+
+    @media screen and (max-width: 767px) {
+      .navbar-links {
+        position: fixed;
         right: -100%;
         top: 70px;
         flex-direction: column;
@@ -122,70 +819,741 @@
         width: 100%;
         text-align: center;
         transition: 0.3s;
+        box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
         padding: 1rem 0;
         z-index: 100;
       }
-
+      
       .navbar-links.active {
         right: 0;
       }
-
+      
       .menu-toggle {
         display: flex;
+      }
+      
+      .profile-name {
+        display: none;
+      }
+      
+      .profile-avatar {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
+      }
+      
+      .settings-tabs {
+        overflow-x: auto;
+      }
+      
+      .tab {
+        padding: 0.8rem 1rem;
+        white-space: nowrap;
+      }
+      
+      .transaction-history th,
+      .transaction-history td {
+        padding: 0.6rem;
+        font-size: 0.9rem;
+      }
+      
+      .transaction-history th:nth-child(3),
+      .transaction-history td:nth-child(3) {
+        display: none;
+      }
+    }
+
+    @media screen and (max-width: 480px) {
+      .transaction-history th:nth-child(4),
+      .transaction-history td:nth-child(4) {
+        display: none;
+      }
+      
+      .receipt-row {
+        flex-direction: column;
+        margin-bottom: 1rem;
+      }
+      
+      .receipt-label,
+      .receipt-value {
+        width: 100%;
+      }
+      
+      .receipt-label {
+        margin-bottom: 0.3rem;
       }
     }
   </style>
 </head>
 <body>
-
-  <!-- Navbar -->
+  <!-- Navigation Bar -->
   <nav class="navbar">
     <div class="navbar-logo">
       <a href="../../index.html">Capstone Project - Kelompok B</a>
     </div>
     <div class="menu-toggle" onclick="toggleMenu()">
-      <span></span><span></span><span></span>
+      <span></span>
+      <span></span>
+      <span></span>
     </div>
     <div class="navbar-links" id="navbarLinks">
-      <a href="../../index.html" class="navbar-link">Dashboard</a>
-      <a href="profile.html" class="navbar-link">Profil Saya</a>
-      <a href="kelas-saya.html" class="navbar-link">Kelas Saya</a>
-      <a href="pengaturan.html" class="navbar-link">Pengaturan</a>
+      <!-- Profile will be shown when logged in -->
+      <div id="profile-section">
+        <div class="profile-container" onclick="toggleProfileMenu(event)">
+          <div class="profile-avatar" id="profile-avatar">U</div>
+          <span class="profile-name" id="profile-name">Username</span>
+          <div class="profile-menu" id="profile-menu">
+            <a href="../../index.html" class="profile-menu-item">Dashboard</a>
+            <a href="profile.html" class="profile-menu-item">Profil Saya</a>
+            <a href="kelas-saya.html" class="profile-menu-item">Kelas Saya</a>
+            <a href="pengaturan.html" class="profile-menu-item">Pengaturan</a>
+            <div class="profile-menu-item" onclick="showLogoutConfirmation()">Logout</div>
+          </div>
+        </div>
+      </div>
     </div>
   </nav>
+  
+  <!-- Mobile Menu Overlay -->
+  <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+  
+  <!-- Mobile Menu Panel -->
+  <div class="mobile-menu-panel" id="mobileMenuPanel">
+    <div class="mobile-menu-header">
+      <div class="mobile-menu-title">Menu</div>
+      <button class="mobile-menu-close" onclick="toggleMobileMenu()">&times;</button>
+    </div>
+    
+    <!-- User Info Section (only visible when logged in) -->
+    <div class="mobile-user-info" id="mobileUserInfo">
+      <div class="mobile-user-avatar" id="mobileUserAvatar">U</div>
+      <div class="mobile-user-details">
+        <div class="mobile-user-name" id="mobileUserName">Username</div>
+        <div class="mobile-user-email" id="mobileUserEmail">user@example.com</div>
+      </div>
+    </div>
+    
+    <!-- Menu Items -->
+    <ul class="mobile-menu-list">
+      <li class="mobile-menu-item">
+        <a href="../../index.html" class="mobile-menu-link">
+          <span class="mobile-menu-icon">🏠</span>
+          Dashboard
+        </a>
+      </li>
+      <li class="mobile-menu-item">
+        <a href="profile.html" class="mobile-menu-link">
+          <span class="mobile-menu-icon">👤</span>
+          Profil Saya
+        </a>
+      </li>
+      <li class="mobile-menu-item">
+        <a href="kelas-saya.html" class="mobile-menu-link">
+          <span class="mobile-menu-icon">📚</span>
+          Kelas Saya
+        </a>
+      </li>
+      <li class="mobile-menu-item">
+        <a href="pengaturan.html" class="mobile-menu-link">
+          <span class="mobile-menu-icon">⚙️</span>
+          Pengaturan
+        </a>
+      </li>
+      <li class="mobile-menu-item">
+        <a href="javascript:void(0)" onclick="showLogoutConfirmation()" class="mobile-menu-link">
+          <span class="mobile-menu-icon">🚪</span>
+          Logout
+        </a>
+      </li>
+    </ul>
+  </div>
 
-  <!-- Main content -->
+  <!-- Logout Confirmation Modal -->
+  <div id="logout-confirm" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-title">Yakin ingin Keluar?</div>
+      <div class="modal-buttons">
+        <button class="btn btn-secondary" onclick="hideLogoutConfirmation()">Tidak</button>
+        <button class="btn btn-logout" onclick="confirmLogout()">Ya</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
   <div class="container">
-    <h2>Pengaturan Akun</h2>
-    <form>
-      <div class="setting-item">
-        <label for="username">Nama Lengkap</label>
-        <input type="text" id="username" value="xi">
+    <h2>Pengaturan</h2>
+    
+    <div class="settings-tabs">
+      <div class="tab active" onclick="switchTab('transaction-tab')">Riwayat Transaksi</div>
+      <div class="tab" onclick="switchTab('account-tab')">Akun</div>
+      <div class="tab" onclick="switchTab('notification-tab')">Notifikasi</div>
+    </div>
+    
+    <!-- Transaction History Tab -->
+    <div id="transaction-tab" class="tab-content active">
+      <!-- If there are transactions, show this -->
+      <table class="transaction-history">
+        <thead>
+          <tr>
+            <th>ID Transaksi</th>
+            <th>Tanggal</th>
+            <th>Kursus</th>
+            <th>Metode Pembayaran</th>
+            <th>Total</th>
+            <th>Status</th>
+            <th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>#INV-001245</td>
+            <td>15 Apr 2025</td>
+            <td>Android untuk Pemula sampai Mahir</td>
+            <td>BCA Virtual Account</td>
+            <td>Rp 75.000</td>
+            <td><span class="status completed">Selesai</span></td>
+            <td><a href="javascript:void(0)" onclick="showReceipt('INV-001245')" class="transaction-action">Lihat Detail</a></td>
+          </tr>
+          <tr>
+            <td>#INV-001230</td>
+            <td>10 Apr 2025</td>
+            <td>Belajar HTML & CSS untuk Pemula sampai Mahir</td>
+            <td>OVO</td>
+            <td>Rp 25.000</td>
+            <td><span class="status completed">Selesai</span></td>
+            <td><a href="javascript:void(0)" onclick="showReceipt('INV-001230')" class="transaction-action">Lihat Detail</a></td>
+          </tr>
+          <tr>
+            <td>#INV-001185</td>
+            <td>1 Apr 2025</td>
+            <td>Belajar HTTP untuk Pemula</td>
+            <td>DANA</td>
+            <td>Rp 35.000</td>
+            <td><span class="status completed">Selesai</span></td>
+            <td><a href="javascript:void(0)" onclick="showReceipt('INV-001185')" class="transaction-action">Lihat Detail</a></td>
+          </tr>
+          <tr>
+            <td>#INV-001120</td>
+            <td>25 Mar 2025</td>
+            <td>Belajar Basis Data</td>
+            <td>Kartu Kredit</td>
+            <td>Rp 50.000</td>
+            <td><span class="status completed">Selesai</span></td>
+            <td><a href="javascript:void(0)" onclick="showReceipt('INV-001120')" class="transaction-action">Lihat Detail</a></td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <!-- If there are no transactions, show this empty state -->
+      <div class="empty-state" style="display: none;">
+        <div class="empty-icon">📋</div>
+        <div class="empty-text">Belum ada riwayat transaksi</div>
+        <div class="empty-subtext">Mulai belajar dengan mendaftar di salah satu kursus kami</div>
+        <a href="../../index.html" class="btn-browse">Browse Kursus</a>
       </div>
-
-      <div class="setting-item">
-        <label for="email">Email</label>
-        <input type="email" id="email" value="febiebi1502@gmail.com">
+    </div>
+    
+    <!-- Account Settings Tab -->
+    <div id="account-tab" class="tab-content">
+      <div class="settings-card">
+        <h3 class="settings-card-title">Informasi Pribadi</h3>
+        <div class="form-group">
+          <label class="form-label">Nama Lengkap</label>
+          <input type="text" class="form-input" value="User Name" id="fullname">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-input" value="user@example.com" id="email" readonly>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Nomor Telepon</label>
+          <input type="tel" class="form-input" value="08123456789" id="phone">
+        </div>
+        <div class="form-actions">
+          <button class="btn btn-cancel">Batal</button>
+          <button class="btn btn-save" onclick="saveAccountChanges()">Simpan Perubahan</button>
+        </div>
       </div>
-
-      <div class="setting-item">
-        <label for="password">Ubah Password</label>
-        <input type="password" id="password" placeholder="********">
+      
+      <div class="settings-card">
+        <h3 class="settings-card-title">Keamanan</h3>
+        <div class="form-group">
+          <label class="form-label">Password Lama</label>
+          <input type="password" class="form-input" id="old-password">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password Baru</label>
+          <input type="password" class="form-input" id="new-password">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Konfirmasi Password</label>
+          <input type="password" class="form-input" id="confirm-password">
+        </div>
+        <div class="form-actions">
+          <button class="btn btn-cancel">Batal</button>
+          <button class="btn btn-save" onclick="changePassword()">Ubah Password</button>
+        </div>
       </div>
+    </div>
+    
+    <!-- Notifications Tab -->
+    <div id="notification-tab" class="tab-content">
+      <div class="settings-card">
+        <h3 class="settings-card-title">Preferensi Email</h3>
+        
+        <div class="notification-option">
+          <div>
+            <div class="notification-label">Promosi dan Penawaran</div>
+            <div class="notification-desc">Dapatkan informasi tentang diskon dan penawaran spesial</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+        
+        <div class="notification-option">
+          <div>
+            <div class="notification-label">Materi Pembelajaran Baru</div>
+            <div class="notification-desc">Pemberitahuan saat ada konten baru pada kursus yang diikuti</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+        
+        <div class="notification-option">
+          <div>
+            <div class="notification-label">Pengumuman Sistem</div>
+            <div class="notification-desc">Informasi penting tentang akun dan perubahan sistem</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+      
+      <div class="settings-card">
+        <h3 class="settings-card-title">Notifikasi Browser</h3>
+        
+        <div class="notification-option">
+          <div>
+            <div class="notification-label">Pengingat Pembelajaran</div>
+            <div class="notification-desc">Pengingat untuk melanjutkan pembelajaran</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox">
+            <span class="slider"></span>
+          </label>
+        </div>
+        
+        <div class="notification-option">
+          <div>
+            <div class="notification-label">Feedback dari Instruktur</div>
+            <div class="notification-desc">Pemberitahuan saat instruktur memberikan feedback</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+      
+      <div class="form-actions">
+        <button class="btn btn-save" onclick="saveNotificationSettings()">Simpan Pengaturan</button>
+      </div>
+    </div>
+  </div>
 
-      <button type="submit" class="btn">Simpan Perubahan</button>
-    </form>
+  <!-- Receipt Modal -->
+  <div id="receipt-modal" class="receipt-modal">
+    <div class="receipt-content">
+      <div class="receipt-header">
+        <div class="receipt-title">Detail Transaksi</div>
+        <div class="receipt-close" onclick="hideReceipt()">&times;</div>
+      </div>
+      
+      <div class="receipt-details">
+        <div class="receipt-row">
+          <div class="receipt-label">ID Transaksi</div>
+          <div class="receipt-value" id="receipt-id">#INV-001245</div>
+        </div>
+        <div class="receipt-row">
+          <div class="receipt-label">Tanggal</div>
+          <div class="receipt-value" id="receipt-date">15 April 2025, 14:30 WIB</div>
+        </div>
+        <div class="receipt-row">
+          <div class="receipt-label">Status</div>
+          <div class="receipt-value" id="receipt-status">Pembayaran Berhasil</div>
+        </div>
+      </div>
+      
+      <div class="receipt-divider"></div>
+      
+      <div class="receipt-details">
+        <div class="receipt-row">
+          <div class="receipt-label">Produk</div>
+          <div class="receipt-value">
+            <div class="receipt-product">
+              <div class="receipt-product-name" id="receipt-product-name">Android untuk Pemula sampai Mahir</div>
+              <div class="receipt-product-price" id="receipt-product-price">Rp 75.000</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="receipt-divider"></div>
+      
+      <div class="receipt-details">
+        <div class="receipt-row">
+          <div class="receipt-label">Metode Pembayaran</div>
+          <div class="receipt-value" id="receipt-payment-method">BCA Virtual Account</div>
+        </div>
+        <div class="receipt-row">
+          <div class="receipt-label">Nomor VA</div>
+          <div class="receipt-value" id="receipt-payment-detail">8277081234567890</div>
+        </div>
+      </div>
+      
+      <div class="receipt-total">
+        <div>Total Pembayaran</div>
+        <div id="receipt-total">Rp 75.000</div>
+      </div>
+      
+      <div class="receipt-print">
+        <button class="btn-print" onclick="printReceipt()">
+          Cetak Invoice
+        </button>
+      </div>
+    </div>
   </div>
 
   <!-- Footer -->
   <footer class="footer">
-    <p>© 2025 Capstone Project - Kelompok B</p>
+    <div class="footer-container">
+      <div class="footer-copyright">
+        © 2025 Capstone Project - Kelompok B
+      </div>
+      <div class="footer-links">
+        <div class="footer-links-column">
+          <a href="#" class="footer-link social-link">
+            <img src="../../assets/logo/youtube.jpg" alt="Youtube" class="social-logo">
+            Youtube
+          </a>
+          <a href="#" class="footer-link social-link">
+            <img src="../../assets/logo/instagram.jpg" alt="Instagram" class="social-logo">
+            Instagram
+          </a>
+          <a href="#" class="footer-link social-link">
+            <img src="../../assets/logo/facebook.jpg" alt="Facebook" class="social-logo">
+            Facebook
+          </a>
+        </div>
+        <div class="footer-links-column">
+          <a href="#" class="footer-link">Terms of Use</a>
+          <a href="#" class="footer-link">Privacy Policy</a>
+        </div>
+      </div>
+    </div>
   </footer>
 
   <script>
+    // Function to toggle the mobile menu button animation
     function toggleMenu() {
-      document.getElementById("navbarLinks").classList.toggle("active");
+      const menuToggle = document.querySelector(".menu-toggle");
+      menuToggle.classList.toggle("active");
+      
+      // Toggle mobile menu
+      toggleMobileMenu();
     }
+    
+    // Function to toggle the mobile menu slide panel
+    function toggleMobileMenu() {
+      const mobileMenuPanel = document.getElementById("mobileMenuPanel");
+      const mobileMenuOverlay = document.getElementById("mobileMenuOverlay");
+      
+      mobileMenuPanel.classList.toggle("active");
+      mobileMenuOverlay.classList.toggle("active");
+      
+      // Prevent body scrolling when menu is open
+      if (mobileMenuPanel.classList.contains("active")) {
+        document.body.style.overflow = "hidden";
+      } else {
+        document.body.style.overflow = "";
+      }
+    }
+    
+    // Function to toggle the profile menu
+    function toggleProfileMenu(event) {
+      // Prevent event from bubbling up to document
+      if (event) {
+        event.stopPropagation();
+      }
+      
+      const profileMenu = document.getElementById("profile-menu");
+      profileMenu.classList.toggle("active");
+    }
+    
+    // Logout confirmation modal functions
+    function showLogoutConfirmation() {
+      const confirmDialog = document.getElementById('logout-confirm');
+      confirmDialog.classList.add('active');
+      document.body.classList.add('modal-open');
+      
+      // Close mobile menu if open
+      const mobileMenuPanel = document.getElementById("mobileMenuPanel");
+      if (mobileMenuPanel.classList.contains("active")) {
+        toggleMobileMenu();
+      }
+    }
+
+    function hideLogoutConfirmation() {
+      const confirmDialog = document.getElementById('logout-confirm');
+      confirmDialog.classList.remove('active');
+      document.body.classList.remove('modal-open');
+    }
+
+    function confirmLogout() {
+      // Clear session storage
+      sessionStorage.removeItem('isLoggedIn');
+      sessionStorage.removeItem('userEmail');
+      sessionStorage.removeItem('userName');
+      sessionStorage.removeItem('userLocation');
+      sessionStorage.removeItem('userBio');
+      sessionStorage.removeItem('profileImage');
+      
+      // Redirect to index
+      window.location.href = '../../index.html';
+    }
+    
+    // Function to switch between tabs
+    function switchTab(tabId) {
+      // Hide all tab contents
+      const tabContents = document.querySelectorAll('.tab-content');
+      tabContents.forEach(content => {
+        content.classList.remove('active');
+      });
+      
+      // Deactivate all tabs
+      const tabs = document.querySelectorAll('.tab');
+      tabs.forEach(tab => {
+        tab.classList.remove('active');
+      });
+      
+      // Activate the selected tab and its content
+      document.getElementById(tabId).classList.add('active');
+      document.querySelector(`.tab[onclick="switchTab('${tabId}')"]`).classList.add('active');
+    }
+    
+    // Function to show receipt modal
+    function showReceipt(invoiceId) {
+      // In a real application, you would fetch transaction details from the server
+      // For demo purposes, we'll just update the receipt based on the invoice ID
+      
+      let productName, productPrice, paymentMethod, paymentDetail, date;
+      
+      switch(invoiceId) {
+        case 'INV-001245':
+          productName = 'Android untuk Pemula sampai Mahir';
+          productPrice = 'Rp 75.000';
+          paymentMethod = 'BCA Virtual Account';
+          paymentDetail = '8277081234567890';
+          date = '15 April 2025, 14:30 WIB';
+          break;
+        case 'INV-001230':
+          productName = 'Belajar HTML & CSS untuk Pemula sampai Mahir';
+          productPrice = 'Rp 25.000';
+          paymentMethod = 'OVO';
+          paymentDetail = '08123456789';
+          date = '10 April 2025, 09:15 WIB';
+          break;
+        case 'INV-001185':
+          productName = 'Belajar HTTP untuk Pemula';
+          productPrice = 'Rp 35.000';
+          paymentMethod = 'DANA';
+          paymentDetail = '08123456789';
+          date = '1 April 2025, 16:45 WIB';
+          break;
+        case 'INV-001120':
+          productName = 'Belajar Basis Data';
+          productPrice = 'Rp 50.000';
+          paymentMethod = 'Kartu Kredit';
+          paymentDetail = '**** **** **** 1234';
+          date = '25 Maret 2025, 11:20 WIB';
+          break;
+      }
+      
+      // Update receipt details
+      document.getElementById('receipt-id').textContent = '#' + invoiceId;
+      document.getElementById('receipt-date').textContent = date;
+      document.getElementById('receipt-product-name').textContent = productName;
+      document.getElementById('receipt-product-price').textContent = productPrice;
+      document.getElementById('receipt-payment-method').textContent = paymentMethod;
+      document.getElementById('receipt-payment-detail').textContent = paymentDetail;
+      document.getElementById('receipt-total').textContent = productPrice;
+      
+      // Show modal
+      const receiptModal = document.getElementById('receipt-modal');
+      receiptModal.style.display = 'flex';
+      document.body.style.overflow = 'hidden'; // Prevent scrolling
+    }
+    
+    // Function to hide receipt modal
+    function hideReceipt() {
+      const receiptModal = document.getElementById('receipt-modal');
+      receiptModal.style.display = 'none';
+      document.body.style.overflow = ''; // Enable scrolling
+    }
+    
+    // Function to print receipt
+    function printReceipt() {
+      window.print();
+    }
+    
+    // Function to save account changes
+    function saveAccountChanges() {
+      const fullname = document.getElementById('fullname').value;
+      const phone = document.getElementById('phone').value;
+      
+      // In a real application, you would send this data to the server
+      // For demo purposes, we'll just update the display name
+      
+      // Update profile name
+      const profileName = document.getElementById('profile-name');
+      const mobileUserName = document.getElementById('mobileUserName');
+      
+      if (profileName) profileName.textContent = fullname;
+      if (mobileUserName) mobileUserName.textContent = fullname;
+      
+      // Update session storage
+      sessionStorage.setItem('userName', fullname);
+      
+      // Show success message
+      alert('Informasi akun berhasil diperbarui!');
+    }
+    
+    // Function to change password
+    function changePassword() {
+      const oldPassword = document.getElementById('old-password').value;
+      const newPassword = document.getElementById('new-password').value;
+      const confirmPassword = document.getElementById('confirm-password').value;
+      
+      // Validate inputs
+      if (!oldPassword || !newPassword || !confirmPassword) {
+        alert('Semua field password harus diisi!');
+        return;
+      }
+      
+      if (newPassword !== confirmPassword) {
+        alert('Password baru dan konfirmasi password tidak cocok!');
+        return;
+      }
+      
+      // In a real application, you would verify the old password and update with the new one
+      // For demo purposes, we'll just show a success message
+      
+      // Clear password fields
+      document.getElementById('old-password').value = '';
+      document.getElementById('new-password').value = '';
+      document.getElementById('confirm-password').value = '';
+      
+      // Show success message
+      alert('Password berhasil diubah!');
+    }
+    
+    // Function to save notification settings
+    function saveNotificationSettings() {
+      // In a real application, you would send the settings to the server
+      // For demo purposes, we'll just show a success message
+      alert('Pengaturan notifikasi berhasil disimpan!');
+    }
+
+    // Close profile menu when clicking outside
+    document.addEventListener('click', function(e) {
+      const profileMenu = document.getElementById("profile-menu");
+      const profileContainer = document.querySelector(".profile-container");
+      
+      if (profileMenu && profileContainer) {
+        if (!profileContainer.contains(e.target)) {
+          profileMenu.classList.remove("active");
+        }
+      }
+      
+      // Close modals when clicking outside
+      const modals = document.querySelectorAll('.modal-overlay');
+      modals.forEach(modal => {
+        const modalContent = modal.querySelector('.modal-content');
+        if (modal.classList.contains('active')) {
+          if (e.target === modal && modalContent && !modalContent.contains(e.target)) {
+            modal.classList.remove('active');
+            document.body.classList.remove('modal-open');
+          }
+        }
+      });
+      
+      // Close receipt modal when clicking outside
+      const receiptModal = document.getElementById('receipt-modal');
+      const receiptContent = document.querySelector('.receipt-content');
+      if (receiptModal && receiptModal.style.display === 'flex') {
+        if (e.target === receiptModal && !receiptContent.contains(e.target)) {
+          hideReceipt();
+        }
+      }
+    });
+    
+    // Close overlay events
+    document.getElementById("mobileMenuOverlay").addEventListener("click", toggleMobileMenu);
+
+    // Check login status when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      const isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
+      const userName = sessionStorage.getItem('userName');
+      const userEmail = sessionStorage.getItem('userEmail');
+      
+      if (isLoggedIn && userName && userEmail) {
+        // Set user name in header
+        const profileName = document.getElementById('profile-name');
+        const profileAvatar = document.getElementById('profile-avatar');
+        const mobileUserName = document.getElementById('mobileUserName');
+        const mobileUserEmail = document.getElementById('mobileUserEmail');
+        const mobileUserAvatar = document.getElementById('mobileUserAvatar');
+        
+        if (profileName) profileName.textContent = userName;
+        if (mobileUserName) mobileUserName.textContent = userName;
+        if (mobileUserEmail) mobileUserEmail.textContent = userEmail;
+        
+        // Set avatar initial (first letter of user's name)
+        if (profileAvatar) profileAvatar.textContent = userName.charAt(0).toUpperCase();
+        if (mobileUserAvatar) mobileUserAvatar.textContent = userName.charAt(0).toUpperCase();
+        
+        // Set form values in account tab
+        document.getElementById('fullname').value = userName;
+        document.getElementById('email').value = userEmail;
+        
+        // Check if there's a stored profile image
+        const storedImage = sessionStorage.getItem('profileImage');
+        if (storedImage) {
+          if (profileAvatar) {
+            profileAvatar.style.backgroundImage = `url(${storedImage})`;
+            profileAvatar.style.backgroundSize = 'cover';
+            profileAvatar.style.backgroundPosition = 'center';
+            profileAvatar.textContent = '';
+          }
+          
+          if (mobileUserAvatar) {
+            mobileUserAvatar.style.backgroundImage = `url(${storedImage})`;
+            mobileUserAvatar.style.backgroundSize = 'cover';
+            mobileUserAvatar.style.backgroundPosition = 'center';
+            mobileUserAvatar.textContent = '';
+          }
+        }
+      } else {
+        // Redirect to login if not logged in
+        window.location.href = '../../login.html';
+      }
+    });
   </script>
 </body>
 </html>
