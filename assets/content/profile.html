@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profil Saya - Capstone Project - Kelompok B</title>
+    <!-- Add Font Awesome for eye icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -507,6 +509,126 @@
                 width: 100%;
             }
         }
+
+        /* New styles for profile editing */
+        .form-input.editable {
+            background-color: #f0f7ff;
+            border: 1px solid #4267B2;
+        }
+
+        #profile-photo-upload {
+            margin-top: 10px;
+        }
+
+        /* Password visibility toggle */
+        .password-container {
+            position: relative;
+        }
+
+        .eye-icon {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #666;
+        }
+
+        /* Modal styles for confirmation dialogs */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .modal-open {
+            overflow: hidden;
+        }
+
+        /* Additional responsive improvements */
+        @media screen and (max-width: 480px) {
+            .profile-card {
+                padding: 1rem;
+            }
+            
+            .profile-image {
+                width: 100px;
+                height: 100px;
+                font-size: 2.5rem;
+            }
+            
+            .profile-user-name {
+                font-size: 1.3rem;
+            }
+            
+            .form-input {
+                font-size: 16px; /* Prevents zoom on mobile when focusing input fields */
+            }
+            
+            .stat-card {
+                padding: 0.7rem;
+            }
+            
+            .stat-value {
+                font-size: 1.2rem;
+            }
+            
+            .stat-label {
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Edit mode styles */
+        .editing-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
     </style>
 </head>
 <body>
@@ -531,7 +653,7 @@
                         <a href="profile.html" class="profile-menu-item">Profil Saya</a>
                         <a href="kelas-saya.html" class="profile-menu-item">Kelas Saya</a>
                         <a href="pengaturan.html" class="profile-menu-item">Pengaturan</a>
-                        <div class="profile-menu-item" onclick="logout()">Logout</div>
+                        <div class="profile-menu-item" onclick="showLogoutConfirmation()">Logout</div>
                     </div>
                 </div>
             </div>
@@ -548,13 +670,22 @@
                 <div class="profile-card">
                     <div class="profile-info">
                         <div class="profile-image" id="profile-big-avatar">U</div>
+                        <div id="profile-photo-upload" style="display: none;">
+                            <label for="profile-photo-input" class="btn btn-secondary" style="cursor: pointer; font-size: 0.9rem;">
+                                Upload Photo
+                            </label>
+                            <input id="profile-photo-input" type="file" accept="image/*" 
+                                style="display: none;" onchange="handleProfilePhotoUpload(event)">
+                        </div>
                         <h2 class="profile-user-name" id="profile-user-name">Username</h2>
                         <p class="profile-user-email" id="profile-user-email">user@example.com</p>
                     </div>
                     
                     <div class="profile-actions">
-                        <a href="pengaturan.html" class="btn btn-secondary">Edit Profil</a>
-                        <button onclick="logout()" class="btn btn-logout">Logout</button>
+                        <button id="edit-profile-btn" onclick="enableProfileEditing()" class="btn btn-secondary">Edit Profil</button>
+                        <button id="save-profile-btn" onclick="showSaveConfirmation()" class="btn btn-primary" style="display: none;">Save Changes</button>
+                        <button id="cancel-edit-btn" onclick="showCancelConfirmation()" class="btn btn-secondary" style="display: none; background-color: #757575;">Cancel</button>
+                        <button onclick="showLogoutConfirmation()" class="btn btn-logout">Logout</button>
                     </div>
                     
                     <div class="profile-stats">
@@ -599,6 +730,31 @@
                             <div class="form-group">
                                 <label class="form-label">Bio</label>
                                 <textarea class="form-input" rows="3" readonly>Web developer with a passion for learning new technologies.</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Password Change Section (hidden by default) with eye icons -->
+                    <div class="profile-section" id="password-change-section" style="display: none;">
+                        <h3 class="profile-section-title">Change Password</h3>
+                        <div class="profile-form">
+                            <div class="form-group">
+                                <label class="form-label">New Password</label>
+                                <div class="password-container">
+                                    <input type="password" id="new-password" class="form-input">
+                                    <span class="eye-icon" onclick="togglePasswordVisibility('new-password')">
+                                        <i class="fas fa-eye"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Confirm Password</label>
+                                <div class="password-container">
+                                    <input type="password" id="confirm-password" class="form-input">
+                                    <span class="eye-icon" onclick="togglePasswordVisibility('confirm-password')">
+                                        <i class="fas fa-eye"></i>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -692,70 +848,360 @@
         </div>
     </footer>
 
+    <!-- Confirmation Modals -->
+    <!-- Logout Confirmation Modal -->
+    <div id="logout-confirm" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-title">Yakin ingin Keluar?</div>
+            <div class="modal-buttons">
+                <button class="btn btn-secondary" onclick="hideLogoutConfirmation()">Tidak</button>
+                <button class="btn btn-logout" onclick="confirmLogout()">Ya</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Save Changes Confirmation Modal -->
+    <div id="save-confirm" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-title">Simpan Perubahan?</div>
+            <div class="modal-buttons">
+                <button class="btn btn-secondary" onclick="hideSaveConfirmation()">Tidak</button>
+                <button class="btn btn-primary" onclick="saveProfileChanges()">Ya</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cancel Changes Confirmation Modal -->
+    <div id="cancel-confirm" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-title">Batal melakukan perubahan?</div>
+            <div class="modal-buttons">
+                <button class="btn btn-secondary" onclick="hideCancelConfirmation()">Tidak</button>
+                <button class="btn btn-logout" onclick="cancelProfileEditing()">Ya</button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        function toggleMenu() {
-            const navbarLinks = document.getElementById("navbarLinks");
-            navbarLinks.classList.toggle("active");
+    // Store original values for cancel functionality
+    let originalValues = {
+        name: '',
+        location: '',
+        bio: ''
+    };
+
+    function toggleMenu() {
+        const navbarLinks = document.getElementById("navbarLinks");
+        navbarLinks.classList.toggle("active");
+    }
+
+    function toggleProfileMenu() {
+        const profileMenu = document.getElementById("profile-menu");
+        profileMenu.classList.toggle("active");
+    }
+
+    // Toggle password visibility
+    function togglePasswordVisibility(passwordId) {
+        const passwordField = document.getElementById(passwordId);
+        const eyeIcon = document.querySelector(`#${passwordId} + .eye-icon i`);
+        
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text';
+            eyeIcon.classList.remove('fa-eye');
+            eyeIcon.classList.add('fa-eye-slash');
+        } else {
+            passwordField.type = 'password';
+            eyeIcon.classList.remove('fa-eye-slash');
+            eyeIcon.classList.add('fa-eye');
+        }
+    }
+
+    // Logout confirmation modal
+    function showLogoutConfirmation() {
+        const confirmDialog = document.getElementById('logout-confirm');
+        confirmDialog.classList.add('active');
+        document.body.classList.add('modal-open');
+    }
+
+    function hideLogoutConfirmation() {
+        const confirmDialog = document.getElementById('logout-confirm');
+        confirmDialog.classList.remove('active');
+        document.body.classList.remove('modal-open');
+    }
+
+    function confirmLogout() {
+        // Clear session storage
+        sessionStorage.removeItem('isLoggedIn');
+        sessionStorage.removeItem('userEmail');
+        sessionStorage.removeItem('userName');
+        sessionStorage.removeItem('userLocation');
+        sessionStorage.removeItem('userBio');
+        sessionStorage.removeItem('profileImage');
+        
+        // Redirect to index
+        window.location.href = '../../index.html';
+    }
+
+    // Save confirmation modal
+    function showSaveConfirmation() {
+        const confirmDialog = document.getElementById('save-confirm');
+        confirmDialog.classList.add('active');
+        document.body.classList.add('modal-open');
+    }
+
+    function hideSaveConfirmation() {
+        const confirmDialog = document.getElementById('save-confirm');
+        confirmDialog.classList.remove('active');
+        document.body.classList.remove('modal-open');
+    }
+
+    // Cancel confirmation modal
+    function showCancelConfirmation() {
+        const confirmDialog = document.getElementById('cancel-confirm');
+        confirmDialog.classList.add('active');
+        document.body.classList.add('modal-open');
+    }
+
+    function hideCancelConfirmation() {
+        const confirmDialog = document.getElementById('cancel-confirm');
+        confirmDialog.classList.remove('active');
+        document.body.classList.remove('modal-open');
+    }
+
+    function enableProfileEditing() {
+        // Get form inputs using more reliable selectors
+        const nameInput = document.querySelector('.form-group:nth-child(1) .form-input');
+        const locationInput = document.querySelector('.form-group:nth-child(3) .form-input');
+        const bioInput = document.querySelector('textarea.form-input');
+        
+        // Store original values for cancel functionality
+        originalValues.name = nameInput.value;
+        originalValues.location = locationInput.value;
+        originalValues.bio = bioInput.value;
+        
+        // Make inputs editable
+        nameInput.readOnly = false;
+        locationInput.readOnly = false;
+        bioInput.readOnly = false;
+        
+        // Show the save and cancel buttons, hide the edit button
+        document.getElementById('edit-profile-btn').style.display = 'none';
+        document.getElementById('save-profile-btn').style.display = 'block';
+        document.getElementById('cancel-edit-btn').style.display = 'block';
+        document.getElementById('profile-photo-upload').style.display = 'block';
+        document.getElementById('password-change-section').style.display = 'block';
+        
+        // Add visual indication that fields are editable
+        nameInput.classList.add('editable');
+        locationInput.classList.add('editable');
+        bioInput.classList.add('editable');
+    }
+
+    function cancelProfileEditing() {
+        // Get form inputs using more reliable selectors
+        const nameInput = document.querySelector('.form-group:nth-child(1) .form-input');
+        const locationInput = document.querySelector('.form-group:nth-child(3) .form-input');
+        const bioInput = document.querySelector('textarea.form-input');
+        const passwordInput = document.getElementById('new-password');
+        const confirmPasswordInput = document.getElementById('confirm-password');
+        
+        // Restore original values
+        nameInput.value = originalValues.name;
+        locationInput.value = originalValues.location;
+        bioInput.value = originalValues.bio;
+        
+        // Clear password fields
+        if (passwordInput) passwordInput.value = '';
+        if (confirmPasswordInput) confirmPasswordInput.value = '';
+        
+        // Make inputs readonly again
+        nameInput.readOnly = true;
+        locationInput.readOnly = true;
+        bioInput.readOnly = true;
+        
+        // Remove editable styling
+        nameInput.classList.remove('editable');
+        locationInput.classList.remove('editable');
+        bioInput.classList.remove('editable');
+        
+        // Hide the save and cancel buttons, show the edit button
+        document.getElementById('edit-profile-btn').style.display = 'block';
+        document.getElementById('save-profile-btn').style.display = 'none';
+        document.getElementById('cancel-edit-btn').style.display = 'none';
+        document.getElementById('profile-photo-upload').style.display = 'none';
+        document.getElementById('password-change-section').style.display = 'none';
+        
+        // Hide the confirmation dialog
+        hideCancelConfirmation();
+    }
+
+    function saveProfileChanges() {
+        // Get form inputs using more reliable selectors
+        const nameInput = document.querySelector('.form-group:nth-child(1) .form-input');
+        const locationInput = document.querySelector('.form-group:nth-child(3) .form-input');
+        const bioInput = document.querySelector('textarea.form-input');
+        const passwordInput = document.getElementById('new-password');
+        const confirmPasswordInput = document.getElementById('confirm-password');
+        
+        // Validate password if changed
+        if (passwordInput.value) {
+            if (passwordInput.value !== confirmPasswordInput.value) {
+                alert('Passwords do not match!');
+                hideSaveConfirmation();
+                return;
+            }
+            // Here you would typically update the password in your backend
+            // For this demo, we'll just clear the fields
+            passwordInput.value = '';
+            confirmPasswordInput.value = '';
         }
         
-        function toggleProfileMenu() {
-            const profileMenu = document.getElementById("profile-menu");
-            profileMenu.classList.toggle("active");
+        // Make inputs readonly again
+        nameInput.readOnly = true;
+        locationInput.readOnly = true;
+        bioInput.readOnly = true;
+        
+        // Remove editable styling
+        nameInput.classList.remove('editable');
+        locationInput.classList.remove('editable');
+        bioInput.classList.remove('editable');
+        
+        // Update user information in session storage
+        sessionStorage.setItem('userName', nameInput.value);
+        sessionStorage.setItem('userLocation', locationInput.value);
+        sessionStorage.setItem('userBio', bioInput.value);
+        
+        // Update displayed name
+        document.getElementById('profile-user-name').textContent = nameInput.value;
+        document.getElementById('profile-name').textContent = nameInput.value;
+        
+        // Update avatar initials (if no image has been set)
+        if (!sessionStorage.getItem('profileImage')) {
+            const firstInitial = nameInput.value.charAt(0).toUpperCase();
+            document.getElementById('profile-avatar').textContent = firstInitial;
+            document.getElementById('profile-big-avatar').textContent = firstInitial;
         }
         
-        function logout() {
-            // Clear session storage
-            sessionStorage.removeItem('isLoggedIn');
-            sessionStorage.removeItem('userEmail');
-            sessionStorage.removeItem('userName');
-            
-            // Redirect to index
-            window.location.href = '../../index.html';
+        // Hide the save and cancel buttons, show the edit button
+        document.getElementById('edit-profile-btn').style.display = 'block';
+        document.getElementById('save-profile-btn').style.display = 'none';
+        document.getElementById('cancel-edit-btn').style.display = 'none';
+        document.getElementById('profile-photo-upload').style.display = 'none';
+        document.getElementById('password-change-section').style.display = 'none';
+        
+        // Hide the confirmation dialog
+        hideSaveConfirmation();
+        
+        // Show success message
+        alert('Profile updated successfully!');
+    }
+
+    function handleProfilePhotoUpload(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                // Update both profile images with the uploaded photo
+                const profileBigAvatar = document.getElementById('profile-big-avatar');
+                const profileAvatar = document.getElementById('profile-avatar');
+                
+                // Create and style a replacement image element for the big avatar
+                profileBigAvatar.style.backgroundImage = `url(${e.target.result})`;
+                profileBigAvatar.style.backgroundSize = 'cover';
+                profileBigAvatar.style.backgroundPosition = 'center';
+                profileBigAvatar.textContent = '';
+                
+                // Same for small avatar
+                profileAvatar.style.backgroundImage = `url(${e.target.result})`;
+                profileAvatar.style.backgroundSize = 'cover';
+                profileAvatar.style.backgroundPosition = 'center';
+                profileAvatar.textContent = '';
+                
+                // Store the image in sessionStorage (as base64)
+                sessionStorage.setItem('profileImage', e.target.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    // Close profile menu when clicking outside
+    window.addEventListener('click', function(e) {
+        const profileMenu = document.getElementById("profile-menu");
+        const profileContainer = document.querySelector(".profile-container");
+        
+        if (profileMenu && profileContainer) {
+            if (!profileContainer.contains(e.target)) {
+                profileMenu.classList.remove("active");
+            }
         }
         
-        // Close profile menu when clicking outside
-        window.addEventListener('click', function(e) {
-            const profileMenu = document.getElementById("profile-menu");
-            const profileContainer = document.querySelector(".profile-container");
-            
-            if (profileMenu && profileContainer) {
-                if (!profileContainer.contains(e.target)) {
-                    profileMenu.classList.remove("active");
+        // Close modals when clicking outside
+        const modals = document.querySelectorAll('.modal-overlay');
+        modals.forEach(modal => {
+            const modalContent = modal.querySelector('.modal-content');
+            if (modal.classList.contains('active')) {
+                if (e.target === modal && !modalContent.contains(e.target)) {
+                    modal.classList.remove('active');
+                    document.body.classList.remove('modal-open');
                 }
             }
         });
+    });
+
+    // Check login status when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        const isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
+        const userName = sessionStorage.getItem('userName');
+        const userEmail = sessionStorage.getItem('userEmail');
+        const userLocation = sessionStorage.getItem('userLocation');
+        const userBio = sessionStorage.getItem('userBio');
         
-        // Check login status when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            const isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
-            const userName = sessionStorage.getItem('userName');
-            const userEmail = sessionStorage.getItem('userEmail');
+        if (isLoggedIn && userName && userEmail) {
+            // Set user name in all places
+            const profileName = document.getElementById('profile-name');
+            const profileAvatar = document.getElementById('profile-avatar');
+            const profileBigAvatar = document.getElementById('profile-big-avatar');
+            const profileUserName = document.getElementById('profile-user-name');
+            const profileUserEmail = document.getElementById('profile-user-email');
             
-            if (isLoggedIn && userName && userEmail) {
-                // Set user name in all places
-                const profileName = document.getElementById('profile-name');
-                const profileAvatar = document.getElementById('profile-avatar');
+            if (profileName) profileName.textContent = userName;
+            if (profileAvatar) profileAvatar.textContent = userName.charAt(0).toUpperCase();
+            if (profileBigAvatar) profileBigAvatar.textContent = userName.charAt(0).toUpperCase();
+            if (profileUserName) profileUserName.textContent = userName;
+            if (profileUserEmail) profileUserEmail.textContent = userEmail;
+            
+            // Update form fields
+            const nameInput = document.querySelector('.form-group:nth-child(1) .form-input');
+            const emailInput = document.querySelector('.form-group:nth-child(2) .form-input');
+            const locationInput = document.querySelector('.form-group:nth-child(3) .form-input');
+            const bioInput = document.querySelector('textarea.form-input');
+            
+            if (nameInput) nameInput.value = userName;
+            if (emailInput) emailInput.value = userEmail;
+            if (userLocation && locationInput) locationInput.value = userLocation;
+            if (userBio && bioInput) bioInput.value = userBio;
+            
+            // Check if there's a stored profile image
+            const storedImage = sessionStorage.getItem('profileImage');
+            if (storedImage) {
                 const profileBigAvatar = document.getElementById('profile-big-avatar');
-                const profileUserName = document.getElementById('profile-user-name');
-                const profileUserEmail = document.getElementById('profile-user-email');
+                const profileAvatar = document.getElementById('profile-avatar');
                 
-                if (profileName) profileName.textContent = userName;
-                if (profileAvatar) profileAvatar.textContent = userName.charAt(0).toUpperCase();
-                if (profileBigAvatar) profileBigAvatar.textContent = userName.charAt(0).toUpperCase();
-                if (profileUserName) profileUserName.textContent = userName;
-                if (profileUserEmail) profileUserEmail.textContent = userEmail;
+                profileBigAvatar.style.backgroundImage = `url(${storedImage})`;
+                profileBigAvatar.style.backgroundSize = 'cover';
+                profileBigAvatar.style.backgroundPosition = 'center';
+                profileBigAvatar.textContent = '';
                 
-                // Update form fields
-                const nameInput = document.querySelector('input[value="User Name"]');
-                const emailInput = document.querySelector('input[value="user@example.com"]');
-                
-                if (nameInput) nameInput.value = userName;
-                if (emailInput) emailInput.value = userEmail;
-            } else {
-                // Redirect to login if not logged in
-                window.location.href = '../../login.html';
+                profileAvatar.style.backgroundImage = `url(${storedImage})`;
+                profileAvatar.style.backgroundSize = 'cover';
+                profileAvatar.style.backgroundPosition = 'center';
+                profileAvatar.textContent = '';
             }
-        });
+        } else {
+            // Redirect to login if not logged in
+            window.location.href = '../../login.html';
+        }
+    });
     </script>
 </body>
 </html>
