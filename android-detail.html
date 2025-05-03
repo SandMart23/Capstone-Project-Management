@@ -53,6 +53,7 @@
             display: none;
             flex-direction: column;
             cursor: pointer;
+            z-index: 102;
         }
         
         .menu-toggle span {
@@ -61,6 +62,19 @@
             background-color: white;
             margin-bottom: 4px;
             border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+        
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
         }
         
         .btn {
@@ -410,6 +424,135 @@
             background-color: #c2185b;
         }
 
+        /* Mobile Menu Overlay Styles */
+        .mobile-menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 50;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease;
+        }
+        
+        .mobile-menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        /* Mobile Menu Slide Panel - Slides from right */
+        .mobile-menu-panel {
+            position: fixed;
+            top: 0;
+            right: -280px; /* Initial position off-screen */
+            width: 280px;
+            height: 100%;
+            background-color: #fff;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+            transition: right 0.3s ease;
+            overflow-y: auto;
+        }
+        
+        .mobile-menu-panel.active {
+            right: 0; /* Slides in when active */
+        }
+        
+        .mobile-menu-header {
+            background-color: #4267B2;
+            color: white;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .mobile-menu-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .mobile-menu-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+        
+        .mobile-menu-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .mobile-menu-item {
+            border-bottom: 1px solid #eee;
+        }
+        
+        .mobile-menu-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            color: #333;
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+        
+        .mobile-menu-link:hover,
+        .mobile-menu-link:active {
+            background-color: #f5f5f5;
+        }
+        
+        .mobile-menu-icon {
+            font-size: 1.2rem;
+            width: 20px;
+            text-align: center;
+        }
+        
+        /* User Info in Mobile Menu */
+        .mobile-user-info {
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .mobile-user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #4267B2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        .mobile-user-details {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .mobile-user-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #333;
+        }
+        
+        .mobile-user-email {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
         /* Media Queries for Responsiveness */
         @media screen and (min-width: 768px) {
             .navbar {
@@ -455,6 +598,11 @@
                 flex-direction: row;
                 justify-content: space-between;
             }
+            
+            .mobile-menu-overlay,
+            .mobile-menu-panel {
+                display: none;
+            }
         }
         
         @media screen and (max-width: 767px) {
@@ -496,6 +644,16 @@
             .material {
                 padding: 1rem 0;
             }
+            
+            .profile-name {
+                display: none;
+            }
+            
+            .profile-avatar {
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
@@ -505,7 +663,7 @@
         <div class="navbar-logo">
             <a href="index.html">Capstone Project - Kelompok B</a>
         </div>
-        <div class="menu-toggle" onclick="toggleMenu()">
+        <div class="menu-toggle" id="menu-toggle">
             <span></span>
             <span></span>
             <span></span>
@@ -535,6 +693,72 @@
             </div>
         </div>
     </nav>
+    
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+    
+    <!-- Mobile Menu Panel -->
+    <div class="mobile-menu-panel" id="mobileMenuPanel">
+        <div class="mobile-menu-header">
+            <div class="mobile-menu-title">Menu</div>
+            <button class="mobile-menu-close" onclick="toggleMobileMenu()">&times;</button>
+        </div>
+        
+        <!-- User Info Section (only visible when logged in) -->
+        <div class="mobile-user-info" id="mobileUserInfo" style="display: none;">
+            <div class="mobile-user-avatar" id="mobileUserAvatar">U</div>
+            <div class="mobile-user-details">
+                <div class="mobile-user-name" id="mobileUserName">Username</div>
+                <div class="mobile-user-email" id="mobileUserEmail">user@example.com</div>
+            </div>
+        </div>
+        
+        <!-- Menu Items -->
+        <ul class="mobile-menu-list">
+            <li class="mobile-menu-item">
+                <a href="index.html" class="mobile-menu-link">
+                    <span class="mobile-menu-icon">🏠</span>
+                    Dashboard
+                </a>
+            </li>
+            <li class="mobile-menu-item">
+                <a href="pages/user/profile.html" class="mobile-menu-link">
+                    <span class="mobile-menu-icon">👤</span>
+                    Profil Saya
+                </a>
+            </li>
+            <li class="mobile-menu-item">
+                <a href="pages/user/kelas-saya.html" class="mobile-menu-link">
+                    <span class="mobile-menu-icon">📚</span>
+                    Kelas Saya
+                </a>
+            </li>
+            <li class="mobile-menu-item">
+                <a href="pages/user/pengaturan.html" class="mobile-menu-link">
+                    <span class="mobile-menu-icon">⚙️</span>
+                    Pengaturan
+                </a>
+            </li>
+            <li class="mobile-menu-item" id="logoutMenuItem" style="display: none;">
+                <a href="javascript:void(0)" onclick="showLogoutConfirmation()" class="mobile-menu-link">
+                    <span class="mobile-menu-icon">🚪</span>
+                    Logout
+                </a>
+            </li>
+            <li class="mobile-menu-item" id="loginMenuItem">
+                <a href="login.html" class="mobile-menu-link">
+                    <span class="mobile-menu-icon">🔑</span>
+                    Login
+                </a>
+            </li>
+            <li class="mobile-menu-item" id="signupMenuItem">
+                <a href="signup.html" class="mobile-menu-link">
+                    <span class="mobile-menu-icon">✏️</span>
+                    Sign Up
+                </a>
+            </li>
+        </ul>
+    </div>
 
     <!-- Main Content -->
     <div class="container">
@@ -695,11 +919,30 @@
             </div>
         </div>
     </div>
-
     <script>
+        // Function to toggle the mobile menu button animation
         function toggleMenu() {
-            const navbarLinks = document.getElementById("navbarLinks");
-            navbarLinks.classList.toggle("active");
+            const menuToggle = document.getElementById("menu-toggle");
+            menuToggle.classList.toggle("active");
+            
+            // Toggle mobile menu
+            toggleMobileMenu();
+        }
+        
+        // Function to toggle the mobile menu slide panel
+        function toggleMobileMenu() {
+            const mobileMenuPanel = document.getElementById("mobileMenuPanel");
+            const mobileMenuOverlay = document.getElementById("mobileMenuOverlay");
+            
+            mobileMenuPanel.classList.toggle("active");
+            mobileMenuOverlay.classList.toggle("active");
+            
+            // Prevent body scrolling when menu is open
+            if (mobileMenuPanel.classList.contains("active")) {
+                document.body.style.overflow = "hidden";
+            } else {
+                document.body.style.overflow = "";
+            }
         }
         
         function toggleProfileMenu(event) {
@@ -717,14 +960,20 @@
             const confirmDialog = document.getElementById('logout-confirm');
             confirmDialog.classList.add('active');
             document.body.classList.add('modal-open');
+            
+            // Close mobile menu if open
+            const mobileMenuPanel = document.getElementById("mobileMenuPanel");
+            if (mobileMenuPanel.classList.contains("active")) {
+                toggleMobileMenu();
+            }
         }
-
+    
         function hideLogoutConfirmation() {
             const confirmDialog = document.getElementById('logout-confirm');
             confirmDialog.classList.remove('active');
             document.body.classList.remove('modal-open');
         }
-
+    
         function confirmLogout() {
             // Clear session storage
             sessionStorage.removeItem('isLoggedIn');
@@ -744,18 +993,18 @@
             loginModal.classList.add('active');
             document.body.classList.add('modal-open');
         }
-
+    
         function hideLoginRequiredModal() {
             const loginModal = document.getElementById('login-required-modal');
             loginModal.classList.remove('active');
             document.body.classList.remove('modal-open');
         }
-
+    
         function redirectToLogin() {
             hideLoginRequiredModal();
             window.location.href = 'login.html';
         }
-
+    
         function redirectToSignup() {
             hideLoginRequiredModal();
             window.location.href = 'signup.html';
@@ -793,15 +1042,15 @@
             modals.forEach(modal => {
                 const modalContent = modal.querySelector('.modal-content');
                 if (modal.classList.contains('active')) {
-                    if (e.target === modal && !modalContent.contains(e.target)) {
+                    if (e.target === modal && modalContent && !modalContent.contains(e.target)) {
                         modal.classList.remove('active');
                         document.body.classList.remove('modal-open');
                     }
                 }
             });
         });
-
-        // Check login status when page loads
+    
+        // Check login status and initialize page when DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
             const isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
             const userName = sessionStorage.getItem('userName');
@@ -809,6 +1058,15 @@
             
             const authLinks = document.getElementById('auth-links');
             const profileSection = document.getElementById('profile-section');
+            
+            // Update mobile menu based on login status
+            const mobileUserInfo = document.getElementById("mobileUserInfo");
+            const mobileUserName = document.getElementById("mobileUserName");
+            const mobileUserEmail = document.getElementById("mobileUserEmail");
+            const mobileUserAvatar = document.getElementById("mobileUserAvatar");
+            const logoutMenuItem = document.getElementById("logoutMenuItem");
+            const loginMenuItem = document.getElementById("loginMenuItem");
+            const signupMenuItem = document.getElementById("signupMenuItem");
             
             if (isLoggedIn && userName && userEmail) {
                 // User is logged in
@@ -834,6 +1092,28 @@
                     }
                 }
                 
+                // Update mobile menu for logged in user
+                if (mobileUserInfo) {
+                    mobileUserInfo.style.display = "flex";
+                    mobileUserName.textContent = userName;
+                    mobileUserEmail.textContent = userEmail;
+                    mobileUserAvatar.textContent = userName.charAt(0).toUpperCase();
+                    
+                    // Show logout, hide login/signup in mobile menu
+                    logoutMenuItem.style.display = "block";
+                    loginMenuItem.style.display = "none";
+                    signupMenuItem.style.display = "none";
+                    
+                    // Check for profile image in mobile menu
+                    const storedImage = sessionStorage.getItem('profileImage');
+                    if (storedImage && mobileUserAvatar) {
+                        mobileUserAvatar.style.backgroundImage = `url(${storedImage})`;
+                        mobileUserAvatar.style.backgroundSize = 'cover';
+                        mobileUserAvatar.style.backgroundPosition = 'center';
+                        mobileUserAvatar.textContent = '';
+                    }
+                }
+                
                 // Update buy button to "continue learning" if user is already enrolled
                 const buyButton = document.querySelector('.buy-button');
                 if (buyButton) {
@@ -843,12 +1123,35 @@
                     buyButton.classList.remove('buy-button');
                     buyButton.classList.add('btn', 'btn-primary');
                     buyButton.href = 'assets/content/pembayaran.html'; // Link to payment page
-                    
                 }
             } else {
                 // User is not logged in
                 authLinks.style.display = 'flex';
                 profileSection.style.display = 'none';
+                
+                // Update mobile menu for guest user
+                if (mobileUserInfo) {
+                    mobileUserInfo.style.display = "none";
+                    
+                    // Hide logout, show login/signup in mobile menu
+                    logoutMenuItem.style.display = "none";
+                    loginMenuItem.style.display = "block";
+                    signupMenuItem.style.display = "block";
+                }
+            }
+            
+            // Set up event listeners
+            
+            // Menu toggle button
+            const menuToggle = document.getElementById('menu-toggle');
+            if (menuToggle) {
+                menuToggle.addEventListener('click', toggleMenu);
+            }
+            
+            // Mobile menu overlay for closing
+            const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+            if (mobileMenuOverlay) {
+                mobileMenuOverlay.addEventListener('click', toggleMobileMenu);
             }
             
             // Add event listener to buy button
@@ -869,5 +1172,5 @@
             });
         });
     </script>
-</body>
-</html>
+    </body>
+    </html>
