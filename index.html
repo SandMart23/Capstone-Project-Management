@@ -1253,315 +1253,401 @@
     </footer>
 
     <script>
-        // Function to toggle the mobile menu button animation
-        function toggleMenu() {
-            const menuToggle = document.querySelector(".menu-toggle");
-            menuToggle.classList.toggle("active");
-            
-            // Toggle mobile menu
+    // Function to toggle the mobile menu button animation
+    function toggleMenu() {
+        const menuToggle = document.querySelector(".menu-toggle");
+        menuToggle.classList.toggle("active");
+        
+        // Toggle mobile menu
+        toggleMobileMenu();
+    }
+
+    // Function to toggle the mobile menu slide panel
+    function toggleMobileMenu() {
+        const mobileMenuPanel = document.getElementById("mobileMenuPanel");
+        const mobileMenuOverlay = document.getElementById("mobileMenuOverlay");
+        
+        mobileMenuPanel.classList.toggle("active");
+        mobileMenuOverlay.classList.toggle("active");
+        
+        // Prevent body scrolling when menu is open
+        if (mobileMenuPanel.classList.contains("active")) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "";
+        }
+    }
+
+    // Function to toggle the profile menu
+    function toggleProfileMenu(event) {
+        // Prevent event from bubbling up to document
+        if (event) {
+            event.stopPropagation();
+        }
+        
+        const profileMenu = document.getElementById("profile-menu");
+        
+        // Toggle the menu visibility
+        profileMenu.classList.toggle("active");
+    }
+
+    // Logout confirmation modal functions
+    function showLogoutConfirmation() {
+        const confirmDialog = document.getElementById('logout-confirm');
+        confirmDialog.classList.add('active');
+        document.body.classList.add('modal-open');
+        
+        // Close mobile menu if open
+        const mobileMenuPanel = document.getElementById("mobileMenuPanel");
+        if (mobileMenuPanel.classList.contains("active")) {
             toggleMobileMenu();
         }
-        
-        // Function to toggle the mobile menu slide panel
-        function toggleMobileMenu() {
-            const mobileMenuPanel = document.getElementById("mobileMenuPanel");
-            const mobileMenuOverlay = document.getElementById("mobileMenuOverlay");
-            
-            mobileMenuPanel.classList.toggle("active");
-            mobileMenuOverlay.classList.toggle("active");
-            
-            // Prevent body scrolling when menu is open
-            if (mobileMenuPanel.classList.contains("active")) {
-                document.body.style.overflow = "hidden";
-            } else {
-                document.body.style.overflow = "";
-            }
-        }
-        
-        // Function to toggle the profile menu
-        function toggleProfileMenu(event) {
-            // Prevent event from bubbling up to document
-            if (event) {
-                event.stopPropagation();
-            }
-            
-            const profileMenu = document.getElementById("profile-menu");
-            
-            // Toggle the menu visibility
-            profileMenu.classList.toggle("active");
-        }
-        
-        // Logout confirmation modal functions
-        function showLogoutConfirmation() {
-            const confirmDialog = document.getElementById('logout-confirm');
-            confirmDialog.classList.add('active');
-            document.body.classList.add('modal-open');
-            
-            // Close mobile menu if open
-            const mobileMenuPanel = document.getElementById("mobileMenuPanel");
-            if (mobileMenuPanel.classList.contains("active")) {
-                toggleMobileMenu();
-            }
-        }
+    }
 
-        function hideLogoutConfirmation() {
-            const confirmDialog = document.getElementById('logout-confirm');
-            confirmDialog.classList.remove('active');
-            document.body.classList.remove('modal-open');
-        }
+    function hideLogoutConfirmation() {
+        const confirmDialog = document.getElementById('logout-confirm');
+        confirmDialog.classList.remove('active');
+        document.body.classList.remove('modal-open');
+    }
 
-        function confirmLogout() {
-            // Clear session storage
-            sessionStorage.removeItem('isLoggedIn');
-            sessionStorage.removeItem('userEmail');
-            sessionStorage.removeItem('userName');
-            sessionStorage.removeItem('userLocation');
-            sessionStorage.removeItem('userBio');
-            sessionStorage.removeItem('profileImage');
-            
-            // Redirect to index
-            window.location.href = 'index.html';
-        }
+    function confirmLogout() {
+        // Clear session storage
+        sessionStorage.removeItem('isLoggedIn');
+        sessionStorage.removeItem('userEmail');
+        sessionStorage.removeItem('userName');
+        sessionStorage.removeItem('userLocation');
+        sessionStorage.removeItem('userBio');
+        sessionStorage.removeItem('profileImage');
         
-        // Function to add staggered animations to course cards
-        function addStaggeredAnimations() {
-            // Get all course cards
-            const courseCards = document.querySelectorAll('.course-card');
-            
-            // Add animation class and delay to each card
-            courseCards.forEach((card, index) => {
-                // Add the animation class
-                card.classList.add('course-animate');
-                
-                // Set a staggered delay based on the card index
-                card.style.animationDelay = `${0.2 * index}s`;
-            });
-        }
+        // Redirect to index
+        window.location.href = 'index.html';
+    }
 
-        // Function to add a loading animation
-        function addLoadingAnimation() {
-            // Create loading overlay
-            const loadingOverlay = document.createElement('div');
-            loadingOverlay.className = 'loading-overlay';
+    // Function to add staggered animations to course cards
+    function addStaggeredAnimations() {
+        // Get all course cards
+        const courseCards = document.querySelectorAll('.course-card');
+        
+        // Add animation class and delay to each card
+        courseCards.forEach((card, index) => {
+            // Add the animation class
+            card.classList.add('course-animate');
             
-            // Create loading spinner
-            const loadingSpinner = document.createElement('div');
-            loadingSpinner.className = 'loading-spinner';
-            
-            // Append elements
-            loadingOverlay.appendChild(loadingSpinner);
-            document.body.appendChild(loadingOverlay);
-            
-            // Remove loading overlay after content loads
-            window.addEventListener('load', () => {
+            // Set a staggered delay based on the card index
+            card.style.animationDelay = `${0.2 * index}s`;
+        });
+    }
+
+    // Function to add a loading animation
+    function addLoadingAnimation() {
+        // Create loading overlay
+        const loadingOverlay = document.createElement('div');
+        loadingOverlay.className = 'loading-overlay';
+        
+        // Create loading spinner
+        const loadingSpinner = document.createElement('div');
+        loadingSpinner.className = 'loading-spinner';
+        
+        // Append elements
+        loadingOverlay.appendChild(loadingSpinner);
+        document.body.appendChild(loadingOverlay);
+        
+        // Remove loading overlay after content loads
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                loadingOverlay.style.opacity = '0';
                 setTimeout(() => {
-                    loadingOverlay.style.opacity = '0';
-                    setTimeout(() => {
-                        loadingOverlay.remove();
-                    }, 500);
-                }, 800); // Show loading for at least 800ms
-            });
-        }
+                    loadingOverlay.remove();
+                }, 500);
+            }, 800); // Show loading for at least 800ms
+        });
+    }
 
-        // Function to add pulse animation to the profile avatar
-        function addProfileAnimation() {
-            const profileAvatar = document.getElementById('profile-avatar');
-            if (profileAvatar) {
-                // Add a subtle pulse animation when the page loads
-                profileAvatar.style.animation = 'pulse 2s ease infinite';
-            }
+    // Function to add pulse animation to the profile avatar
+    function addProfileAnimation() {
+        const profileAvatar = document.getElementById('profile-avatar');
+        if (profileAvatar) {
+            // Add a subtle pulse animation when the page loads
+            profileAvatar.style.animation = 'pulse 2s ease infinite';
         }
+    }
+
+    // Function to search products
+    function searchProducts() {
+        const searchInput = document.querySelector('.search-input');
+        const courses = document.querySelectorAll('.course-card');
+        const noResults = document.getElementById('no-results');
+        const searchTerm = searchInput.value.toLowerCase().trim();
         
-        // Function to search products
-        function searchProducts() {
-            const searchInput = document.querySelector('.search-input');
-            const courses = document.querySelectorAll('.course-card');
-            const noResults = document.getElementById('no-results');
-            const searchTerm = searchInput.value.toLowerCase().trim();
-            
-            let foundResults = false;
-            
-            // Loop through all courses and show/hide based on search term
-            courses.forEach(course => {
-                const courseTitle = course.querySelector('.course-title').textContent.toLowerCase();
-                const courseDescription = course.querySelector('.course-description').textContent.toLowerCase();
-                
-                // Check if course title or description contains the search term
-                if (courseTitle.includes(searchTerm) || courseDescription.includes(searchTerm)) {
-                    // Show this course
-                    course.style.display = 'block';
-                    foundResults = true;
-                    
-                    // Apply animation if not already animated
-                    if (!course.classList.contains('course-animate')) {
-                        course.classList.add('course-animate');
-                        setTimeout(() => {
-                            course.classList.remove('course-animate');
-                        }, 500);
-                    }
-                } else {
-                    // Hide this course
-                    course.style.display = 'none';
-                }
-            });
-            
-            // Show/hide no results message
-            if (searchTerm !== '' && !foundResults) {
-                noResults.style.display = 'block';
-            } else {
-                noResults.style.display = 'none';
-            }
-        }
+        let foundResults = false;
         
-        // Function to filter by category
-        function filterByCategory(category) {
-            const searchInput = document.querySelector('.search-input');
-            searchInput.value = category;
-            searchProducts();
-        }
-        
-        // Check login status and initialize page when DOM is loaded
-        document.addEventListener('DOMContentLoaded', function() {
-            const isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
-            const userName = sessionStorage.getItem('userName');
-            const userEmail = sessionStorage.getItem('userEmail');
+        // Loop through all courses and show/hide based on search term
+        courses.forEach(course => {
+            const courseTitle = course.querySelector('.course-title').textContent.toLowerCase();
+            const courseDescription = course.querySelector('.course-description').textContent.toLowerCase();
             
-            const authLinks = document.getElementById('auth-links');
-            const profileSection = document.getElementById('profile-section');
-            const profileName = document.getElementById('profile-name');
-            const profileAvatar = document.getElementById('profile-avatar');
-            
-            // Update mobile menu based on login status
-            const mobileUserInfo = document.getElementById("mobileUserInfo");
-            const mobileUserName = document.getElementById("mobileUserName");
-            const mobileUserEmail = document.getElementById("mobileUserEmail");
-            const mobileUserAvatar = document.getElementById("mobileUserAvatar");
-            const logoutMenuItem = document.getElementById("logoutMenuItem");
-            const loginMenuItem = document.getElementById("loginMenuItem");
-            const signupMenuItem = document.getElementById("signupMenuItem");
-            
-            if (isLoggedIn && userName && userEmail) {
-                // User is logged in
-                authLinks.style.display = 'none';
-                profileSection.style.display = 'block';
+            // Check if course title or description contains the search term
+            if (courseTitle.includes(searchTerm) || courseDescription.includes(searchTerm)) {
+                // Show this course
+                course.style.display = 'block';
+                foundResults = true;
                 
-                // Set user name
-                profileName.textContent = userName;
-                
-                // Set avatar initial (first letter of user's name) or profile image
-                const storedImage = sessionStorage.getItem('profileImage');
-                if (storedImage) {
-                    profileAvatar.style.backgroundImage = `url(${storedImage})`;
-                    profileAvatar.style.backgroundSize = 'cover';
-                    profileAvatar.style.backgroundPosition = 'center';
-                    profileAvatar.textContent = '';
-                } else {
-                    profileAvatar.textContent = userName.charAt(0).toUpperCase();
-                }
-                
-                // Update mobile menu for logged in user
-                mobileUserInfo.style.display = "flex";
-                mobileUserName.textContent = userName;
-                mobileUserEmail.textContent = userEmail;
-                mobileUserAvatar.textContent = userName.charAt(0).toUpperCase();
-                
-                // Show logout, hide login/signup in mobile menu
-                logoutMenuItem.style.display = "block";
-                loginMenuItem.style.display = "none";
-                signupMenuItem.style.display = "none";
-                
-                // Check for profile image in mobile menu
-                if (storedImage && mobileUserAvatar) {
-                    mobileUserAvatar.style.backgroundImage = `url(${storedImage})`;
-                    mobileUserAvatar.style.backgroundSize = 'cover';
-                    mobileUserAvatar.style.backgroundPosition = 'center';
-                    mobileUserAvatar.textContent = '';
-                }
-            } else {
-                // User is not logged in
-                authLinks.style.display = 'block';
-                profileSection.style.display = 'none';
-                
-                // Update mobile menu for guest user
-                mobileUserInfo.style.display = "none";
-                
-                // Hide logout, show login/signup in mobile menu
-                logoutMenuItem.style.display = "none";
-                loginMenuItem.style.display = "block";
-                signupMenuItem.style.display = "block";
-            }
-            
-            // Close profile menu when clicking outside
-            document.addEventListener('click', function(e) {
-                const profileMenu = document.getElementById("profile-menu");
-                const profileContainer = document.querySelector(".profile-container");
-                
-                // If the menu is open and the click is outside the profile container
-                if (profileMenu && profileMenu.classList.contains('active') && 
-                    profileContainer && !profileContainer.contains(e.target)) {
-                    profileMenu.classList.remove("active");
-                }
-                
-                // Close modals when clicking outside
-                const modals = document.querySelectorAll('.modal-overlay');
-                modals.forEach(modal => {
-                    const modalContent = modal.querySelector('.modal-content');
-                    if (modal.classList.contains('active')) {
-                        if (e.target === modal && modalContent && !modalContent.contains(e.target)) {
-                            modal.classList.remove('active');
-                            document.body.classList.remove('modal-open');
-                        }
-                    }
-                });
-            });
-            
-            // Prevent menu from closing when clicking inside the menu
-            const profileMenu = document.getElementById("profile-menu");
-            if (profileMenu) {
-                profileMenu.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                });
-            }
-            
-            // Close overlay events
-            document.getElementById("mobileMenuOverlay").addEventListener("click", toggleMobileMenu);
-            
-            // Add search functionality
-            const searchInput = document.querySelector('.search-input');
-            if (searchInput) {
-                searchInput.addEventListener('input', searchProducts);
-            }
-            
-            // Add category filtering
-            const categoryItems = document.querySelectorAll('.category-item');
-            categoryItems.forEach(item => {
-                item.addEventListener('click', function() {
-                    filterByCategory(this.textContent);
-                });
-            });
-            
-            // Add staggered animations to course cards
-            addStaggeredAnimations();
-            
-            // Add loading animation
-            addLoadingAnimation();
-            
-            // Add profile animation
-            addProfileAnimation();
-            
-            // Add animation to search icon
-            const searchIcon = document.querySelector('.search-icon');
-            if (searchIcon) {
-                searchIcon.addEventListener('click', function() {
-                    const searchInput = document.querySelector('.search-input');
-                    searchInput.focus();
-                    this.style.animation = 'rotate 0.5s ease';
+                // Apply animation if not already animated
+                if (!course.classList.contains('course-animate')) {
+                    course.classList.add('course-animate');
                     setTimeout(() => {
-                        this.style.animation = '';
+                        course.classList.remove('course-animate');
                     }, 500);
-                });
+                }
+            } else {
+                // Hide this course
+                course.style.display = 'none';
             }
         });
+        
+        // Show/hide no results message
+        if (searchTerm !== '' && !foundResults) {
+            noResults.style.display = 'block';
+        } else {
+            noResults.style.display = 'none';
+        }
+    }
+
+    // Function to filter by category
+    function filterByCategory(category) {
+        const searchInput = document.querySelector('.search-input');
+        searchInput.value = category;
+        searchProducts();
+    }
+
+    // Function to extract price from price button text
+    function extractPrice(priceText) {
+        // Extract numbers from the text (e.g., "Rp. 75.000" -> 75000)
+        const matches = priceText.match(/\d+\.\d+|\d+/g);
+        if (matches && matches.length > 0) {
+            // Remove dots and convert to number
+            return parseInt(matches[0].replace(/\./g, ''));
+        }
+        return 0; // Default if no price found
+    }
+
+    // Function to sort products
+    function sortProducts() {
+        const sortSelect = document.querySelector('.sort-select');
+        const coursesGrid = document.querySelector('.courses-grid');
+        const courses = Array.from(document.querySelectorAll('.course-card'));
+        
+        // Get current sort option
+        const sortOption = sortSelect.value;
+        
+        // Sort courses based on selected option
+        courses.sort((a, b) => {
+            const titleA = a.querySelector('.course-title').textContent;
+            const titleB = b.querySelector('.course-title').textContent;
+            
+            const priceButtonA = a.querySelector('.course-price-button, .course-free-button');
+            const priceButtonB = b.querySelector('.course-price-button, .course-free-button');
+            
+            const priceA = priceButtonA ? extractPrice(priceButtonA.textContent) : 0;
+            const priceB = priceButtonB ? extractPrice(priceButtonB.textContent) : 0;
+            
+            switch (sortOption) {
+                case 'Name (A-Z)':
+                    return titleA.localeCompare(titleB);
+                case 'Name (Z-A)':
+                    return titleB.localeCompare(titleA);
+                case 'Price (Low to High)':
+                    return priceA - priceB;
+                case 'Price (High to Low)':
+                    return priceB - priceA;
+                default:
+                    return 0;
+            }
+        });
+        
+        // Remove all courses from grid
+        while (coursesGrid.firstChild) {
+            coursesGrid.removeChild(coursesGrid.firstChild);
+        }
+        
+        // Add sorted courses back to grid with animation
+        courses.forEach((course, index) => {
+            // Show only courses that are not hidden by search
+            if (course.style.display !== 'none') {
+                // Add animation with staggered delay
+                course.classList.add('course-animate');
+                course.style.animationDelay = `${0.1 * index}s`;
+                
+                // Add back to grid
+                coursesGrid.appendChild(course);
+                
+                // Remove animation class after animation completes
+                setTimeout(() => {
+                    course.classList.remove('course-animate');
+                }, 500 + (100 * index));
+            } else {
+                // Add hidden courses back to grid (they remain hidden)
+                coursesGrid.appendChild(course);
+            }
+        });
+    }
+
+    // Check login status and initialize page when DOM is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+        const isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
+        const userName = sessionStorage.getItem('userName');
+        const userEmail = sessionStorage.getItem('userEmail');
+        
+        const authLinks = document.getElementById('auth-links');
+        const profileSection = document.getElementById('profile-section');
+        const profileName = document.getElementById('profile-name');
+        const profileAvatar = document.getElementById('profile-avatar');
+        
+        // Update mobile menu based on login status
+        const mobileUserInfo = document.getElementById("mobileUserInfo");
+        const mobileUserName = document.getElementById("mobileUserName");
+        const mobileUserEmail = document.getElementById("mobileUserEmail");
+        const mobileUserAvatar = document.getElementById("mobileUserAvatar");
+        const logoutMenuItem = document.getElementById("logoutMenuItem");
+        const loginMenuItem = document.getElementById("loginMenuItem");
+        const signupMenuItem = document.getElementById("signupMenuItem");
+        
+        if (isLoggedIn && userName && userEmail) {
+            // User is logged in
+            authLinks.style.display = 'none';
+            profileSection.style.display = 'block';
+            
+            // Set user name
+            profileName.textContent = userName;
+            
+            // Set avatar initial (first letter of user's name) or profile image
+            const storedImage = sessionStorage.getItem('profileImage');
+            if (storedImage) {
+                profileAvatar.style.backgroundImage = `url(${storedImage})`;
+                profileAvatar.style.backgroundSize = 'cover';
+                profileAvatar.style.backgroundPosition = 'center';
+                profileAvatar.textContent = '';
+            } else {
+                profileAvatar.textContent = userName.charAt(0).toUpperCase();
+            }
+            
+            // Update mobile menu for logged in user
+            mobileUserInfo.style.display = "flex";
+            mobileUserName.textContent = userName;
+            mobileUserEmail.textContent = userEmail;
+            mobileUserAvatar.textContent = userName.charAt(0).toUpperCase();
+            
+            // Show logout, hide login/signup in mobile menu
+            logoutMenuItem.style.display = "block";
+            loginMenuItem.style.display = "none";
+            signupMenuItem.style.display = "none";
+            
+            // Check for profile image in mobile menu
+            if (storedImage && mobileUserAvatar) {
+                mobileUserAvatar.style.backgroundImage = `url(${storedImage})`;
+                mobileUserAvatar.style.backgroundSize = 'cover';
+                mobileUserAvatar.style.backgroundPosition = 'center';
+                mobileUserAvatar.textContent = '';
+            }
+        } else {
+            // User is not logged in
+            authLinks.style.display = 'block';
+            profileSection.style.display = 'none';
+            
+            // Update mobile menu for guest user
+            mobileUserInfo.style.display = "none";
+            
+            // Hide logout, show login/signup in mobile menu
+            logoutMenuItem.style.display = "none";
+            loginMenuItem.style.display = "block";
+            signupMenuItem.style.display = "block";
+        }
+        
+        // Close profile menu when clicking outside
+        document.addEventListener('click', function(e) {
+            const profileMenu = document.getElementById("profile-menu");
+            const profileContainer = document.querySelector(".profile-container");
+            
+            // If the menu is open and the click is outside the profile container
+            if (profileMenu && profileMenu.classList.contains('active') && 
+                profileContainer && !profileContainer.contains(e.target)) {
+                profileMenu.classList.remove("active");
+            }
+            
+            // Close modals when clicking outside
+            const modals = document.querySelectorAll('.modal-overlay');
+            modals.forEach(modal => {
+                const modalContent = modal.querySelector('.modal-content');
+                if (modal.classList.contains('active')) {
+                    if (e.target === modal && modalContent && !modalContent.contains(e.target)) {
+                        modal.classList.remove('active');
+                        document.body.classList.remove('modal-open');
+                    }
+                }
+            });
+        });
+        
+        // Prevent menu from closing when clicking inside the menu
+        const profileMenu = document.getElementById("profile-menu");
+        if (profileMenu) {
+            profileMenu.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        }
+        
+        // Close overlay events
+        document.getElementById("mobileMenuOverlay").addEventListener("click", toggleMobileMenu);
+        
+        // Add search functionality
+        const searchInput = document.querySelector('.search-input');
+        if (searchInput) {
+            searchInput.addEventListener('input', function() {
+                searchProducts();
+                // Re-sort products after search to maintain sort order
+                sortProducts();
+            });
+        }
+        
+        // Add sorting functionality
+        const sortSelect = document.querySelector('.sort-select');
+        if (sortSelect) {
+            sortSelect.addEventListener('change', sortProducts);
+            // Initial sort
+            sortProducts();
+        }
+        
+        // Add category filtering
+        const categoryItems = document.querySelectorAll('.category-item');
+        categoryItems.forEach(item => {
+            item.addEventListener('click', function() {
+                filterByCategory(this.textContent);
+                // Re-sort products after filtering to maintain sort order
+                sortProducts();
+            });
+        });
+        
+        // Add staggered animations to course cards
+        addStaggeredAnimations();
+        
+        // Add loading animation
+        addLoadingAnimation();
+        
+        // Add profile animation
+        addProfileAnimation();
+        
+        // Add animation to search icon
+        const searchIcon = document.querySelector('.search-icon');
+        if (searchIcon) {
+            searchIcon.addEventListener('click', function() {
+                const searchInput = document.querySelector('.search-input');
+                searchInput.focus();
+                this.style.animation = 'rotate 0.5s ease';
+                setTimeout(() => {
+                    this.style.animation = '';
+                }, 500);
+            });
+        }
+    });
     </script>
 </body>
 </html>
