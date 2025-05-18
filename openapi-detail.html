@@ -6,40 +6,68 @@
     <title>Belajar OpenAPI untuk Pemula - Capstone Project</title>
     <!-- Add Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Add Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-color: #4267B2;
+            --secondary-color: #4caf50;
+            --dark-color: #2c3e50;
+            --light-color: #f8f9fa;
+            --accent-color: #ff6b6b;
+            --text-color: #333;
+            --text-light: #666;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         }
         
         body {
-            background-color: #acd2f7;
+            background-color: #f0f4f8;
+            color: var(--text-color);
+            line-height: 1.6;
         }
         
+        /* Navigation Bar */
         .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: #4267B2;
+            background-color: var(--primary-color);
             color: white;
-            padding: 1rem;
+            padding: 1rem 2rem;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
         
         .navbar-logo {
-            font-size: 1.2rem;
-            font-weight: 500;
+            font-size: 1.3rem;
+            font-weight: 600;
         }
         
         .navbar-logo a {
             color: white;
             text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .navbar-logo i {
+            margin-right: 8px;
+            font-size: 1.2rem;
         }
         
         .navbar-links {
             display: flex;
-            gap: 1rem;
+            gap: 1.5rem;
             align-items: center;
         }
         
@@ -54,9 +82,9 @@
             height: 3px;
             width: 25px;
             background-color: white;
-            margin-bottom: 4px;
+            margin-bottom: 5px;
             border-radius: 3px;
-            transition: all 0.3s ease;
+            transition: var(--transition);
         }
         
         .menu-toggle.active span:nth-child(1) {
@@ -68,98 +96,184 @@
         }
         
         .menu-toggle.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(6px, -6px);
+            transform: rotate(-45deg) translate(7px, -7px);
         }
         
         .navbar-link {
             color: white;
             text-decoration: none;
             font-size: 1rem;
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 0.5rem 0;
+            position: relative;
+        }
+        
+        .navbar-link:hover {
+            opacity: 0.9;
+        }
+        
+        .navbar-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: white;
+            transition: var(--transition);
+        }
+        
+        .navbar-link:hover::after {
+            width: 100%;
         }
         
         .btn {
-            padding: 0.5rem 1rem;
-            border-radius: 0.25rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 0.3rem;
             cursor: pointer;
             font-size: 1rem;
             font-weight: 500;
             text-align: center;
             border: none;
             text-decoration: none;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn i {
+            margin-right: 8px;
         }
         
         .btn-primary {
             background-color: white;
-            color: #4267B2;
+            color: var(--primary-color);
         }
         
+        .btn-primary:hover {
+            background-color: #e6e6e6;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+        
+        /* Main Container */
         .container {
             max-width: 1200px;
-            margin: 0 auto;
-            padding: 1rem;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
         }
         
+        /* Course Header */
         .course-header {
             display: flex;
             flex-direction: column;
-            margin-bottom: 2rem;
-            gap: 1.5rem;
+            margin-bottom: 3rem;
+            gap: 2rem;
             align-items: center;
+            text-align: center;
+        }
+        
+        .course-logo-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
         
         .course-logo {
-            max-width: 100%;
+            width: 100%;
             height: auto;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+        
+        .course-logo-container:hover .course-logo {
+            transform: scale(1.05);
         }
         
         .course-title-container {
             width: 100%;
-            text-align: center;
         }
         
         .course-title {
-            font-size: 1.8rem;
+            font-size: 2rem;
             font-weight: 700;
             margin-bottom: 1rem;
-            color: #333;
+            color: var(--dark-color);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .course-title::after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 4px;
+            background-color: var(--secondary-color);
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
         }
         
         .course-description {
-            font-size: 1rem;
-            color: #555;
-            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
         }
         
         .buy-button {
             display: inline-block;
-            padding: 0.8rem 1.5rem;
-            background-color: #4caf50;
+            padding: 0.9rem 2rem;
+            background-color: var(--secondary-color);
             color: white;
             border-radius: 2rem;
             font-weight: 600;
             font-size: 1rem;
             text-decoration: none;
-            transition: background-color 0.3s;
-            text-align: center;
+            transition: var(--transition);
+            box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
         }
         
         .buy-button:hover {
             background-color: #388e3c;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(76, 175, 80, 0.4);
         }
         
+        .buy-button i {
+            margin-left: 8px;
+        }
+        
+        /* Course Content */
         .course-content {
             background-color: white;
-            border-radius: 0.5rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            padding: 1.5rem;
-            margin-bottom: 2rem;
+            border-radius: 0.8rem;
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            margin-bottom: 3rem;
+            border: 1px solid #e0e0e0;
         }
         
         .content-title {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             font-weight: 600;
-            margin-bottom: 1.5rem;
-            color: #333;
+            margin-bottom: 2rem;
+            color: var(--dark-color);
+            display: flex;
+            align-items: center;
+        }
+        
+        .content-title i {
+            margin-right: 12px;
+            color: var(--primary-color);
         }
         
         .materials-list {
@@ -167,8 +281,13 @@
         }
         
         .material-item {
-            padding: 1rem 0;
+            padding: 1.5rem 0;
             border-bottom: 1px solid #eee;
+            transition: var(--transition);
+        }
+        
+        .material-item:hover {
+            background-color: rgba(66, 103, 178, 0.03);
         }
         
         .material-item:last-child {
@@ -176,105 +295,170 @@
         }
         
         .material-header {
-            background-color: #f9f9f9;
-            padding: 1rem;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem 1.5rem;
             font-weight: 600;
             font-size: 1.2rem;
-            margin-bottom: 1rem;
-            border-radius: 0.25rem;
+            margin-bottom: 1.5rem;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 3px 5px rgba(66, 103, 178, 0.2);
+        }
+        
+        .material-header i {
+            margin-right: 10px;
         }
         
         .material {
             display: flex;
             flex-wrap: wrap;
             align-items: center;
-            padding: 0.8rem 0;
-            border-bottom: 1px solid #eee;
-            gap: 0.5rem;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            transition: var(--transition);
+            margin-bottom: 0.5rem;
+        }
+        
+        .material:hover {
+            background-color: rgba(76, 175, 80, 0.1);
         }
         
         .material:last-child {
-            border-bottom: none;
+            margin-bottom: 0;
         }
         
         .material-icon {
-            margin-right: 0.5rem;
-            font-size: 1.2rem;
-            color: #666;
+            margin-right: 1rem;
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            min-width: 30px;
+            text-align: center;
         }
         
         .material-title {
             flex: 1;
             min-width: 200px;
             font-size: 1rem;
-            color: #666;
+            color: var(--text-color);
+            font-weight: 500;
         }
         
         .material-duration {
             font-size: 0.9rem;
-            color: #999;
-            margin-right: 0.5rem;
+            color: var(--text-light);
+            margin-right: 1.5rem;
+            font-weight: 400;
         }
         
         .start-button {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            background-color: #4caf50;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.6rem 1.5rem;
+            background-color: var(--secondary-color);
             color: white;
-            border-radius: 0.25rem;
-            font-size: 0.9rem;
+            border-radius: 0.3rem;
+            font-size: 0.95rem;
             text-decoration: none;
             text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-weight: 500;
+            box-shadow: 0 2px 5px rgba(76, 175, 80, 0.2);
+        }
+        
+        .start-button:hover {
+            background-color: #388e3c;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+        }
+        
+        .start-button i {
+            margin-right: 8px;
         }
         
         /* Footer Styles */
         .footer {
-            background-color: #4267B2;
+            background-color: var(--dark-color);
             color: white;
-            padding: 2rem 0;
-            margin-top: 3rem;
+            padding: 3rem 0 2rem;
+            margin-top: 4rem;
         }
         
         .footer-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 1rem;
+            padding: 0 1.5rem;
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
+            gap: 2rem;
         }
         
         .footer-copyright {
             font-size: 1.1rem;
             font-weight: 500;
+            text-align: center;
+            opacity: 0.8;
         }
         
         .footer-links {
             display: flex;
             flex-wrap: wrap;
-            gap: 2rem;
+            gap: 3rem;
+            justify-content: center;
         }
         
         .footer-links-column {
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
+            gap: 1rem;
+            min-width: 150px;
+        }
+        
+        .footer-links-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        .footer-links-column h3::after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 2px;
+            background-color: var(--secondary-color);
+            bottom: 0;
+            left: 0;
         }
         
         .footer-link {
-            color: white;
+            color: rgba(255, 255, 255, 0.8);
             text-decoration: none;
-            font-size: 1rem;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
         }
         
         .footer-link:hover {
-            text-decoration: underline;
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        .footer-link i {
+            margin-right: 8px;
+            width: 20px;
+            text-align: center;
         }
         
         .social-link {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.8rem;
         }
     
         .social-logo {
@@ -288,28 +472,34 @@
         .profile-container {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.8rem;
             cursor: pointer;
             position: relative;
         }
         
         .profile-avatar {
-            width: 40px;
-            height: 40px;
+            width: 42px;
+            height: 42px;
             border-radius: 50%;
             background-color: #ddd;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            color: #4267B2;
+            color: var(--primary-color);
             font-size: 1.2rem;
             border: 2px solid white;
+            transition: var(--transition);
+        }
+        
+        .profile-container:hover .profile-avatar {
+            transform: scale(1.1);
         }
         
         .profile-name {
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             color: white;
+            font-weight: 500;
         }
         
         .profile-menu {
@@ -317,35 +507,48 @@
             top: 100%;
             right: 0;
             background-color: white;
-            border-radius: 0.25rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 0.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             padding: 0.5rem 0;
-            min-width: 150px;
+            min-width: 180px;
             z-index: 100;
             display: none;
+            overflow: hidden;
         }
         
         .profile-menu.active {
             display: block;
+            animation: fadeInDown 0.3s ease;
         }
         
         .profile-menu-item {
-            padding: 0.5rem 1rem;
-            font-size: 0.9rem;
-            color: #333;
+            padding: 0.7rem 1.2rem;
+            font-size: 0.95rem;
+            color: var(--text-color);
             cursor: pointer;
             display: block;
             text-decoration: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+        }
+        
+        .profile-menu-item i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
         }
         
         .profile-menu-item:hover {
             background-color: #f5f5f5;
+            color: var(--primary-color);
+            padding-left: 1.5rem;
         }
         
         /* Auth Links */
         #auth-links {
             display: flex;
-            gap: 1rem;
+            gap: 1.2rem;
             align-items: center;
         }
         
@@ -360,7 +563,7 @@
             z-index: 50;
             opacity: 0;
             visibility: hidden;
-            transition: opacity 0.3s ease;
+            transition: var(--transition);
         }
         
         .mobile-menu-overlay.active {
@@ -368,35 +571,38 @@
             visibility: visible;
         }
         
-        /* Mobile Menu Slide Panel - Slides from right */
+        /* Mobile Menu Slide Panel */
         .mobile-menu-panel {
             position: fixed;
             top: 0;
-            right: -280px; /* Initial position off-screen */
-            width: 280px;
+            right: -320px;
+            width: 300px;
             height: 100%;
             background-color: #fff;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
             z-index: 100;
-            transition: right 0.3s ease;
+            transition: right 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
             overflow-y: auto;
         }
         
         .mobile-menu-panel.active {
-            right: 0; /* Slides in when active */
+            right: 0;
         }
         
         .mobile-menu-header {
-            background-color: #4267B2;
+            background-color: var(--primary-color);
             color: white;
             padding: 1.5rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
         
         .mobile-menu-title {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             font-weight: 600;
         }
         
@@ -404,9 +610,14 @@
             background: none;
             border: none;
             color: white;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             cursor: pointer;
             padding: 0.5rem;
+            transition: var(--transition);
+        }
+        
+        .mobile-menu-close:hover {
+            transform: rotate(90deg);
         }
         
         .mobile-menu-list {
@@ -417,27 +628,34 @@
         
         .mobile-menu-item {
             border-bottom: 1px solid #eee;
+            transition: var(--transition);
+        }
+        
+        .mobile-menu-item:hover {
+            background-color: #f9f9f9;
         }
         
         .mobile-menu-link {
             display: flex;
             align-items: center;
             gap: 1rem;
-            padding: 1rem 1.5rem;
-            color: #333;
+            padding: 1.2rem 1.5rem;
+            color: var(--text-color);
             text-decoration: none;
-            transition: background-color 0.2s;
+            transition: var(--transition);
         }
         
         .mobile-menu-link:hover,
         .mobile-menu-link:active {
             background-color: #f5f5f5;
+            padding-left: 1.8rem;
         }
         
         .mobile-menu-icon {
             font-size: 1.2rem;
-            width: 20px;
+            width: 24px;
             text-align: center;
+            color: var(--primary-color);
         }
         
         /* User Info in Mobile Menu */
@@ -447,35 +665,44 @@
             align-items: center;
             gap: 1rem;
             border-bottom: 1px solid #eee;
+            background-color: #f9f9f9;
         }
         
         .mobile-user-avatar {
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
-            background-color: #4267B2;
+            background-color: var(--primary-color);
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
             color: white;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
+            flex-shrink: 0;
         }
         
         .mobile-user-details {
             display: flex;
             flex-direction: column;
+            overflow: hidden;
         }
         
         .mobile-user-name {
             font-weight: 600;
-            font-size: 1.1rem;
-            color: #333;
+            font-size: 1.2rem;
+            color: var(--text-color);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         
         .mobile-user-email {
             font-size: 0.9rem;
-            color: #666;
+            color: var(--text-light);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         /* Modal Overlay Styles */
@@ -489,10 +716,10 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 1000;
+            z-index: 2000;
             opacity: 0;
             visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
+            transition: var(--transition);
         }
 
         .modal-overlay.active {
@@ -502,13 +729,14 @@
 
         .modal-content {
             background-color: white;
-            border-radius: 8px;
-            padding: 20px;
+            border-radius: 10px;
+            padding: 25px;
             width: 90%;
-            max-width: 400px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            transform: translateY(-20px);
-            transition: transform 0.3s ease;
+            max-width: 450px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transform: translateY(-30px);
+            transition: var(--transition);
+            position: relative;
         }
 
         .modal-overlay.active .modal-content {
@@ -516,17 +744,24 @@
         }
 
         .modal-title {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             font-weight: 600;
             margin-bottom: 15px;
-            color: #333;
+            color: var(--dark-color);
+            display: flex;
+            align-items: center;
+        }
+
+        .modal-title i {
+            margin-right: 10px;
+            color: var(--primary-color);
         }
 
         .modal-buttons {
             display: flex;
             justify-content: flex-end;
-            gap: 10px;
-            margin-top: 20px;
+            gap: 12px;
+            margin-top: 25px;
         }
 
         .modal-open {
@@ -534,44 +769,325 @@
         }
         
         .btn-logout {
-            background-color: #f44336;
+            background-color: var(--accent-color);
             color: white;
-            transition: background-color 0.3s;
+            transition: var(--transition);
         }
         
         .btn-logout:hover {
-            background-color: #d32f2f;
+            background-color: #e05555;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(255, 107, 107, 0.3);
         }
         
         .btn-secondary {
-            background-color: #4caf50;
+            background-color: var(--secondary-color);
             color: white;
-            transition: background-color 0.3s;
+            transition: var(--transition);
         }
         
         .btn-secondary:hover {
             background-color: #388e3c;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+        }
+
+        /* Material Viewer Styles */
+        .material-viewer-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 3000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .material-viewer-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .material-viewer-container {
+            background-color: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 1000px;
+            max-height: 90vh;
+            overflow: hidden;
+            transform: scale(0.9);
+            transition: var(--transition);
+            position: relative;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .material-viewer-overlay.active .material-viewer-container {
+            transform: scale(1);
+        }
+
+        .material-viewer-header {
+            padding: 18px 25px;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .material-viewer-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+
+        .material-viewer-title i {
+            margin-right: 10px;
+        }
+
+        .material-viewer-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+            padding: 5px;
+            transition: var(--transition);
+        }
+
+        .material-viewer-close:hover {
+            transform: rotate(90deg);
+        }
+
+        .material-viewer-content {
+            padding: 20px;
+            overflow-y: auto;
+            max-height: calc(90vh - 60px);
+            scroll-behavior: smooth;
+        }
+
+        .slide-container {
+            margin-bottom: 40px;
+            text-align: center;
+            animation: fadeIn 0.5s ease-out;
+            padding: 10px;
+        }
+
+        .slide-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .slide-title::after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 3px;
+            background-color: var(--secondary-color);
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 3px;
+        }
+
+        .slide-image-container {
+            margin: 0 auto 20px;
+            max-width: 800px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .slide-image {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .slide-image-container:hover .slide-image {
+            transform: scale(1.03);
+        }
+
+        .slide-description {
+            font-size: 1.05rem;
+            color: var(--text-light);
+            line-height: 1.7;
+            margin-bottom: 25px;
+            text-align: left;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid var(--secondary-color);
+        }
+
+        .slide-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding: 15px 0;
+            border-top: 1px solid #eee;
+        }
+
+        .slide-nav-button {
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+
+        .slide-nav-button i {
+            margin-right: 8px;
+        }
+
+        .slide-nav-button:hover {
+            background-color: #365899;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(66, 103, 178, 0.3);
+        }
+
+        .slide-nav-button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .slide-indicator {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            align-self: center;
+            font-weight: 500;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Loading spinner */
+        .loader {
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+            border: 6px solid #f3f3f3;
+            border-top: 6px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 40px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Progress indicator */
+        .progress-container {
+            width: 100%;
+            height: 5px;
+            background-color: #f0f0f0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1001;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--secondary-color);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Floating action button */
+        .fab {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background-color: var(--secondary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+            cursor: pointer;
+            z-index: 100;
+            transition: var(--transition);
+            border: none;
+        }
+
+        .fab:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.5);
+        }
+
+        /* Badge for new content */
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            background-color: var(--accent-color);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-left: 8px;
+            vertical-align: middle;
         }
 
         /* Media Queries for Responsiveness */
-        @media screen and (min-width: 768px) {
+        @media screen and (min-width: 992px) {
             .navbar {
                 padding: 1rem 3rem;
             }
             
-            .navbar-links {
-                gap: 1.5rem;
+            .navbar-logo {
+                font-size: 1.4rem;
             }
             
             .course-header {
                 flex-direction: row;
-                gap: 2rem;
-                margin-bottom: 3rem;
+                gap: 3rem;
+                margin-bottom: 4rem;
                 text-align: left;
+                align-items: flex-start;
             }
             
-            .course-logo {
-                max-width: 300px;
+            .course-logo-container {
+                max-width: 350px;
+                flex-shrink: 0;
             }
             
             .course-title-container {
@@ -579,44 +1095,64 @@
             }
             
             .course-title {
-                font-size: 2rem;
+                font-size: 2.2rem;
+            }
+            
+            .course-title::after {
+                left: 0;
+                transform: none;
             }
             
             .course-description {
-                font-size: 1.1rem;
+                font-size: 1.15rem;
+                margin-left: 0;
+                margin-right: 0;
             }
             
             .course-content {
-                padding: 2rem;
+                padding: 2.5rem;
             }
             
             .material-item {
-                padding: 1rem;
+                padding: 1.5rem;
             }
             
             .footer-container {
                 flex-direction: row;
                 justify-content: space-between;
+                align-items: flex-start;
+            }
+            
+            .footer-copyright {
+                text-align: left;
+            }
+            
+            .footer-links {
+                justify-content: flex-end;
             }
             
             .mobile-menu-overlay,
             .mobile-menu-panel {
                 display: none;
             }
+
+            .material-viewer-container {
+                width: 85%;
+            }
         }
         
-        @media screen and (max-width: 767px) {
+        @media screen and (max-width: 991px) {
             .navbar-links {
                 position: fixed;
                 right: -100%;
                 top: 70px;
                 flex-direction: column;
-                background-color: #4267B2;
+                background-color: var(--primary-color);
                 width: 100%;
                 text-align: center;
-                transition: 0.3s;
+                transition: 0.4s ease;
                 box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
-                padding: 1rem 0;
+                padding: 1.5rem 0;
                 z-index: 100;
             }
             
@@ -630,19 +1166,19 @@
             
             .buy-button {
                 width: 100%;
-                max-width: 300px;
-                font-size: 0.9rem;
-                padding: 0.7rem 1rem;
+                max-width: 350px;
+                padding: 1rem 1.5rem;
             }
             
             .start-button {
                 width: 100%;
-                margin-top: 0.5rem;
+                margin-top: 0.8rem;
                 margin-left: 0;
+                padding: 0.8rem;
             }
             
             .material {
-                padding: 1rem 0;
+                padding: 1.2rem;
             }
             
             .profile-name {
@@ -650,18 +1186,131 @@
             }
             
             .profile-avatar {
-                width: 35px;
-                height: 35px;
+                width: 38px;
+                height: 38px;
+                font-size: 1.1rem;
+            }
+
+            .material-viewer-container {
+                width: 95%;
+                max-height: 85vh;
+            }
+
+            .material-viewer-content {
+                max-height: calc(85vh - 60px);
+                padding: 15px;
+            }
+
+            .slide-container {
+                margin-bottom: 30px;
+            }
+
+            .slide-title {
+                font-size: 1.3rem;
+                margin-bottom: 15px;
+            }
+
+            .slide-description {
+                padding: 15px;
                 font-size: 1rem;
+            }
+
+            .slide-navigation {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .slide-nav-button {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .slide-indicator {
+                order: -1;
+                margin-bottom: 10px;
+            }
+        }
+
+        @media screen and (max-width: 576px) {
+            .container {
+                padding: 0 1rem;
+            }
+            
+            .course-header {
+                margin-bottom: 2.5rem;
+            }
+            
+            .course-title {
+                font-size: 1.8rem;
+            }
+            
+            .course-description {
+                font-size: 1rem;
+            }
+            
+            .course-content {
+                padding: 1.5rem;
+            }
+            
+            .content-title {
+                font-size: 1.4rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .material-header {
+                font-size: 1.1rem;
+                padding: 0.8rem 1.2rem;
+            }
+            
+            .material-icon {
+                font-size: 1.3rem;
+            }
+            
+            .material-title {
+                min-width: 100%;
+                margin-bottom: 0.5rem;
+            }
+            
+            .material-duration {
+                margin-right: 0;
+                margin-bottom: 0.8rem;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 2rem;
+            }
+            
+            .footer-links-column {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .footer-links-column h3::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            
+            .footer-link {
+                justify-content: center;
+            }
+            
+            .mobile-menu-panel {
+                width: 280px;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Progress indicator -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
     <!-- Navigation Bar -->
     <nav class="navbar">
         <div class="navbar-logo">
-            <a href="index.html">Capstone Project - Kelompok B</a>
+            <a href="index.html"><i class="fas fa-graduation-cap"></i> Capstone Project - Kelompok B</a>
         </div>
         <div class="menu-toggle" id="menu-toggle">
             <span></span>
@@ -674,7 +1323,7 @@
             <!-- Auth links will be shown when not logged in -->
             <div id="auth-links">
                 <a href="signup.html" class="navbar-link">Sign up</a>
-                <a href="login.html" class="btn btn-primary">Log in</a>
+                <a href="login.html" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i> Log in</a>
             </div>
             
             <!-- Profile will be shown when logged in -->
@@ -683,11 +1332,11 @@
                     <div class="profile-avatar" id="profile-avatar">U</div>
                     <span class="profile-name" id="profile-name">Username</span>
                     <div class="profile-menu" id="profile-menu">
-                        <a href="index.html" class="profile-menu-item">Dashboard</a>
-                        <a href="pages/user/profile.html" class="profile-menu-item">Profil Saya</a>
-                        <a href="pages/user/kelas-saya.html" class="profile-menu-item">Kelas Saya</a>
-                        <a href="pages/user/pengaturan.html" class="profile-menu-item">Pengaturan</a>
-                        <div class="profile-menu-item" onclick="showLogoutConfirmation()">Logout</div>
+                        <a href="index.html" class="profile-menu-item"><i class="fas fa-home"></i> Dashboard</a>
+                        <a href="pages/user/profile.html" class="profile-menu-item"><i class="fas fa-user"></i> Profil Saya</a>
+                        <a href="pages/user/kelas-saya.html" class="profile-menu-item"><i class="fas fa-book"></i> Kelas Saya</a>
+                        <a href="pages/user/pengaturan.html" class="profile-menu-item"><i class="fas fa-cog"></i> Pengaturan</a>
+                        <div class="profile-menu-item" onclick="showLogoutConfirmation()"><i class="fas fa-sign-out-alt"></i> Logout</div>
                     </div>
                 </div>
             </div>
@@ -717,43 +1366,43 @@
         <ul class="mobile-menu-list">
             <li class="mobile-menu-item">
                 <a href="index.html" class="mobile-menu-link">
-                    <span class="mobile-menu-icon">🏠</span>
+                    <span class="mobile-menu-icon"><i class="fas fa-home"></i></span>
                     Dashboard
                 </a>
             </li>
             <li class="mobile-menu-item">
                 <a href="assets/content/profile.html" class="mobile-menu-link">
-                    <span class="mobile-menu-icon">👤</span>
+                    <span class="mobile-menu-icon"><i class="fas fa-user"></i></span>
                     Profil Saya
                 </a>
             </li>
             <li class="mobile-menu-item">
                 <a href="assets/content/kelas-saya.html" class="mobile-menu-link">
-                    <span class="mobile-menu-icon">📚</span>
+                    <span class="mobile-menu-icon"><i class="fas fa-book"></i></span>
                     Kelas Saya
                 </a>
             </li>
             <li class="mobile-menu-item">
                 <a href="assets/content/pengaturan.html" class="mobile-menu-link">
-                    <span class="mobile-menu-icon">⚙️</span>
+                    <span class="mobile-menu-icon"><i class="fas fa-cog"></i></span>
                     Pengaturan
                 </a>
             </li>
             <li class="mobile-menu-item" id="logoutMenuItem" style="display: none;">
                 <a href="javascript:void(0)" onclick="showLogoutConfirmation()" class="mobile-menu-link">
-                    <span class="mobile-menu-icon">🚪</span>
+                    <span class="mobile-menu-icon"><i class="fas fa-sign-out-alt"></i></span>
                     Logout
                 </a>
             </li>
             <li class="mobile-menu-item" id="loginMenuItem">
                 <a href="login.html" class="mobile-menu-link">
-                    <span class="mobile-menu-icon">🔑</span>
+                    <span class="mobile-menu-icon"><i class="fas fa-sign-in-alt"></i></span>
                     Login
                 </a>
             </li>
             <li class="mobile-menu-item" id="signupMenuItem">
                 <a href="signup.html" class="mobile-menu-link">
-                    <span class="mobile-menu-icon">✏️</span>
+                    <span class="mobile-menu-icon"><i class="fas fa-user-plus"></i></span>
                     Sign Up
                 </a>
             </li>
@@ -764,112 +1413,158 @@
     <div class="container">
         <!-- Course Header -->
         <div class="course-header">
-            <img src="assets/images/open api.jpg" alt="OpenAPI Logo" class="course-logo">
+            <div class="course-logo-container">
+                <img src="assets/images/openapi.jpg" alt="OpenAPI Logo" class="course-logo">
+            </div>
             <div class="course-title-container">
                 <h1 class="course-title">Belajar OpenAPI untuk Pemula</h1>
-                <p class="course-description">Belajar Membuat API Specification menggunakan OpenAPI</p>
-                <a href="assets/content/pembayaran.html" class="buy-button" id="buy-button">Rp75.000 (Akses Kelas Selamanya)</a>
+                <p class="course-description">Pelajari cara membuat API Specification menggunakan OpenAPI dengan panduan lengkap dari dasar hingga mahir. Kursus ini cocok untuk developer pemula yang ingin memahami standar industri dalam pembuatan API.</p>
+                <a href="assets/content/pembayaran.html" class="buy-button" id="buy-button">
+                    <i class="fas fa-shopping-cart"></i> Rp75.000 (Akses Selamanya)
+                </a>
             </div>
         </div>
         
         <!-- Course Content -->
         <div class="course-content">
-            <h2 class="content-title">Daftar Materi</h2>
+            <h2 class="content-title"><i class="fas fa-list-ul"></i> Daftar Materi</h2>
             <ul class="materials-list">
                 <li class="material-item">
-                    <div class="material-header">Pengenalan OpenAPI</div>
+                    <div class="material-header"><i class="fas fa-door-open"></i> Pengenalan OpenAPI</div>
                     <div class="material">
-                        <span class="material-icon">📄</span>
-                        <span class="material-title">Slide Pengenalan OpenAPI</span>
-                        <a href="#" class="start-button">START</a>
+                        <span class="material-icon"><i class="fas fa-file-alt"></i></span>
+                        <span class="material-title">Slide Pengenalan OpenAPI <span class="badge">Baru</span></span>
+                        <button class="start-button" onclick="showMaterial('Pengenalan OpenAPI', pengenalanOpenAPIData)">
+                            <i class="fas fa-play"></i> START
+                        </button>
                     </div>
                     <div class="material">
-                        <span class="material-icon">📹</span>
+                        <span class="material-icon"><i class="fas fa-video"></i></span>
                         <span class="material-title">01-Apa itu OpenAPI</span>
-                        <span class="material-duration">(5:15)</span>
-                        <a href="#" class="start-button">START</a>
+                        <span class="material-duration"><i class="far fa-clock"></i> 5:15</span>
+                        <button class="start-button" onclick="showMaterial('Apa itu OpenAPI', apaItuOpenAPIData)">
+                            <i class="fas fa-play"></i> START
+                        </button>
                     </div>
                     <div class="material">
-                        <span class="material-icon">📹</span>
+                        <span class="material-icon"><i class="fas fa-video"></i></span>
                         <span class="material-title">02-Konsep Dasar Specification</span>
-                        <span class="material-duration">(8:42)</span>
-                        <a href="#" class="start-button">START</a>
+                        <span class="material-duration"><i class="far fa-clock"></i> 8:42</span>
+                        <button class="start-button" onclick="showMaterial('Konsep Dasar Specification', konsepDasarData)">
+                            <i class="fas fa-play"></i> START
+                        </button>
                     </div>
                 </li>
                 <li class="material-item">
-                    <div class="material-header">Struktur OpenAPI</div>
+                    <div class="material-header"><i class="fas fa-sitemap"></i> Struktur OpenAPI</div>
                     <div class="material">
-                        <span class="material-icon">📄</span>
+                        <span class="material-icon"><i class="fas fa-file-alt"></i></span>
                         <span class="material-title">Cheat Sheet OpenAPI</span>
-                        <a href="#" class="start-button">START</a>
+                        <button class="start-button" onclick="showMaterial('Cheat Sheet OpenAPI', cheatSheetData)">
+                            <i class="fas fa-play"></i> START
+                        </button>
                     </div>
                     <div class="material">
-                        <span class="material-icon">📹</span>
+                        <span class="material-icon"><i class="fas fa-video"></i></span>
                         <span class="material-title">03-Paths dan Operasi</span>
-                        <span class="material-duration">(12:18)</span>
-                        <a href="#" class="start-button">START</a>
+                        <span class="material-duration"><i class="far fa-clock"></i> 12:18</span>
+                        <button class="start-button" onclick="showMaterial('Paths dan Operasi', pathsDanOperasiData)">
+                            <i class="fas fa-play"></i> START
+                        </button>
                     </div>
                     <div class="material">
-                        <span class="material-icon">📹</span>
+                        <span class="material-icon"><i class="fas fa-video"></i></span>
                         <span class="material-title">04-Parameter dan Request Body</span>
-                        <span class="material-duration">(15:45)</span>
-                        <a href="#" class="start-button">START</a>
+                        <span class="material-duration"><i class="far fa-clock"></i> 15:45</span>
+                        <button class="start-button" onclick="showMaterial('Parameter dan Request Body', parameterRequestData)">
+                            <i class="fas fa-play"></i> START
+                        </button>
                     </div>
                 </li>
                 <li class="material-item">
-                    <div class="material-header">Dokumentasi API</div>
+                    <div class="material-header"><i class="fas fa-book"></i> Dokumentasi API</div>
                     <div class="material">
-                        <span class="material-icon">📹</span>
+                        <span class="material-icon"><i class="fas fa-video"></i></span>
                         <span class="material-title">05-Membuat Dokumentasi</span>
-                        <span class="material-duration">(14:22)</span>
-                        <a href="#" class="start-button">START</a>
+                        <span class="material-duration"><i class="far fa-clock"></i> 14:22</span>
+                        <button class="start-button" onclick="showMaterial('Membuat Dokumentasi', dokumentasiData)">
+                            <i class="fas fa-play"></i> START
+                        </button>
                     </div>
                     <div class="material">
-                        <span class="material-icon">📹</span>
+                        <span class="material-icon"><i class="fas fa-video"></i></span>
                         <span class="material-title">06-Contoh Implementasi</span>
-                        <span class="material-duration">(11:05)</span>
-                        <a href="#" class="start-button">START</a>
+                        <span class="material-duration"><i class="far fa-clock"></i> 11:05</span>
+                        <button class="start-button" onclick="showMaterial('Contoh Implementasi', implementasiData)">
+                            <i class="fas fa-play"></i> START
+                        </button>
                     </div>
                     <div class="material">
-                        <span class="material-icon">📹</span>
+                        <span class="material-icon"><i class="fas fa-video"></i></span>
                         <span class="material-title">07-Tools Pendukung</span>
-                        <span class="material-duration">(16:33)</span>
-                        <a href="#" class="start-button">START</a>
+                        <span class="material-duration"><i class="far fa-clock"></i> 16:33</span>
+                        <button class="start-button" onclick="showMaterial('Tools Pendukung', toolsData)">
+                            <i class="fas fa-play"></i> START
+                        </button>
                     </div>
                 </li>
                 <li class="material-item">
-                    <div class="material-header">Praktek OpenAPI</div>
+                    <div class="material-header"><i class="fas fa-laptop-code"></i> Praktek OpenAPI</div>
                     <div class="material">
-                        <span class="material-icon">📹</span>
+                        <span class="material-icon"><i class="fas fa-video"></i></span>
                         <span class="material-title">08-Studi Kasus Real-World</span>
-                        <span class="material-duration">(20:15)</span>
-                        <a href="#" class="start-button">START</a>
+                        <span class="material-duration"><i class="far fa-clock"></i> 20:15</span>
+                        <button class="start-button" onclick="showMaterial('Studi Kasus Real-World', studiKasusData)">
+                            <i class="fas fa-play"></i> START
+                        </button>
                     </div>
                     <div class="material">
-                        <span class="material-icon">📹</span>
+                        <span class="material-icon"><i class="fas fa-video"></i></span>
                         <span class="material-title">09-Validasi Specification</span>
-                        <span class="material-duration">(19:10)</span>
-                        <a href="#" class="start-button">START</a>
+                        <span class="material-duration"><i class="far fa-clock"></i> 19:10</span>
+                        <button class="start-button" onclick="showMaterial('Validasi Specification', validasiData)">
+                            <i class="fas fa-play"></i> START
+                        </button>
                     </div>
                     <div class="material">
-                        <span class="material-icon">📹</span>
+                        <span class="material-icon"><i class="fas fa-video"></i></span>
                         <span class="material-title">10-Praktik Membuat API</span>
-                        <span class="material-duration">(22:48)</span>
-                        <a href="#" class="start-button">START</a>
+                        <span class="material-duration"><i class="far fa-clock"></i> 22:48</span>
+                        <button class="start-button" onclick="showMaterial('Praktik Membuat API', praktikData)">
+                            <i class="fas fa-play"></i> START
+                        </button>
                     </div>
                 </li>
             </ul>
         </div>
     </div>
     
+    <!-- Floating Action Button -->
+    <button class="fab" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+    
+    <!-- Material Viewer Overlay -->
+    <div class="material-viewer-overlay" id="materialViewerOverlay">
+        <div class="material-viewer-container">
+            <div class="material-viewer-header">
+                <div class="material-viewer-title"><i class="fas fa-book-open"></i> <span id="materialViewerTitle">Material Title</span></div>
+                <button class="material-viewer-close" onclick="hideMaterialViewer()">&times;</button>
+            </div>
+            <div class="material-viewer-content" id="materialViewerContent">
+                <!-- Content will be loaded here -->
+            </div>
+        </div>
+    </div>
+    
     <!-- Login Required Modal -->
     <div id="login-required-modal" class="modal-overlay">
         <div class="modal-content">
-            <div class="modal-title">Login Diperlukan</div>
-            <p style="margin-bottom: 15px;">Anda harus login atau memiliki akun untuk membeli kelas ini.</p>
+            <div class="modal-title"><i class="fas fa-exclamation-circle"></i> Login Diperlukan</div>
+            <p style="margin-bottom: 20px;">Anda harus login atau memiliki akun untuk mengakses materi ini. Silakan login atau daftar terlebih dahulu.</p>
             <div class="modal-buttons">
-                <button class="btn btn-secondary" onclick="redirectToSignup()">Sign Up</button>
-                <button class="btn btn-primary" onclick="redirectToLogin()">Login</button>
+                <button class="btn btn-secondary" onclick="redirectToSignup()"><i class="fas fa-user-plus"></i> Sign Up</button>
+                <button class="btn btn-primary" onclick="redirectToLogin()"><i class="fas fa-sign-in-alt"></i> Login</button>
             </div>
         </div>
     </div>
@@ -877,10 +1572,10 @@
     <!-- Logout Confirmation Modal -->
     <div id="logout-confirm" class="modal-overlay">
         <div class="modal-content">
-            <div class="modal-title">Yakin ingin Keluar?</div>
+            <div class="modal-title"><i class="fas fa-sign-out-alt"></i> Yakin ingin Keluar?</div>
             <div class="modal-buttons">
-                <button class="btn btn-secondary" onclick="hideLogoutConfirmation()">Tidak</button>
-                <button class="btn btn-logout" onclick="confirmLogout()">Ya</button>
+                <button class="btn btn-secondary" onclick="hideLogoutConfirmation()"><i class="fas fa-times"></i> Tidak</button>
+                <button class="btn btn-logout" onclick="confirmLogout()"><i class="fas fa-check"></i> Ya</button>
             </div>
         </div>
     </div>
@@ -889,32 +1584,268 @@
     <footer class="footer">
         <div class="footer-container">
             <div class="footer-copyright">
-                © 2025 Capstone Project - Kelompok B
+                © 2025 Capstone Project - Kelompok B. All rights reserved.
             </div>
             <div class="footer-links">
                 <div class="footer-links-column">
-                    <a href="#" class="footer-link social-link">
-                        <img src="assets/logo/youtube.jpg" alt="Youtube" class="social-logo">
-                        Youtube
-                    </a>
-                    <a href="#" class="footer-link social-link">
-                        <img src="assets/logo/instagram.jpg" alt="Instagram" class="social-logo">
-                        Instagram
-                    </a>
-                    <a href="#" class="footer-link social-link">
-                        <img src="assets/logo/facebook.jpg" alt="Facebook" class="social-logo">
-                        Facebook
-                    </a>
+                    <h3>Connect With Us</h3>
+                    <a href="#" class="footer-link"><i class="fab fa-youtube"></i> YouTube</a>
+                    <a href="#" class="footer-link"><i class="fab fa-instagram"></i> Instagram</a>
+                    <a href="#" class="footer-link"><i class="fab fa-facebook"></i> Facebook</a>
                 </div>
                 <div class="footer-links-column">
-                    <a href="#" class="footer-link">Terms of Use</a>
-                    <a href="#" class="footer-link">Privacy Policy</a>
+                    <h3>Resources</h3>
+                    <a href="#" class="footer-link"><i class="fas fa-file-alt"></i> Documentation</a>
+                    <a href="#" class="footer-link"><i class="fas fa-question-circle"></i> Help Center</a>
+                    <a href="#" class="footer-link"><i class="fas fa-blog"></i> Blog</a>
+                </div>
+                <div class="footer-links-column">
+                    <h3>Legal</h3>
+                    <a href="#" class="footer-link"><i class="fas fa-file-contract"></i> Terms of Use</a>
+                    <a href="#" class="footer-link"><i class="fas fa-lock"></i> Privacy Policy</a>
+                    <a href="#" class="footer-link"><i class="fas fa-cookie"></i> Cookie Policy</a>
                 </div>
             </div>
         </div>
     </footer>
 
     <script>
+        // Sample data for each material (in a real app, this would come from a database)
+        const pengenalanOpenAPIData = [
+            {
+                title: "Apa itu OpenAPI?",
+                image: "assets/images/slides/openapi-intro-1.jpg",
+                description: "OpenAPI adalah spesifikasi standar terbuka untuk mendeskripsikan API RESTful. Ini memungkinkan mesin dan manusia untuk memahami kemampuan layanan tanpa mengakses kode sumber atau dokumentasi tambahan.\n\nKeuntungan utama:\n• Dokumentasi yang konsisten\n• Pembuatan kode otomatis\n• Pengujian otomatis\n• Interoperabilitas antar alat"
+            },
+            {
+                title: "Sejarah OpenAPI",
+                image: "assets/images/slides/openapi-intro-2.jpg",
+                description: "Awalnya dikenal sebagai Swagger, OpenAPI dikembangkan oleh SmartBear Software dan kemudian diserahkan ke OpenAPI Initiative di bawah Linux Foundation pada tahun 2015.\n\nVersi penting:\n• Swagger 1.0 (2011)\n• Swagger 2.0 (2014)\n• OpenAPI 3.0 (2017)\n• OpenAPI 3.1 (2021)"
+            },
+            {
+                title: "Manfaat OpenAPI",
+                image: "assets/images/slides/openapi-intro-3.jpg",
+                description: "1. Dokumentasi yang konsisten dan interaktif\n2. Pembuatan kode otomatis untuk berbagai bahasa pemrograman\n3. Pengujian otomatis dan mock server\n4. Interoperabilitas antar alat dan platform\n5. Kolaborasi yang lebih baik antara tim frontend dan backend"
+            }
+        ];
+
+        const apaItuOpenAPIData = [
+            {
+                title: "Definisi OpenAPI",
+                image: "assets/images/slides/apa-itu-1.jpg",
+                description: "OpenAPI adalah spesifikasi berbasis JSON atau YAML yang mendeskripsikan API RESTful secara terstruktur. Ini mencakup:\n• Endpoint dan operasi\n• Parameter input dan output\n• Metode autentikasi\n• Kontak dan lisensi\n• Server dan path"
+            },
+            {
+                title: "Komponen Utama",
+                image: "assets/images/slides/apa-itu-2.jpg",
+                description: "1. Paths: Endpoint API dan operasinya (GET, POST, dll.)\n2. Components: Objek yang dapat digunakan kembali (schemas, parameters, dll.)\n3. Security: Skema autentikasi (OAuth2, API Key, dll.)\n4. Tags: Kategori untuk organisasi endpoint\n5. ExternalDocs: Dokumentasi tambahan"
+            }
+        ];
+
+        const konsepDasarData = [
+            {
+                title: "Struktur Dasar",
+                image: "assets/images/slides/konsep-dasar-1.jpg",
+                description: "Setiap spesifikasi OpenAPI memiliki struktur dasar:\n\n1. Info: Metadata API (judul, deskripsi, versi)\n2. Servers: URL server dan environment\n3. Paths: Endpoint API dan operasinya\n4. Components: Definisi yang dapat digunakan kembali\n5. Security: Persyaratan keamanan global"
+            },
+            {
+                title: "Operasi HTTP",
+                image: "assets/images/slides/konsep-dasar-2.jpg",
+                description: "OpenAPI mendukung semua operasi HTTP standar:\n\n- GET: Mengambil data\n- POST: Membuat data baru\n- PUT: Mengupdate seluruh resource\n- DELETE: Menghapus resource\n- PATCH: Update parsial resource\n- HEAD, OPTIONS, TRACE"
+            }
+        ];
+
+        const cheatSheetData = [
+            {
+                title: "Cheat Sheet OpenAPI",
+                image: "assets/images/slides/cheatsheet-1.jpg",
+                description: "Referensi cepat elemen OpenAPI:\n\n• openapi: Versi spesifikasi (3.0.0)\n• info: Metadata API\n• servers: Daftar server\n• paths: Endpoint API\n• components: Definisi reusable\n• security: Autentikasi global\n• tags: Kategori endpoint\n• externalDocs: Dokumen eksternal"
+            }
+        ];
+
+        // Data for other materials (you can expand these)
+        const pathsDanOperasiData = [
+            {
+                title: "Mendefinisikan Paths",
+                image: "assets/images/slides/paths-1.jpg",
+                description: "Contoh definisi path:\n\n/users:\n  get:\n    summary: Get all users\n    responses:\n      200:\n        description: A list of users\n\n/user/{id}:\n  get:\n    summary: Get user by ID\n    parameters:\n      - name: id\n        in: path\n        required: true\n        schema:\n          type: integer"
+            }
+        ];
+
+        const parameterRequestData = [
+            {
+                title: "Parameter dan Request Body",
+                image: "assets/images/slides/parameter-1.jpg",
+                description: "Parameter dapat didefinisikan di:\n1. Path: /users/{id}\n2. Query: /users?active=true\n3. Header: X-API-Key\n4. Cookie: sessionId\n\nRequest Body digunakan untuk:\n• POST: Membuat resource baru\n• PUT: Mengupdate seluruh resource\n• PATCH: Mengupdate sebagian resource"
+            }
+        ];
+
+        const dokumentasiData = [
+            {
+                title: "Membuat Dokumentasi",
+                image: "assets/images/slides/docs-1.jpg",
+                description: "Tools untuk dokumentasi:\n\n1. Swagger UI: Dokumentasi interaktif\n2. Redoc: Alternatif dokumentasi\n3. Postman: Import dari OpenAPI\n4. Stoplight: Dokumentasi profesional\n\nTips:\n• Gunakan deskripsi yang jelas\n• Sertakan contoh\n• Dokumentasikan error response\n• Gunakan tags untuk organisasi"
+            }
+        ];
+
+        const implementasiData = [
+            {
+                title: "Contoh Implementasi",
+                image: "assets/images/slides/implementasi-1.jpg",
+                description: "Langkah implementasi:\n1. Tulis spesifikasi OpenAPI\n2. Generate server stub\n3. Implementasi business logic\n4. Deploy API\n5. Gunakan client SDK\n\nTools:\n• Swagger Codegen\n• OpenAPI Generator\n• NSwag"
+            }
+        ];
+
+        const toolsData = [
+            {
+                title: "Tools Pendukung",
+                image: "assets/images/slides/tools-1.jpg",
+                description: "Ekosistem OpenAPI:\n\n1. Editor: Swagger Editor, VS Code\n2. Dokumentasi: Swagger UI, Redoc\n3. Testing: Postman, Insomnia\n4. Mocking: Prism, API Sprout\n5. Codegen: OpenAPI Generator\n6. Validator: Spectral"
+            }
+        ];
+
+        const studiKasusData = [
+            {
+                title: "Studi Kasus E-Commerce",
+                image: "assets/images/slides/studi-kasus-1.jpg",
+                description: "Implementasi OpenAPI pada sistem e-commerce:\n\n• Product API: CRUD products\n• User API: Manajemen user\n• Order API: Proses order\n• Payment API: Integrasi pembayaran\n\nKeuntungan:\n• Dokumentasi otomatis\n• Frontend-backend sync\n• Testing yang konsisten"
+            }
+        ];
+
+        const validasiData = [
+            {
+                title: "Validasi Specification",
+                image: "assets/images/slides/validasi-1.jpg",
+                description: "Cara validasi:\n1. Online validator\n2. Spectral (linting tool)\n3. Swagger Editor\n\nYang divalidasi:\n• Sintaks YAML/JSON\n• Struktur dokumen\n• Referensi komponen\n• Konsistensi\n\nBest practice:\n• Validasi di CI/CD pipeline\n• Gunakan linting rules"
+            }
+        ];
+
+        const praktikData = [
+            {
+                title: "Praktik Membuat API",
+                image: "assets/images/slides/praktik-1.jpg",
+                description: "Langkah praktis:\n1. Rancang API design\n2. Tulis OpenAPI spec\n3. Generate server code\n4. Implementasi business logic\n5. Deploy dan dokumentasi\n\nTips:\n• Mulai dari kecil\n• Iterasi desain\n• Gunakan version control\n• Dokumentasikan perubahan"
+            }
+        ];
+
+        // Function to show material viewer with slides
+        function showMaterial(title, slidesData) {
+            const isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
+            
+            if (!isLoggedIn) {
+                showLoginRequiredModal();
+                return;
+            }
+
+            const overlay = document.getElementById('materialViewerOverlay');
+            const content = document.getElementById('materialViewerContent');
+            const titleElement = document.getElementById('materialViewerTitle');
+
+            // Set title
+            titleElement.textContent = title;
+
+            // Clear previous content
+            content.innerHTML = '<div class="loader"></div>';
+
+            // Show overlay
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+
+            // Simulate loading delay
+            setTimeout(() => {
+                renderSlides(content, slidesData);
+                // Scroll to top of content
+                content.scrollTo(0, 0);
+            }, 500);
+        }
+
+        // Function to render slides
+        function renderSlides(container, slides) {
+            container.innerHTML = '';
+
+            let currentSlide = 0;
+
+            function renderSlide(index) {
+                container.innerHTML = '';
+
+                const slide = slides[index];
+                const slideElement = document.createElement('div');
+                slideElement.className = 'slide-container';
+
+                const titleElement = document.createElement('h3');
+                titleElement.className = 'slide-title';
+                titleElement.textContent = slide.title;
+                slideElement.appendChild(titleElement);
+
+                if (slide.image) {
+                    const imgContainer = document.createElement('div');
+                    imgContainer.className = 'slide-image-container';
+                    
+                    const imgElement = document.createElement('img');
+                    imgElement.className = 'slide-image';
+                    imgElement.src = slide.image;
+                    imgElement.alt = slide.title;
+                    imgElement.loading = 'lazy';
+                    
+                    imgContainer.appendChild(imgElement);
+                    slideElement.appendChild(imgContainer);
+                }
+
+                if (slide.description) {
+                    const descElement = document.createElement('div');
+                    descElement.className = 'slide-description';
+                    descElement.innerHTML = slide.description.replace(/\n/g, '<br>');
+                    slideElement.appendChild(descElement);
+                }
+
+                // Navigation controls
+                const navElement = document.createElement('div');
+                navElement.className = 'slide-navigation';
+
+                const prevButton = document.createElement('button');
+                prevButton.className = 'slide-nav-button';
+                prevButton.innerHTML = '<i class="fas fa-arrow-left"></i> Sebelumnya';
+                prevButton.disabled = index === 0;
+                prevButton.onclick = () => renderSlide(index - 1);
+
+                const nextButton = document.createElement('button');
+                nextButton.className = 'slide-nav-button';
+                nextButton.innerHTML = index === slides.length - 1 
+                    ? '<i class="fas fa-check"></i> Selesai' 
+                    : '<i class="fas fa-arrow-right"></i> Selanjutnya';
+                nextButton.onclick = () => {
+                    if (index === slides.length - 1) {
+                        hideMaterialViewer();
+                    } else {
+                        renderSlide(index + 1);
+                    }
+                };
+
+                const indicator = document.createElement('span');
+                indicator.className = 'slide-indicator';
+                indicator.textContent = `Slide ${index + 1} dari ${slides.length}`;
+
+                navElement.appendChild(prevButton);
+                navElement.appendChild(indicator);
+                navElement.appendChild(nextButton);
+
+                slideElement.appendChild(navElement);
+                container.appendChild(slideElement);
+
+                // Update current slide
+                currentSlide = index;
+            }
+
+            renderSlide(currentSlide);
+        }
+
+        // Function to hide material viewer
+        function hideMaterialViewer() {
+            const overlay = document.getElementById('materialViewerOverlay');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
         // Function to toggle the mobile menu button animation
         function toggleMenu() {
             const menuToggle = document.getElementById("menu-toggle");
@@ -1043,6 +1974,30 @@
                     }
                 }
             });
+
+            // Close material viewer when clicking outside
+            const materialViewer = document.getElementById('materialViewerOverlay');
+            if (materialViewer.classList.contains('active') && e.target === materialViewer) {
+                hideMaterialViewer();
+            }
+        });
+
+        // Scroll progress indicator
+        window.addEventListener('scroll', function() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        });
+
+        // Show/hide floating action button based on scroll position
+        window.addEventListener('scroll', function() {
+            const fab = document.querySelector('.fab');
+            if (window.pageYOffset > 300) {
+                fab.style.display = 'flex';
+            } else {
+                fab.style.display = 'none';
+            }
         });
     
         // Check login status and initialize page when DOM is loaded
@@ -1150,17 +2105,10 @@
             if (buyButton) {
                 buyButton.addEventListener('click', handleBuyButtonClick);
             }
-            
-            // Add event listeners to all start buttons to check login
-            const startButtons = document.querySelectorAll('.start-button');
-            startButtons.forEach(button => {
-                button.addEventListener('click', function(event) {
-                    if (!isLoggedIn) {
-                        event.preventDefault();
-                        showLoginRequiredModal();
-                    }
-                });
-            });
+
+            // Initialize floating action button
+            const fab = document.querySelector('.fab');
+            fab.style.display = 'none';
         });
     </script>
 </body>
