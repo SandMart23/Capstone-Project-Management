@@ -774,74 +774,26 @@
             <h2 class="content-title">Daftar Materi</h2>
             <ul class="materials-list">
                 <li class="material-item">
-                    <div class="material-header">Apache Kafka Dasar</div>
-                    <div class="material">
-                        <span class="material-icon">📄</span>
-                        <span class="material-title">Slide dan Source Code</span>
-                        <a href="#" class="start-button">START</a>
-                    </div>
+                    <div class="material-header">Tutorial Apache Kafka</div>
                     <div class="material">
                         <span class="material-icon">📹</span>
-                        <span class="material-title">01-Pendahuluan</span>
-                        <span class="material-duration">(2:38)</span>
-                        <a href="#" class="start-button">START</a>
-                    </div>
-                    <div class="material">
-                        <span class="material-icon">📹</span>
-                        <span class="material-title">02-Pengenalan-Publish-Subscribe</span>
-                        <span class="material-duration">(13:52)</span>
-                        <a href="#" class="start-button">START</a>
-                    </div>
-                    <div class="material">
-                        <span class="material-icon">📹</span>
-                        <span class="material-title">03-Pengenalan-Kafka</span>
-                        <span class="material-duration">(6:07)</span>
-                        <a href="#" class="start-button">START</a>
-                    </div>
-                </li>
-                <li class="material-item">
-                    <div class="material-header">Kafka Tingkat Lanjut</div>
-                    <div class="material">
-                        <span class="material-icon">📹</span>
-                        <span class="material-title">04-Menginstall-Kafka</span>
-                        <span class="material-duration">(8:15)</span>
-                        <a href="#" class="start-button">START</a>
-                    </div>
-                    <div class="material">
-                        <span class="material-icon">📹</span>
-                        <span class="material-title">05-Menggunakan-Kafka-CLI</span>
-                        <span class="material-duration">(10:33)</span>
-                        <a href="#" class="start-button">START</a>
-                    </div>
-                    <div class="material">
-                        <span class="material-icon">📹</span>
-                        <span class="material-title">06-Membuat-Aplikasi-Producer</span>
-                        <span class="material-duration">(15:21)</span>
-                        <a href="#" class="start-button">START</a>
-                    </div>
-                </li>
-                <li class="material-item">
-                    <div class="material-header">Kafka Stream Processing</div>
-                    <div class="material">
-                        <span class="material-icon">📹</span>
-                        <span class="material-title">07-Membuat-Aplikasi-Consumer</span>
-                        <span class="material-duration">(12:45)</span>
-                        <a href="#" class="start-button">START</a>
-                    </div>
-                    <div class="material">
-                        <span class="material-icon">📹</span>
-                        <span class="material-title">08-Kafka-Stream-Processing</span>
-                        <span class="material-duration">(18:09)</span>
-                        <a href="#" class="start-button">START</a>
-                    </div>
-                    <div class="material">
-                        <span class="material-icon">📹</span>
-                        <span class="material-title">09-Kafka-Connect</span>
-                        <span class="material-duration">(14:57)</span>
-                        <a href="#" class="start-button">START</a>
+                        <span class="material-title">Apache Kafka Dasar</span>
+                        <a href="#" onclick="openPopup('https://www.youtube.com/embed/K7bIgpPAdbc?si=ErZLf9wjTzZTL3JA')" class="start-button">START</a>
                     </div>
                 </li>
             </ul>
+        </div>
+    </div>
+
+    <!-- Modal Video (hanya satu) -->
+    <div id="videoPopup" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%;
+            background-color:rgba(0,0,0,0.8); justify-content:center; align-items:center; z-index:1000;">
+        <div style="position:relative; width:80%; max-width:800px;">
+            <span onclick="closePopup()" style="position:absolute; top:-30px; right:0; color:white; cursor:pointer; font-size:24px;">&times;</span>
+            <iframe id="videoFrame" width="100%" height="450" src="" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen>
+            </iframe>
         </div>
     </div>
     
@@ -1148,5 +1100,6 @@
         });
     });
 </script>
+    <script src="js/pop-up.js"></script>
 </body>
 </html>

@@ -776,88 +776,31 @@
             <h2 class="content-title">Daftar Materi</h2>
             <ul class="materials-list">
                 <li class="material-item">
-                    <div class="material-header">Pengenalan HTML</div>
+                    <div class="material-header">Tutorial HTML</div>
                     <div class="material">
-                        <span class="material-icon">📄</span>
-                        <span class="material-title">Slide Pengenalan HTML</span>
-                        <a href="#" class="start-button">START</a>
+                        <span class="material-icon">📹</span>
+                        <span class="material-title">Tutorial HTML Dasar</span>
+                        <a href="#" onclick="openPopup('https://www.youtube.com/embed/hMDJyb7VkYw?si=KyLWOCvMVbQk4qql')" class="start-button">START</a>
                     </div>
                     <div class="material">
                         <span class="material-icon">📹</span>
-                        <span class="material-title">01-Apa itu HTML</span>
-                        <span class="material-duration">(5:15)</span>
-                        <a href="#" class="start-button">START</a>
-                    </div>
-                    <div class="material">
-                        <span class="material-icon">📹</span>
-                        <span class="material-title">02-Struktur Dasar HTML</span>
-                        <span class="material-duration">(8:42)</span>
-                        <a href="#" class="start-button">START</a>
-                    </div>
-                </li>
-                <li class="material-item">
-                    <div class="material-header">Elemen HTML</div>
-                    <div class="material">
-                        <span class="material-icon">📄</span>
-                        <span class="material-title">Cheat Sheet Elemen HTML</span>
-                        <a href="#" class="start-button">START</a>
-                    </div>
-                    <div class="material">
-                        <span class="material-icon">📹</span>
-                        <span class="material-title">03-Teks dan Paragraf</span>
-                        <span class="material-duration">(12:18)</span>
-                        <a href="#" class="start-button">START</a>
-                    </div>
-                    <div class="material">
-                        <span class="material-icon">📹</span>
-                        <span class="material-title">04-Link dan Gambar</span>
-                        <span class="material-duration">(15:45)</span>
-                        <a href="#" class="start-button">START</a>
-                    </div>
-                </li>
-                <li class="material-item">
-                    <div class="material-header">CSS Dasar</div>
-                    <div class="material">
-                        <span class="material-icon">📹</span>
-                        <span class="material-title">05-Pengenalan CSS</span>
-                        <span class="material-duration">(14:22)</span>
-                        <a href="#" class="start-button">START</a>
-                    </div>
-                    <div class="material">
-                        <span class="material-icon">📹</span>
-                        <span class="material-title">06-Selector dan Styling</span>
-                        <span class="material-duration">(11:05)</span>
-                        <a href="#" class="start-button">START</a>
-                    </div>
-                    <div class="material">
-                        <span class="material-icon">📹</span>
-                        <span class="material-title">07-Layout dengan CSS</span>
-                        <span class="material-duration">(16:33)</span>
-                        <a href="#" class="start-button">START</a>
-                    </div>
-                </li>
-                <li class="material-item">
-                    <div class="material-header">Proyek Akhir</div>
-                    <div class="material">
-                        <span class="material-icon">📹</span>
-                        <span class="material-title">08-Membuat Halaman Web Sederhana</span>
-                        <span class="material-duration">(20:15)</span>
-                        <a href="#" class="start-button">START</a>
-                    </div>
-                    <div class="material">
-                        <span class="material-icon">📹</span>
-                        <span class="material-title">09-Responsive Design</span>
-                        <span class="material-duration">(19:10)</span>
-                        <a href="#" class="start-button">START</a>
-                    </div>
-                    <div class="material">
-                        <span class="material-icon">📹</span>
-                        <span class="material-title">10-Deployment Website</span>
-                        <span class="material-duration">(22:48)</span>
-                        <a href="#" class="start-button">START</a>
+                        <span class="material-title">Tutorial HTML Form</span>
+                        <a href="#" onclick="openPopup('https://www.youtube.com/embed/mELDK1yS8iU?si=6Q_T3Dmi0K15J-Qp')" class="start-button">START</a>
                     </div>
                 </li>
             </ul>
+        </div>
+    </div>
+
+    <!-- Modal Video -->
+    <div id="videoPopup" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%;
+            background-color:rgba(0,0,0,0.8); justify-content:center; align-items:center; z-index:1000;">
+        <div style="position:relative; width:80%; max-width:800px;">
+            <span onclick="closePopup()" style="position:absolute; top:-30px; right:0; color:white; cursor:pointer; font-size:24px;">&times;</span>
+            <iframe id="videoFrame" width="100%" height="450" src="" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen>
+            </iframe>
         </div>
     </div>
     
@@ -1148,5 +1091,6 @@
             });
         });
     </script>
+    <script src="js/pop-up.js"></script>
 </body>
 </html>

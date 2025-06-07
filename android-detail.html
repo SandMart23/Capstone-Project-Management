@@ -776,95 +776,16 @@
             <h2 class="content-title">Daftar Materi</h2>
             <ul class="materials-list">
                 <li class="material-item">
-                    <div class="material-header">Pengenalan Android</div>
-                    <div class="material">
-                        <span class="material-icon">📄</span>
-                        <span class="material-title">Slide dan Source Code</span>
-                        <a href="#" class="start-button">START</a>
-                    </div>
+                    <div class="material-header">TUTORIAL ANDROID</div>
                     <div class="material">
                         <span class="material-icon">📹</span>
-                        <span class="material-title">01-Pendahuluan Android</span>
-                        <span class="material-duration">(3:15)</span>
-                        <a href="#" class="start-button">START</a>
-                    </div>
-                    <div class="material">
-                        <span class="material-icon">📹</span>
-                        <span class="material-title">02-Setup Android Studio</span>
-                        <span class="material-duration">(10:42)</span>
-                        <a href="#" class="start-button">START</a>
-                    </div>
-                    <div class="material">
-                        <span class="material-icon">📹</span>
-                        <span class="material-title">03-Hello World Android</span>
-                        <span class="material-duration">(8:30)</span>
-                        <a href="#" class="start-button">START</a>
-                    </div>
-                </li>
-                <li class="material-item">
-                    <div class="material-header">Dasar Kotlin untuk Android</div>
-                    <div class="material">
-                        <span class="material-icon">📄</span>
-                        <span class="material-title">Kotlin Cheat Sheet</span>
-                        <a href="#" class="start-button">START</a>
-                    </div>
-                    <div class="material">
-                        <span class="material-icon">📹</span>
-                        <span class="material-title">04-Dasar Pemrograman Kotlin</span>
-                        <span class="material-duration">(15:18)</span>
-                        <a href="#" class="start-button">START</a>
-                    </div>
-                    <div class="material">
-                        <span class="material-icon">📹</span>
-                        <span class="material-title">05-Kotlin OOP</span>
-                        <span class="material-duration">(12:45)</span>
-                        <a href="#" class="start-button">START</a>
-                    </div>
-                </li>
-                <li class="material-item">
-                    <div class="material-header">Android UI Components</div>
-                    <div class="material">
-                        <span class="material-icon">📹</span>
-                        <span class="material-title">06-Layout di Android</span>
-                        <span class="material-duration">(14:22)</span>
-                        <a href="#" class="start-button">START</a>
-                    </div>
-                    <div class="material">
-                        <span class="material-icon">📹</span>
-                        <span class="material-title">07-RecyclerView</span>
-                        <span class="material-duration">(18:05)</span>
-                        <a href="#" class="start-button">START</a>
-                    </div>
-                    <div class="material">
-                        <span class="material-icon">📹</span>
-                        <span class="material-title">08-Fragment & Navigation</span>
-                        <span class="material-duration">(16:33)</span>
-                        <a href="#" class="start-button">START</a>
-                    </div>
-                </li>
-                <li class="material-item">
-                    <div class="material-header">Android Architecture Components</div>
-                    <div class="material">
-                        <span class="material-icon">📹</span>
-                        <span class="material-title">09-ViewModel & LiveData</span>
-                        <span class="material-duration">(20:15)</span>
-                        <a href="#" class="start-button">START</a>
-                    </div>
-                    <div class="material">
-                        <span class="material-icon">📹</span>
-                        <span class="material-title">10-Room Database</span>
-                        <span class="material-duration">(19:10)</span>
-                        <a href="#" class="start-button">START</a>
-                    </div>
-                    <div class="material">
-                        <span class="material-icon">📹</span>
-                        <span class="material-title">11-Retrofit & API</span>
-                        <span class="material-duration">(22:48)</span>
-                        <a href="#" class="start-button">START</a>
+                        <span class="material-title">Android Dasar</span>
+                        <a href="#" onclick="openPopup('https://www.youtube.com/embed/pUTz5IOkBtE?si=NSWK6lvOEf8LdAsP')" class="start-button">START</a>
                     </div>
                 </li>
             </ul>
         </div>
+
     </div>
     
     <!-- Footer -->
@@ -918,24 +839,37 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal Video -->
+    <div id="videoPopup" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%;
+            background-color:rgba(0,0,0,0.8); justify-content:center; align-items:center; z-index:1000;">
+        <div style="position:relative; width:80%; max-width:800px;">
+            <span onclick="closePopup()" style="position:absolute; top:-30px; right:0; color:white; cursor:pointer; font-size:24px;">&times;</span>
+            <iframe id="videoFrame" width="100%" height="450" src="" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen>
+            </iframe>
+        </div>
+    </div>
+
     <script>
         // Function to toggle the mobile menu button animation
         function toggleMenu() {
             const menuToggle = document.getElementById("menu-toggle");
             menuToggle.classList.toggle("active");
-            
+
             // Toggle mobile menu
             toggleMobileMenu();
         }
-        
+
         // Function to toggle the mobile menu slide panel
         function toggleMobileMenu() {
             const mobileMenuPanel = document.getElementById("mobileMenuPanel");
             const mobileMenuOverlay = document.getElementById("mobileMenuOverlay");
-            
+
             mobileMenuPanel.classList.toggle("active");
             mobileMenuOverlay.classList.toggle("active");
-            
+
             // Prevent body scrolling when menu is open
             if (mobileMenuPanel.classList.contains("active")) {
                 document.body.style.overflow = "hidden";
@@ -943,36 +877,36 @@
                 document.body.style.overflow = "";
             }
         }
-        
+
         function toggleProfileMenu(event) {
             // Prevent event from bubbling up to document
             if (event) {
                 event.stopPropagation();
             }
-            
+
             const profileMenu = document.getElementById("profile-menu");
             profileMenu.classList.toggle("active");
         }
-        
+
         // Logout confirmation modal functions
         function showLogoutConfirmation() {
             const confirmDialog = document.getElementById('logout-confirm');
             confirmDialog.classList.add('active');
             document.body.classList.add('modal-open');
-            
+
             // Close mobile menu if open
             const mobileMenuPanel = document.getElementById("mobileMenuPanel");
             if (mobileMenuPanel.classList.contains("active")) {
                 toggleMobileMenu();
             }
         }
-    
+
         function hideLogoutConfirmation() {
             const confirmDialog = document.getElementById('logout-confirm');
             confirmDialog.classList.remove('active');
             document.body.classList.remove('modal-open');
         }
-    
+
         function confirmLogout() {
             // Clear session storage
             sessionStorage.removeItem('isLoggedIn');
@@ -981,41 +915,41 @@
             sessionStorage.removeItem('userLocation');
             sessionStorage.removeItem('userBio');
             sessionStorage.removeItem('profileImage');
-            
+
             // Redirect to index
             window.location.href = 'index.html';
         }
-        
+
         // Login required modal functions
         function showLoginRequiredModal() {
             const loginModal = document.getElementById('login-required-modal');
             loginModal.classList.add('active');
             document.body.classList.add('modal-open');
         }
-    
+
         function hideLoginRequiredModal() {
             const loginModal = document.getElementById('login-required-modal');
             loginModal.classList.remove('active');
             document.body.classList.remove('modal-open');
         }
-    
+
         function redirectToLogin() {
             hideLoginRequiredModal();
             window.location.href = 'login.html';
         }
-    
+
         function redirectToSignup() {
             hideLoginRequiredModal();
             window.location.href = 'signup.html';
         }
-        
+
         // Handle buy button click
         function handleBuyButtonClick(event) {
             event.preventDefault();
-            
+
             // Check if user is logged in
             const isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
-            
+
             if (isLoggedIn) {
                 // User is logged in, proceed to payment page
                 window.location.href = event.target.href;
@@ -1024,18 +958,18 @@
                 showLoginRequiredModal();
             }
         }
-        
+
         // Close profile menu when clicking outside
         document.addEventListener('click', function(e) {
             const profileMenu = document.getElementById("profile-menu");
             const profileContainer = document.querySelector(".profile-container");
-            
+
             if (profileMenu && profileContainer) {
                 if (!profileContainer.contains(e.target)) {
                     profileMenu.classList.remove("active");
                 }
             }
-            
+
             // Close modals when clicking outside
             const modals = document.querySelectorAll('.modal-overlay');
             modals.forEach(modal => {
@@ -1048,16 +982,16 @@
                 }
             });
         });
-    
+
         // Check login status and initialize page when DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
             const isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
             const userName = sessionStorage.getItem('userName');
             const userEmail = sessionStorage.getItem('userEmail');
-            
+
             const authLinks = document.getElementById('auth-links');
             const profileSection = document.getElementById('profile-section');
-            
+
             // Update mobile menu based on login status
             const mobileUserInfo = document.getElementById("mobileUserInfo");
             const mobileUserName = document.getElementById("mobileUserName");
@@ -1066,18 +1000,18 @@
             const logoutMenuItem = document.getElementById("logoutMenuItem");
             const loginMenuItem = document.getElementById("loginMenuItem");
             const signupMenuItem = document.getElementById("signupMenuItem");
-            
+
             if (isLoggedIn && userName && userEmail) {
                 // User is logged in
                 authLinks.style.display = 'none';
                 profileSection.style.display = 'block';
-                
+
                 // Set user name
                 const profileName = document.getElementById('profile-name');
                 const profileAvatar = document.getElementById('profile-avatar');
-                
+
                 if (profileName) profileName.textContent = userName;
-                
+
                 // Set avatar initial (first letter of user's name) or profile image
                 if (profileAvatar) {
                     const storedImage = sessionStorage.getItem('profileImage');
@@ -1090,19 +1024,19 @@
                         profileAvatar.textContent = userName.charAt(0).toUpperCase();
                     }
                 }
-                
+
                 // Update mobile menu for logged in user
                 if (mobileUserInfo) {
                     mobileUserInfo.style.display = "flex";
                     mobileUserName.textContent = userName;
                     mobileUserEmail.textContent = userEmail;
                     mobileUserAvatar.textContent = userName.charAt(0).toUpperCase();
-                    
+
                     // Show logout, hide login/signup in mobile menu
                     logoutMenuItem.style.display = "block";
                     loginMenuItem.style.display = "none";
                     signupMenuItem.style.display = "none";
-                    
+
                     // Check for profile image in mobile menu
                     const storedImage = sessionStorage.getItem('profileImage');
                     if (storedImage && mobileUserAvatar) {
@@ -1112,7 +1046,7 @@
                         mobileUserAvatar.textContent = '';
                     }
                 }
-                
+
                 // Update buy button to "continue learning" if user is already enrolled
                 const buyButton = document.querySelector('.buy-button');
                 if (buyButton) {
@@ -1127,38 +1061,38 @@
                 // User is not logged in
                 authLinks.style.display = 'flex';
                 profileSection.style.display = 'none';
-                
+
                 // Update mobile menu for guest user
                 if (mobileUserInfo) {
                     mobileUserInfo.style.display = "none";
-                    
+
                     // Hide logout, show login/signup in mobile menu
                     logoutMenuItem.style.display = "none";
                     loginMenuItem.style.display = "block";
                     signupMenuItem.style.display = "block";
                 }
             }
-            
+
             // Set up event listeners
-            
+
             // Menu toggle button
             const menuToggle = document.getElementById('menu-toggle');
             if (menuToggle) {
                 menuToggle.addEventListener('click', toggleMenu);
             }
-            
+
             // Mobile menu overlay for closing
             const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
             if (mobileMenuOverlay) {
                 mobileMenuOverlay.addEventListener('click', toggleMobileMenu);
             }
-            
+
             // Add event listener to buy button
             const buyButton = document.getElementById('buy-button');
             if (buyButton) {
                 buyButton.addEventListener('click', handleBuyButtonClick);
             }
-            
+
             // Add event listeners to all start buttons to check login
             const startButtons = document.querySelectorAll('.start-button');
             startButtons.forEach(button => {
@@ -1171,5 +1105,6 @@
             });
         });
     </script>
+    <script src="js/pop-up.js"></script>
     </body>
     </html>
